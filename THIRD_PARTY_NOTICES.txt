@@ -1,0 +1,66 @@
+YouTube Access Pro bundles the following third-party components
+in globalPlugins/lib. They are not covered by this add-on's own
+license; each remains under its own upstream license.
+
+- yt-dlp (globalPlugins/lib/yt_dlp), version 2026.07.04
+  https://github.com/yt-dlp/yt-dlp
+  License: Unlicense (public domain)
+
+- FFmpeg / FFprobe (globalPlugins/lib/ffmpeg)
+  Build: "essentials" build dated 2025-08-25 (git 1b62f9d3ae) from
+  https://www.gyan.dev/ffmpeg/builds/ (essentials_build)
+  https://ffmpeg.org
+  License: GNU General Public License (GPL) v3 or later. This
+  specific build is compiled with --enable-gpl --enable-version3,
+  which places every FFmpeg library in this build (libavcodec,
+  libavformat, libavfilter, libavdevice, libavutil, libswresample,
+  libswscale) under GPL v3+, not LGPL. Corresponding source for this
+  exact build is available from the gyan.dev FFmpeg builds page
+  above, or from https://ffmpeg.org/download.html for the underlying
+  FFmpeg project source.
+
+- mpv (globalPlugins/lib/mpv/mpv.exe)
+  Version: 0.28.0
+  https://mpv.io
+  License: GNU Lesser General Public License (LGPL), as reported by
+  the bundled binary itself. Corresponding source for the mpv
+  project is available from https://github.com/mpv-player/mpv.
+  Note: this is an older mpv release (originally published in
+  2017). It has not been updated since this add-on's playback
+  feature was first built, because every prior change touching
+  playback in this project has carried real regression risk that
+  could not be verified without a live NVDA/Windows test pass (see
+  DEV_NOTES.md). Upgrading this binary is tracked as a deferred,
+  separate piece of work, not a correctness issue with the add-on's
+  own code.
+
+- youtube-dl (globalPlugins/lib/mpv/youtube-dl.exe)
+  https://github.com/ytdl-org/youtube-dl
+  License: Unlicense (public domain)
+  This is not invoked directly by this add-on's own code (single-item
+  playback, and downloads, resolve and fetch media through the
+  bundled yt-dlp library above). It is required by mpv's own built-in
+  "ytdl_hook" script, which mpv uses internally to resolve each entry
+  of a playlist file (.m3u) handed to it for multi-item playback (for
+  example, playing a whole saved playlist or a channel's Subscriptions
+  list back to back). mpv looks for an external helper program named
+  "youtube-dl" next to its own executable to do this; without it
+  present, mpv cannot play any item from a playlist file at all. This
+  file must stay in this exact folder for playlist playback to work.
+
+- d3dcompiler_43.dll (globalPlugins/lib/mpv)
+  A Microsoft Direct3D shader-compiler redistributable used by mpv's
+  Direct3D video output on Windows. Distributed under Microsoft's
+  own redistributable terms as part of the DirectX End-User Runtime,
+  not under FFmpeg/mpv's GPL/LGPL terms. Not modified by this
+  add-on.
+
+Redistributing GPL/LGPL-licensed binaries alongside this add-on does
+not change the license of this add-on's own source code, which is
+released under the GPL v2 as required by NVDA add-on policy.
+
+This package no longer bundles mpv's own mpv.com helper or the
+libaacs.dll/libbdplus.dll Blu-ray Disc DRM libraries that shipped
+with earlier builds of mpv's Windows release - neither of those two
+is ever invoked by mpv.exe itself or by this add-on's own code, so
+they were removed as unused dead weight.

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>YouTube Access Pro — คู่มือการใช้งาน / User Guide</title>
+<style>
+  body {
+    font-family: "Segoe UI", "Tahoma", "Leelawadee UI", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+    color: #202020;
+    background: #fff;
+  }
+  h1 { font-size: 24px; margin-top: 0; border-bottom: 1px solid #ccc; padding-bottom: 8px; }
+  h2 { font-size: 19px; margin-top: 36px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  h3 { font-size: 16px; margin-top: 24px; }
+  p { margin: 10px 0; }
+  ul, ol { margin: 8px 0; padding-left: 28px; }
+  li { margin: 4px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0 20px; font-size: 15px; }
+  caption { text-align: left; font-weight: bold; margin-bottom: 4px; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #f0f0f0; font-weight: bold; }
+  tr:nth-child(even) td { background: #fafafa; }
+  kbd {
+    background: #f5f5f5;
+    border: 1px solid #b8b8b8;
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 14px;
+    font-family: Consolas, "Courier New", monospace;
+    white-space: nowrap;
+  }
+  .note {
+    border-left: 3px solid #888;
+    background: #f7f7f7;
+    padding: 8px 14px;
+    margin: 10px 0;
+    font-size: 15px;
+  }
+  .note strong { color: #202020; }
+  .meta { color: #555; font-size: 15px; margin-bottom: 4px; }
+  .intro { font-size: 16px; }
+  .toc { background: #f7f7f7; border: 1px solid #ddd; padding: 14px 20px; margin: 20px 0; }
+  .toc-title { font-weight: bold; margin-bottom: 8px; }
+  .toc ol { margin: 0; padding-left: 22px; }
+  .toc li { margin: 3px 0; }
+  .toc a { color: #1a4a8a; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .lang-switch { text-align: right; font-size: 14px; margin-bottom: 20px; }
+  .lang-switch a { color: #1a4a8a; text-decoration: none; margin-left: 12px; }
+  .lang-switch a:hover { text-decoration: underline; }
+  .section-divider { border: none; border-top: 1px solid #ccc; margin: 56px 0; }
+  .footer-note { text-align: center; margin-top: 48px; color: #777; font-size: 14px; }
+  a { color: #1a4a8a; }
+</style>
+</head>
+<body>
+
+<div class="lang-switch">
+  <a href="#th-top">ภาษาไทย</a> | <a href="#en-top">English</a>
+</div>
+
+<!-- ======================== ภาษาไทย ======================== -->
+
+<h1 id="th-top">คู่มือการใช้งาน YouTube Access Pro สำหรับ NVDA</h1>
+<p class="meta">เวอร์ชัน 2026.07.19 &nbsp;·&nbsp; ผู้พัฒนา: Peem Narkkhwan</p>
+
+<p class="intro">YouTube Access Pro เป็นโปรแกรมเสริมสำหรับ NVDA ที่ให้ผู้ใช้สามารถค้นหา เล่น และดาวน์โหลดเนื้อหาจาก YouTube ได้อย่างเต็มรูปแบบ ควบคุมการทำงานทั้งหมดด้วยแป้นพิมพ์โดยไม่ต้องพึ่งเมาส์ พร้อมรองรับการอ่านสถานะโดย NVDA ตลอดการใช้งาน</p>
+
+<div class="toc">
+  <div class="toc-title">สารบัญ</div>
+  <ol>
+    <li><a href="#th-1">ความต้องการของระบบ</a></li>
+    <li><a href="#th-2">การเปิดและปิดหน้าต่าง</a></li>
+    <li><a href="#th-3">โครงสร้างหน้าต่างหลัก</a></li>
+    <li><a href="#th-4">แท็บ Search and Download</a></li>
+    <li><a href="#th-5">แท็บ Playlists</a></li>
+    <li><a href="#th-6">แท็บ Subscriptions (ติดตามช่อง)</a></li>
+    <li><a href="#th-7">คีย์ลัดทั่วทั้งระบบ (Global Hotkeys)</a></li>
+    <li><a href="#th-8">แท็บ Settings</a></li>
+    <li><a href="#th-9">การแก้ปัญหาเบื้องต้น</a></li>
+  </ol>
+</div>
+
+<h2 id="th-1">1. ความต้องการของระบบ</h2>
+<ul>
+  <li>NVDA เวอร์ชัน 2025.3 ขึ้นไป</li>
+  <li>ไฟล์ mpv และ yt-dlp ที่แนบมากับโปรแกรมเสริมนี้ (ติดตั้งมาให้พร้อมใช้งานแล้ว ไม่ต้องดาวน์โหลดเพิ่ม)</li>
+  <li>การเชื่อมต่ออินเทอร์เน็ต</li>
+</ul>
+
+<h2 id="th-2">2. การเปิดและปิดหน้าต่าง</h2>
+<table>
+  <tr><th>การกระทำ</th><th>คีย์ลัด</th></tr>
+  <tr><td>เปิดหน้าต่างโปรแกรม</td><td><kbd>NVDA+Y</kbd></td></tr>
+  <tr><td>เปิดจากเมนู Tools ของ NVDA</td><td>เมนู NVDA → Tools → YouTube Access Pro</td></tr>
+  <tr><td>ซ่อนหน้าต่าง (การเล่นเสียงยังคงดำเนินต่อไป)</td><td><kbd>Escape</kbd></td></tr>
+  <tr><td>ออกจากโปรแกรม</td><td>ปุ่ม Exit ในแต่ละแท็บ หรือ <kbd>Alt+F4</kbd></td></tr>
+</table>
+<div class="note"><strong>หมายเหตุ:</strong> การซ่อนหน้าต่างไม่หยุดเพลง — เพลงจะเล่นต่อไปในพื้นหลัง หากมีการดาวน์โหลดค้างอยู่ ระบบจะแสดงกล่องยืนยันก่อนออกจากโปรแกรมเสมอ ไม่ว่าจะออกด้วยปุ่ม Exit หรือ <kbd>Alt+F4</kbd></div>
+<div class="note"><strong>การนำทางด้วย Tab:</strong> การกด <kbd>Tab</kbd> จะหยุดอยู่ที่ปุ่ม Exit และไม่วนกลับไปจุดเริ่มต้น หากต้องการย้อนกลับให้กด <kbd>Shift+Tab</kbd></div>
+
+<h2 id="th-3">3. โครงสร้างหน้าต่างหลัก</h2>
+<p>หน้าต่างหลักประกอบด้วย 4 แท็บ สลับแท็บด้วย <kbd>Ctrl+Tab</kbd> / <kbd>Ctrl+Shift+Tab</kbd> หรือกด <kbd>Ctrl+1</kbd> ถึง <kbd>Ctrl+4</kbd> เพื่อไปยังแท็บนั้นโดยตรงตามลำดับต่อไปนี้:</p>
+<ol>
+  <li><strong>Search and Download</strong> — ค้นหา เล่น และดาวน์โหลด</li>
+  <li><strong>Playlists</strong> — จัดการเพลย์ลิสต์ส่วนตัว</li>
+  <li><strong>Subscriptions</strong> — ติดตามช่อง YouTube และเรียกดูเนื้อหาแบบ Videos, Shorts, Live, Playlists</li>
+  <li><strong>Settings</strong> — ตั้งค่าการทำงานของโปรแกรม</li>
+</ol>
+<p>กด <kbd>Ctrl+F</kbd> จากตำแหน่งใดก็ได้ในหน้าต่างเพื่อไปยังช่องค้นหาโดยตรง</p>
+<div class="note"><strong>ความช่วยเหลือด่วน:</strong> กด <kbd>Ctrl+F1</kbd> ในแท็บใดก็ได้ เพื่อให้โปรแกรมอ่านสรุปวิธีใช้งานและคีย์ลัดของแท็บนั้นทันที เหมาะสำหรับผู้เริ่มใช้งานที่ยังไม่คุ้นเคยกับคู่มือฉบับเต็ม (คีย์ <kbd>F1</kbd> เพียงอย่างเดียวยังคงทำหน้าที่ดาวน์โหลดเป็นเสียงตามปกติ ไม่ได้ถูกแทนที่)</div>
+<div class="note"><strong>การเปลี่ยนภาษาของโปรแกรม:</strong> กด <kbd>Ctrl+T</kbd> จากตำแหน่งใดก็ได้ในหน้าต่างเพื่อสลับภาษาที่โปรแกรมแสดงผลและอ่านออกเสียงระหว่างไทยกับอังกฤษ การตั้งค่านี้แยกจากภาษาของ NVDA เอง จึงไม่จำเป็นต้องเปลี่ยนภาษาของ NVDA เพื่อใช้งานโปรแกรมเป็นภาษาไทย ภาษาที่เลือกไว้จะถูกจดจำและใช้ในการเปิดครั้งถัดไปโดยอัตโนมัติ</div>
+
+<h2 id="th-4">4. แท็บ Search and Download</h2>
+
+<h3>4.1 ช่องค้นหา (Search text or paste a link)</h3>
+<ul>
+  <li>พิมพ์คำค้นหา หรือวางลิงก์วิดีโอ/เพลย์ลิสต์จาก YouTube โดยตรง</li>
+  <li>กด <kbd>Enter</kbd> หรือกดปุ่ม "Search or open link" เพื่อเริ่มค้นหา</li>
+  <li>เมื่อค้นหาด้วยคำและประเภทเดิมซ้ำ ปุ่มจะเปลี่ยนข้อความเป็น "Clear search field"</li>
+</ul>
+
+<h3>4.2 ประเภทการค้นหา (Search type)</h3>
+<ul>
+  <li><strong>Video</strong> — ค้นหาวิดีโอทั่วไป</li>
+  <li><strong>Playlist</strong> — ค้นหาเพลย์ลิสต์</li>
+  <li><strong>Channel</strong> — ค้นหาช่องโดยตรงจากชื่อ โดยไม่ต้องค้นหาวิดีโอของช่องนั้นก่อน</li>
+</ul>
+<p>เมื่อโฟกัสอยู่ที่ตัวเลือก Search type สามารถกด <kbd>Enter</kbd> เพื่อเริ่มค้นหาได้ทันที</p>
+<div class="note">การเปิดผลลัพธ์ที่เป็นช่อง (ทั้งจากการค้นหาแบบ Channel และจากการเลือกชื่อผู้อัปโหลดในผลลัพธ์อื่น) จะแสดงรายการคลิปของช่องนั้นในลิสต์เดียวกัน เช่นเดียวกับการเปิดเพลย์ลิสต์ กด <kbd>Ctrl+S</kbd> ที่แถวของช่องเพื่อติดตามช่องนั้นได้ทันที โดยไม่จำเป็นต้องเปิดดูคลิปก่อน</div>
+
+<h3>4.3 รายการผลการค้นหา</h3>
+<table>
+  <tr><th>คีย์ลัด</th><th>การทำงาน</th></tr>
+  <tr><td><kbd>Enter</kbd> หรือ <kbd>F7</kbd></td><td>เล่น/หยุดรายการที่เลือก หรือเปิดดูรายการภายในเพลย์ลิสต์</td></tr>
+  <tr><td><kbd>Backspace</kbd></td><td>ย้อนกลับจากมุมมองเพลย์ลิสต์</td></tr>
+  <tr><td><kbd>Space</kbd></td><td>หยุดชั่วคราว/เล่นต่อ (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>Home</kbd></td><td>เพิ่มระดับเสียง (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>End</kbd></td><td>ลดระดับเสียง (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>กรอถอยหลัง/เดินหน้า 3 วินาที</td></tr>
+  <tr><td><kbd>Ctrl+←</kbd> / <kbd>Ctrl+→</kbd></td><td>กรอถอยหลัง/เดินหน้า 30 วินาที</td></tr>
+  <tr><td><kbd>F8</kbd></td><td>หยุดชั่วคราว/เล่นต่อ</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>เพลงก่อนหน้า (พร้อมอ่านชื่อเพลง)</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>เพลงถัดไป (พร้อมอ่านชื่อเพลง)</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>ลดระดับเสียง</td></tr>
+  <tr><td><kbd>F12</kbd></td><td>เพิ่มระดับเสียง</td></tr>
+  <tr><td><kbd>F1</kbd></td><td>ดาวน์โหลดเป็นไฟล์ MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>ดาวน์โหลดเป็นไฟล์ MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>อ่านสถานะดาวน์โหลดของรายการที่เลือก</td></tr>
+  <tr><td><kbd>F4</kbd></td><td>อ่านจำนวนการดาวน์โหลดที่กำลังดำเนินการทั้งหมด</td></tr>
+  <tr><td><kbd>F5</kbd></td><td>เปิดโฟลเดอร์ดาวน์โหลด</td></tr>
+  <tr><td><kbd>Ctrl+C</kbd></td><td>คัดลอกลิงก์ของรายการที่เลือก</td></tr>
+  <tr><td><kbd>Ctrl+B</kbd></td><td>เปิดลิงก์วิดีโอในเบราว์เซอร์</td></tr>
+  <tr><td><kbd>Ctrl+P</kbd></td><td>เพิ่มวิดีโอที่เลือกเข้าเพลย์ลิสต์</td></tr>
+  <tr><td><kbd>Ctrl+S</kbd></td><td>ติดตามช่องของรายการที่เลือก (ใช้ได้กับวิดีโอ เพลย์ลิสต์ และช่อง)</td></tr>
+</table>
+<div class="note">คีย์ <kbd>F9</kbd>/<kbd>F10</kbd> ใช้นำทางระหว่างรายการในผลการค้นหาหรือเพลย์ลิสต์ที่กำลังเล่นอยู่ และจะอ่านชื่อของรายการที่เริ่มเล่นให้ฟังด้วย</div>
+<div class="note">รายการนี้มีเมนูเพิ่มเติมที่รวมคำสั่งทั้งหมดข้างต้นไว้ในที่เดียว เปิดได้ด้วยปุ่ม <kbd>Menu</kbd> บนคีย์บอร์ด, <kbd>Shift+F10</kbd>, หรือการคลิกขวา</div>
+
+<h2 id="th-5">5. แท็บ Playlists</h2>
+<p>ใช้จัดการเพลย์ลิสต์ส่วนตัว โดยแผงด้านซ้ายแสดงรายชื่อเพลย์ลิสต์ และแผงด้านขวาแสดงวิดีโอภายในเพลย์ลิสต์ที่เลือก</p>
+
+<h3>5.1 แผงซ้าย — รายชื่อเพลย์ลิสต์</h3>
+<table>
+  <tr><th>คีย์ลัด</th><th>การทำงาน</th></tr>
+  <tr><td><kbd>F1</kbd></td><td>ดาวน์โหลดทั้งเพลย์ลิสต์เป็นไฟล์ MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>ดาวน์โหลดทั้งเพลย์ลิสต์เป็นไฟล์ MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>อ่านสถานะดาวน์โหลดของเพลย์ลิสต์</td></tr>
+  <tr><td><kbd>F4</kbd></td><td>อ่านจำนวนการดาวน์โหลดทั้งหมด</td></tr>
+  <tr><td><kbd>F5</kbd></td><td>เปิดโฟลเดอร์ดาวน์โหลด</td></tr>
+  <tr><td><kbd>Delete</kbd></td><td>ลบเพลย์ลิสต์ (ระบบจะถามยืนยันก่อนทุกครั้ง)</td></tr>
+  <tr><td><kbd>R</kbd> (ไม่สนตัวพิมพ์เล็ก/ใหญ่)</td><td>เปลี่ยนชื่อเพลย์ลิสต์</td></tr>
+</table>
+
+<h3>5.2 แผงขวา — วิดีโอในเพลย์ลิสต์</h3>
+<table>
+  <tr><th>คีย์ลัด</th><th>การทำงาน</th></tr>
+  <tr><td><kbd>Enter</kbd> หรือ <kbd>F7</kbd></td><td>เล่นวิดีโอที่เลือก (เล่นต่อเนื่องจากรายการนั้น)</td></tr>
+  <tr><td><kbd>Space</kbd></td><td>หยุดชั่วคราว/เล่นต่อ (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>Home</kbd></td><td>เพิ่มระดับเสียง (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>End</kbd></td><td>ลดระดับเสียง (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>กรอถอยหลัง/เดินหน้า 3 วินาที</td></tr>
+  <tr><td><kbd>Ctrl+←</kbd> / <kbd>Ctrl+→</kbd></td><td>กรอถอยหลัง/เดินหน้า 30 วินาที</td></tr>
+  <tr><td><kbd>F8</kbd></td><td>หยุดชั่วคราว/เล่นต่อ</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>เพลงก่อนหน้า (พร้อมอ่านชื่อเพลง)</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>เพลงถัดไป (พร้อมอ่านชื่อเพลง)</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>ลดระดับเสียง</td></tr>
+  <tr><td><kbd>F12</kbd></td><td>เพิ่มระดับเสียง</td></tr>
+  <tr><td><kbd>F1</kbd></td><td>ดาวน์โหลดวิดีโอที่เลือกเป็นไฟล์ MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>ดาวน์โหลดวิดีโอที่เลือกเป็นไฟล์ MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>อ่านสถานะดาวน์โหลดของวิดีโอที่เลือก</td></tr>
+  <tr><td><kbd>F4</kbd></td><td>อ่านจำนวนการดาวน์โหลดทั้งหมด</td></tr>
+  <tr><td><kbd>F5</kbd></td><td>เปิดโฟลเดอร์ดาวน์โหลด</td></tr>
+  <tr><td><kbd>Delete</kbd></td><td>ลบวิดีโอออกจากเพลย์ลิสต์ (ระบบจะถามยืนยันก่อนทุกครั้ง)</td></tr>
+  <tr><td><kbd>Ctrl+C</kbd></td><td>คัดลอกลิงก์วิดีโอที่เลือก</td></tr>
+</table>
+<div class="note">ทั้งรายชื่อเพลย์ลิสต์และรายการวิดีโอมีเมนูเพิ่มเติมเช่นกัน เปิดได้ด้วยปุ่ม <kbd>Menu</kbd>, <kbd>Shift+F10</kbd>, หรือการคลิกขวา</div>
+
+<h2 id="th-6">6. แท็บ Subscriptions (ติดตามช่อง)</h2>
+<p>ใช้ติดตามช่อง YouTube ที่ชื่นชอบ แล้วเรียกดูเนื้อหาของช่องนั้นในรูปแบบเดียวกับ YouTube เอง คือแบ่งเป็นหมวด Videos, Shorts, Live และ Playlists โดยไม่ต้องค้นหาชื่อช่องซ้ำทุกครั้ง</p>
+<p><strong>วิธีเริ่มติดตามช่อง:</strong> ไปที่แท็บ Search and Download ค้นหาคลิปของช่องที่ต้องการ (หรือค้นหาแบบ Channel โดยตรง) แล้วกด <kbd>Ctrl+S</kbd> ที่รายการนั้น</p>
+
+<h3>6.1 รายการช่องที่ติดตาม</h3>
+<table>
+  <tr><th>คีย์ลัด</th><th>การทำงาน</th></tr>
+  <tr><td><kbd>Enter</kbd></td><td>เปิดดูเนื้อหาของช่องนั้น (ไปยังหมวด Videos/Shorts/Live/Playlists)</td></tr>
+  <tr><td><kbd>F1</kbd></td><td>ดาวน์โหลดคลิปล่าสุดทั้งหมดของช่องนี้เป็นไฟล์ MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>ดาวน์โหลดคลิปล่าสุดทั้งหมดของช่องนี้เป็นไฟล์ MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>อ่านสถานะดาวน์โหลดของช่องนี้</td></tr>
+  <tr><td><kbd>Delete</kbd></td><td>เลิกติดตามช่อง (ระบบจะถามยืนยันก่อนทุกครั้ง)</td></tr>
+  <tr><td><kbd>Space</kbd></td><td>หยุดชั่วคราว/เล่นต่อ (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>Home</kbd></td><td>เพิ่มระดับเสียง (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>End</kbd></td><td>ลดระดับเสียง (ขณะกำลังเล่น)</td></tr>
+</table>
+
+<h3>6.2 การไล่ดูหมวดหมู่ของช่อง</h3>
+<p>เมื่อกด <kbd>Enter</kbd> บนช่องในรายการหัวข้อ 6.1 รายการทางขวาจะแสดงหมวดของช่องนั้นก่อน ได้แก่ Videos, Shorts, Live และ Playlists กด <kbd>Enter</kbd> บนหมวดใดเพื่อเปิดดู</p>
+<ul>
+  <li>การเปิด <strong>Videos</strong>, <strong>Shorts</strong> หรือ <strong>Live</strong> จะแสดงรายการคลิปของหมวดนั้นโดยตรง พร้อมเล่นหรือดาวน์โหลดได้ทันที</li>
+  <li>การเปิด <strong>Playlists</strong> จะแสดงเพลย์ลิสต์ทั้งหมดของช่องนั้น กด <kbd>Enter</kbd> บนเพลย์ลิสต์ใดอีกครั้งเพื่อเปิดดูคลิปภายใน</li>
+  <li>กด <kbd>Backspace</kbd> เพื่อย้อนกลับขึ้นไปหนึ่งชั้นได้ทุกเมื่อ (จากรายการคลิปกลับไปหมวด จากคลิปในเพลย์ลิสต์กลับไปรายการเพลย์ลิสต์ และจากหมวดกลับไปรายการช่อง)</li>
+</ul>
+
+<h3>6.3 เมื่อเปิดดูรายการคลิปแล้ว</h3>
+<table>
+  <tr><th>คีย์ลัด</th><th>การทำงาน</th></tr>
+  <tr><td><kbd>Enter</kbd> หรือ <kbd>F7</kbd></td><td>เล่น/หยุดคลิปที่เลือก</td></tr>
+  <tr><td><kbd>Backspace</kbd></td><td>ย้อนกลับขึ้นไปหนึ่งชั้น</td></tr>
+  <tr><td><kbd>Space</kbd></td><td>หยุดชั่วคราว/เล่นต่อ (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>Home</kbd></td><td>เพิ่มระดับเสียง (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>End</kbd></td><td>ลดระดับเสียง (ขณะกำลังเล่น)</td></tr>
+  <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>กรอถอยหลัง/เดินหน้า 3 วินาที</td></tr>
+  <tr><td><kbd>Ctrl+←</kbd> / <kbd>Ctrl+→</kbd></td><td>กรอถอยหลัง/เดินหน้า 30 วินาที</td></tr>
+  <tr><td><kbd>F8</kbd></td><td>หยุดชั่วคราว/เล่นต่อ</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>เพลงก่อนหน้า (พร้อมอ่านชื่อเพลง)</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>เพลงถัดไป (พร้อมอ่านชื่อเพลง)</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>ลดระดับเสียง</td></tr>
+  <tr><td><kbd>F12</kbd></td><td>เพิ่มระดับเสียง</td></tr>
+  <tr><td><kbd>F1</kbd></td><td>ดาวน์โหลดคลิปที่เลือกเป็นไฟล์ MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>ดาวน์โหลดคลิปที่เลือกเป็นไฟล์ MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>อ่านสถานะดาวน์โหลดของคลิปที่เลือก</td></tr>
+  <tr><td><kbd>F4</kbd></td><td>อ่านจำนวนการดาวน์โหลดที่กำลังดำเนินการทั้งหมด</td></tr>
+  <tr><td><kbd>F5</kbd></td><td>เปิดโฟลเดอร์ดาวน์โหลด</td></tr>
+  <tr><td><kbd>Ctrl+C</kbd></td><td>คัดลอกลิงก์ของคลิปที่เลือก</td></tr>
+</table>
+<div class="note">ดาวน์โหลดที่เริ่มจากแท็บนี้ (ทั้งทีละคลิปด้วย <kbd>F1</kbd>/<kbd>F2</kbd> หรือทั้งช่องด้วย <kbd>F1</kbd>/<kbd>F2</kbd> บนรายการช่อง) จะถูกจัดเก็บลงในโฟลเดอร์ย่อยที่ตั้งชื่อตามช่องนั้นโดยอัตโนมัติ เช่นเดียวกับที่แท็บ Playlists จัดเก็บตามชื่อเพลย์ลิสต์</div>
+<div class="note">ทั้งรายชื่อช่องและรายการคลิปมีเมนูเพิ่มเติมเช่นกัน เปิดได้ด้วยปุ่ม <kbd>Menu</kbd>, <kbd>Shift+F10</kbd>, หรือการคลิกขวา</div>
+
+<h2 id="th-7">7. คีย์ลัดทั่วทั้งระบบ (Global Hotkeys)</h2>
+<p>คีย์ลัดกลุ่มนี้ใช้งานได้จากทุกโปรแกรม เมื่อเปิดตัวเลือก <strong>Enable global player hotkeys</strong> ไว้ในแท็บ Settings (คีย์ควบคุมการเล่นส่วนใหญ่ต้องมี mpv กำลังเล่นอยู่ด้วย ยกเว้นกลุ่มตัวจับเวลาปิด — ดูหมายเหตุด้านล่าง)</p>
+<table>
+  <tr><th>คีย์ลัด</th><th>การทำงาน</th></tr>
+  <tr><td><kbd>NVDA+Y</kbd></td><td>เปิด/แสดงหน้าต่างโปรแกรม (ใช้งานได้เสมอ)</td></tr>
+  <tr><td><kbd>F7</kbd></td><td>หยุดเล่น</td></tr>
+  <tr><td><kbd>Shift+F7</kbd></td><td>เล่นซ้ำรายการล่าสุด</td></tr>
+  <tr><td><kbd>F8</kbd></td><td>หยุดชั่วคราว/เล่นต่อ</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>เพลงก่อนหน้า (พร้อมอ่านชื่อเพลง)</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>เพลงถัดไป (พร้อมอ่านชื่อเพลง)</td></tr>
+  <tr><td><kbd>Shift+F9</kbd></td><td>กรอถอยหลัง 30 วินาที</td></tr>
+  <tr><td><kbd>Shift+F10</kbd></td><td>กรอเดินหน้า 30 วินาที</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>ลดระดับเสียง</td></tr>
+  <tr><td><kbd>F12</kbd></td><td>เพิ่มระดับเสียง</td></tr>
+  <tr><td><kbd>Shift+F11</kbd></td><td>ลดความเร็วการเล่น</td></tr>
+  <tr><td><kbd>Shift+F12</kbd></td><td>เพิ่มความเร็วการเล่น</td></tr>
+  <tr><td><kbd>F6</kbd></td><td>เพิ่มเวลาของตัวจับเวลาปิดครั้งละ 5 นาที</td></tr>
+  <tr><td><kbd>Shift+F6</kbd></td><td>ลดเวลาของตัวจับเวลาปิดครั้งละ 5 นาที</td></tr>
+  <tr><td><kbd>Ctrl+F6</kbd></td><td>แจ้งเวลาที่เหลือก่อนตัวจับเวลาปิดจะทำงาน (นาที:วินาที)</td></tr>
+</table>
+<div class="note"><strong>หมายเหตุ:</strong> <kbd>NVDA+Y</kbd> ใช้งานได้เสมอโดยไม่ขึ้นกับการตั้งค่านี้ ส่วนคีย์กลุ่ม <kbd>F7</kbd>–<kbd>F12</kbd> จะทำงานเมื่อเปิด "Enable global player hotkeys" และมี mpv กำลังเล่นอยู่เท่านั้น ในขณะที่ <kbd>F6</kbd>, <kbd>Shift+F6</kbd> และ <kbd>Ctrl+F6</kbd> ต้องการเพียงเปิดตัวเลือกดังกล่าว และทำงานได้ไม่ว่าขณะนั้นจะกำลังเล่นเพลงอยู่หรือไม่ เนื่องจากตัวจับเวลาปิดเป็นอิสระจากสถานะการเล่น ตัวจับเวลาจะเริ่มนับตั้งแต่ตอนตั้งค่าและจะไม่ถูกรีเซ็ตจนกว่าจะมีการตั้งเวลาใหม่อีกครั้ง เมื่อเปิดตัวเลือกเตือนล่วงหน้าไว้ในแท็บ Settings จะมีเสียงพูดแจ้งเมื่อเหลือเวลา 1 นาที และเสียงบี๊บสั้นนับถอยหลังทีละวินาทีในช่วง 10 วินาทีสุดท้าย เมื่อถึงเวลาปิดจริงจะมีเสียงพูดแจ้งพร้อมเสียงบี๊บยาวหนึ่งครั้งเสมอ ไม่ว่าจะเปิดตัวเลือกเตือนล่วงหน้านี้ไว้หรือไม่ก็ตาม</div>
+
+<h2 id="th-8">8. แท็บ Settings</h2>
+<table>
+  <tr><th>ตัวเลือก</th><th>คำอธิบาย</th></tr>
+  <tr><td>Download folder</td><td>โฟลเดอร์สำหรับบันทึกไฟล์ที่ดาวน์โหลด</td></tr>
+  <tr><td>Video resolution</td><td>ความละเอียดวิดีโอสำหรับการดาวน์โหลด MP4</td></tr>
+  <tr><td>Audio quality bitrate</td><td>คุณภาพเสียงสำหรับการดาวน์โหลด MP3</td></tr>
+  <tr><td>Search result limit</td><td>จำนวนผลการค้นหาสูงสุดที่แสดง</td></tr>
+  <tr><td>Announce player hotkeys</td><td>กำหนดให้ NVDA อ่านสถานะเมื่อกดคีย์ลัดควบคุมการเล่น รวมถึงการกรอเดินหน้า/ถอยหลัง (ลูกศรซ้าย/ขวา, <kbd>Shift+F9</kbd>/<kbd>F10</kbd>) และการปรับเสียง (<kbd>Home</kbd>/<kbd>End</kbd>, <kbd>F11</kbd>/<kbd>F12</kbd>) ปิดตัวเลือกนี้เพื่อให้คีย์เหล่านี้ทำงานแบบเงียบ ส่วนคีย์ตัวจับเวลาปิด (<kbd>F6</kbd>/<kbd>Shift+F6</kbd>/<kbd>Ctrl+F6</kbd>) จะอ่านผลลัพธ์เสมอไม่ว่าจะตั้งค่านี้ไว้อย่างไร เนื่องจากเป็นวิธีเดียวที่จะทราบเวลาที่ตั้งไว้</td></tr>
+  <tr><td>Enable global player hotkeys outside this window</td><td>เปิดใช้คีย์ลัดกลุ่ม <kbd>F6</kbd>–<kbd>F12</kbd> ทั่วทั้งระบบ โดย <kbd>F7</kbd>–<kbd>F12</kbd> ต้องมีเสียงกำลังเล่นอยู่ ส่วนกลุ่มตัวจับเวลาปิด (<kbd>F6</kbd>/<kbd>Shift+F6</kbd>/<kbd>Ctrl+F6</kbd>) ใช้ได้ไม่ว่าจะกำลังเล่นอยู่หรือไม่</td></tr>
+  <tr><td>Automatically play the next item when the current one ends</td><td>เล่นรายการถัดไปโดยอัตโนมัติเมื่อรายการปัจจุบันจบ (ปิดไว้เป็นค่าเริ่มต้น)</td></tr>
+  <tr><td>Play advance warnings before the sleep timer stops playback</td><td>แจ้งเตือนล่วงหน้าก่อนตัวจับเวลาปิดจะหยุดเล่นเพลง ด้วยเสียงพูดเมื่อเหลือ 1 นาที และเสียงบี๊บสั้นนับถอยหลังทีละวินาทีในช่วง 10 วินาทีสุดท้าย การปิดตัวเลือกนี้จะข้ามเฉพาะสองส่วนดังกล่าว ส่วนเสียงพูดแจ้งพร้อมเสียงบี๊บยาวหนึ่งครั้งเมื่อถึงเวลาปิดจริงจะยังคงทำงานเสมอ (เปิดไว้เป็นค่าเริ่มต้น)</td></tr>
+  <tr><td>Export subscriptions</td><td>บันทึกรายชื่อช่องที่ติดตามทั้งหมดเป็นไฟล์ .json ตามตำแหน่งที่เลือก สำหรับสำรองข้อมูลหรือย้ายไปใช้งานบนเครื่องอื่น</td></tr>
+  <tr><td>Import subscriptions</td><td>เพิ่มรายชื่อช่องจากไฟล์ .json ที่เคยส่งออกไว้เข้าสู่รายการติดตามปัจจุบัน โดยไม่ลบช่องที่ติดตามอยู่แล้ว</td></tr>
+  <tr><td>yt-dlp library</td><td>แสดงเวอร์ชันของไลบรารี yt-dlp ที่ใช้งานอยู่ในปัจจุบัน</td></tr>
+  <tr><td>Automatically check for yt-dlp updates</td><td>ตรวจสอบอัปเดตของ yt-dlp โดยอัตโนมัติหลังเปิดหน้าต่างไม่นาน หากพบเวอร์ชันใหม่จะตรวจสอบค่า sha256 ก่อนติดตั้งเสมอ (เปิดไว้เป็นค่าเริ่มต้น)</td></tr>
+  <tr><td>Check for update now</td><td>ตรวจสอบอัปเดตของ yt-dlp ทันที โดยไม่ต้องรอการตรวจสอบอัตโนมัติ</td></tr>
+</table>
+<p>กดปุ่ม <strong>Save settings</strong> เพื่อบันทึกการตั้งค่า</p>
+
+<h2 id="th-9">9. การแก้ปัญหาเบื้องต้น</h2>
+<table>
+  <tr><th>ปัญหา</th><th>วิธีแก้ไข</th></tr>
+  <tr><td>เปิดเบราว์เซอร์แทนที่จะเล่นด้วย mpv</td><td>ตรวจสอบว่ามีไฟล์ mpv อยู่ในโฟลเดอร์ lib ของโปรแกรมเสริมครบถ้วน</td></tr>
+  <tr><td>กด F5 แล้วไม่เปิดโฟลเดอร์</td><td>มีการดาวน์โหลดกำลังดำเนินการอยู่ กรุณารอให้เสร็จสิ้นก่อน</td></tr>
+  <tr><td>F9/F10 ไม่ทำงานเมื่อใช้แบบทั่วทั้งระบบ</td><td>เปิดตัวเลือก "Enable global player hotkeys" ในแท็บ Settings</td></tr>
+  <tr><td>ต้องการกลับไปยังช่องค้นหาอย่างรวดเร็ว</td><td>กด <kbd>Ctrl+F</kbd> จากตำแหน่งใดก็ได้ในหน้าต่าง</td></tr>
+  <tr><td>ต้องการทราบจำนวนการดาวน์โหลดที่กำลังทำงาน</td><td>กด <kbd>F4</kbd> เพื่ออ่านจำนวนการดาวน์โหลดทั้งหมด หรือ <kbd>F3</kbd> บนรายการที่ต้องการเพื่ออ่านสถานะของรายการนั้นโดยเฉพาะ</td></tr>
+</table>
+
+<hr class="section-divider">
+
+<!-- ======================== ENGLISH ======================== -->
+
+<h1 id="en-top">User Guide — YouTube Access Pro Add-on for NVDA</h1>
+<p class="meta">Version 2026.07.19 &nbsp;·&nbsp; Author: Peem Narkkhwan</p>
+
+<p class="intro">YouTube Access Pro is an NVDA add-on that gives users full access to YouTube: searching, playing, and downloading content entirely from the keyboard, with complete NVDA speech feedback throughout.</p>
+
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <ol>
+    <li><a href="#en-1">Requirements</a></li>
+    <li><a href="#en-2">Opening and Closing the Window</a></li>
+    <li><a href="#en-3">Main Window Structure</a></li>
+    <li><a href="#en-4">Search and Download Tab</a></li>
+    <li><a href="#en-5">Playlists Tab</a></li>
+    <li><a href="#en-6">Subscriptions Tab</a></li>
+    <li><a href="#en-7">Global Hotkeys</a></li>
+    <li><a href="#en-8">Settings Tab</a></li>
+    <li><a href="#en-9">Troubleshooting</a></li>
+  </ol>
+</div>
+
+<h2 id="en-1">1. Requirements</h2>
+<ul>
+  <li>NVDA 2025.3 or later</li>
+  <li>The mpv and yt-dlp files bundled with this add-on (already included; no separate download needed)</li>
+  <li>An active internet connection</li>
+</ul>
+
+<h2 id="en-2">2. Opening and Closing the Window</h2>
+<table>
+  <tr><th>Action</th><th>Shortcut</th></tr>
+  <tr><td>Open the add-on window</td><td><kbd>NVDA+Y</kbd></td></tr>
+  <tr><td>Open from the NVDA menu</td><td>NVDA Menu → Tools → YouTube Access Pro</td></tr>
+  <tr><td>Hide the window (playback continues)</td><td><kbd>Escape</kbd></td></tr>
+  <tr><td>Exit the add-on</td><td>Exit button on any tab, or <kbd>Alt+F4</kbd></td></tr>
+</table>
+<div class="note"><strong>Note:</strong> Hiding the window does not stop playback; audio continues in the background. If a download is still active, a confirmation dialog always appears before exiting, whether triggered by the Exit button or <kbd>Alt+F4</kbd>.</div>
+<div class="note"><strong>Tab navigation:</strong> Pressing <kbd>Tab</kbd> stops at the Exit button and does not wrap back to the start. Press <kbd>Shift+Tab</kbd> to navigate backwards.</div>
+
+<h2 id="en-3">3. Main Window Structure</h2>
+<p>The window contains four tabs. Switch between them with <kbd>Ctrl+Tab</kbd> / <kbd>Ctrl+Shift+Tab</kbd>, or press <kbd>Ctrl+1</kbd> through <kbd>Ctrl+4</kbd> to jump directly to a tab in this order:</p>
+<ol>
+  <li><strong>Search and Download</strong> — search, play, and download</li>
+  <li><strong>Playlists</strong> — manage local playlists</li>
+  <li><strong>Subscriptions</strong> — follow YouTube channels and browse their Videos, Shorts, Live, and Playlists</li>
+  <li><strong>Settings</strong> — configure the add-on</li>
+</ol>
+<p>Press <kbd>Ctrl+F</kbd> from anywhere in the window to jump directly to the search field.</p>
+<div class="note"><strong>Quick help:</strong> Press <kbd>Ctrl+F1</kbd> on any tab to have the add-on speak a summary of that tab's usage and shortcuts immediately — useful for new users who have not yet read the full guide. Plain <kbd>F1</kbd> is unaffected and still downloads as audio.</div>
+<div class="note"><strong>Switching the add-on's language:</strong> Press <kbd>Ctrl+T</kbd> from anywhere in the window to switch the add-on's displayed and spoken language between Thai and English. This setting is independent of NVDA's own language, so NVDA does not need to be set to Thai to use the add-on in Thai. The selected language is remembered and used automatically the next time the window opens.</div>
+
+<h2 id="en-4">4. Search and Download Tab</h2>
+
+<h3>4.1 Search Field</h3>
+<ul>
+  <li>Type search keywords, or paste a YouTube video or playlist link directly.</li>
+  <li>Press <kbd>Enter</kbd> or the "Search or open link" button to begin.</li>
+  <li>When the same query and search type are already active, the button changes to "Clear search field".</li>
+</ul>
+
+<h3>4.2 Search Type</h3>
+<ul>
+  <li><strong>Video</strong> — search for individual videos</li>
+  <li><strong>Playlist</strong> — search for playlists</li>
+  <li><strong>Channel</strong> — search for a channel directly by name, without first finding one of its videos</li>
+</ul>
+<p>When focus is on the Search type control, press <kbd>Enter</kbd> to search immediately.</p>
+<div class="note">Opening a channel result — whether from a Channel search or from an uploader name elsewhere — shows that channel's videos in the same list, the same way opening a playlist does. Press <kbd>Ctrl+S</kbd> on a channel row to subscribe to it immediately, without opening its videos first.</div>
+
+<h3>4.3 Results List</h3>
+<table>
+  <tr><th>Key</th><th>Action</th></tr>
+  <tr><td><kbd>Enter</kbd> / <kbd>F7</kbd></td><td>Play/stop the selected item, or open a playlist's contents</td></tr>
+  <tr><td><kbd>Backspace</kbd></td><td>Go back from playlist view</td></tr>
+  <tr><td><kbd>Space</kbd></td><td>Pause / resume (while playing)</td></tr>
+  <tr><td><kbd>Home</kbd></td><td>Volume up (while playing)</td></tr>
+  <tr><td><kbd>End</kbd></td><td>Volume down (while playing)</td></tr>
+  <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>Seek −3 s / +3 s</td></tr>
+  <tr><td><kbd>Ctrl+←</kbd> / <kbd>Ctrl+→</kbd></td><td>Seek −30 s / +30 s</td></tr>
+  <tr><td><kbd>F8</kbd></td><td>Pause / resume</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>Previous track (announces title)</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>Next track (announces title)</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>Volume down</td></tr>
+  <tr><td><kbd>F12</kbd></td><td>Volume up</td></tr>
+  <tr><td><kbd>F1</kbd></td><td>Download as MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>Download as MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>Announce the selected item's download status</td></tr>
+  <tr><td><kbd>F4</kbd></td><td>Announce the total number of active downloads</td></tr>
+  <tr><td><kbd>F5</kbd></td><td>Open the download folder</td></tr>
+  <tr><td><kbd>Ctrl+C</kbd></td><td>Copy the selected item's link</td></tr>
+  <tr><td><kbd>Ctrl+B</kbd></td><td>Open the video link in a browser</td></tr>
+  <tr><td><kbd>Ctrl+P</kbd></td><td>Add the selected video to a playlist</td></tr>
+  <tr><td><kbd>Ctrl+S</kbd></td><td>Subscribe to the channel of the selected item (works on videos, playlists, and channels)</td></tr>
+</table>
+<div class="note"><kbd>F9</kbd>/<kbd>F10</kbd> navigate between items in the current search results or playlist, and announce the title of whatever starts playing.</div>
+<div class="note">This list also has a context menu containing all of the commands above. Open it with the <kbd>Menu</kbd> key, <kbd>Shift+F10</kbd>, or a right-click.</div>
+
+<h2 id="en-5">5. Playlists Tab</h2>
+<p>Manage local playlists. The left pane lists playlists; the right pane lists the videos in the selected playlist.</p>
+
+<h3>5.1 Left Pane — Playlist List</h3>
+<table>
+  <tr><th>Key</th><th>Action</th></tr>
+  <tr><td><kbd>F1</kbd></td><td>Download the entire playlist as MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>Download the entire playlist as MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>Announce the playlist's download status</td></tr>
+  <tr><td><kbd>F4</kbd></td><td>Announce the total number of active downloads</td></tr>
+  <tr><td><kbd>F5</kbd></td><td>Open the download folder</td></tr>
+  <tr><td><kbd>Delete</kbd></td><td>Delete the selected playlist (always asks for confirmation)</td></tr>
+  <tr><td><kbd>R</kbd> (not case-sensitive)</td><td>Rename the selected playlist</td></tr>
+</table>
+
+<h3>5.2 Right Pane — Videos in Playlist</h3>
+<table>
+  <tr><th>Key</th><th>Action</th></tr>
+  <tr><td><kbd>Enter</kbd> / <kbd>F7</kbd></td><td>Play starting from the selected item</td></tr>
+  <tr><td><kbd>Space</kbd></td><td>Pause / resume (while playing)</td></tr>
+  <tr><td><kbd>Home</kbd></td><td>Volume up (while playing)</td></tr>
+  <tr><td><kbd>End</kbd></td><td>Volume down (while playing)</td></tr>
+  <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>Seek −3 s / +3 s</td></tr>
+  <tr><td><kbd>Ctrl+←</kbd> / <kbd>Ctrl+→</kbd></td><td>Seek −30 s / +30 s</td></tr>
+  <tr><td><kbd>F8</kbd></td><td>Pause / resume</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>Previous track (announces title)</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>Next track (announces title)</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>Volume down</td></tr>
+  <tr><td><kbd>F12</kbd></td><td>Volume up</td></tr>
+  <tr><td><kbd>F1</kbd></td><td>Download the selected video as MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>Download the selected video as MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>Announce the selected video's download status</td></tr>
+  <tr><td><kbd>F4</kbd></td><td>Announce the total number of active downloads</td></tr>
+  <tr><td><kbd>F5</kbd></td><td>Open the download folder</td></tr>
+  <tr><td><kbd>Delete</kbd></td><td>Remove the video from the playlist (always asks for confirmation)</td></tr>
+  <tr><td><kbd>Ctrl+C</kbd></td><td>Copy the selected video's link</td></tr>
+</table>
+<div class="note">Both the playlist list and the video list also have a context menu. Open it with the <kbd>Menu</kbd> key, <kbd>Shift+F10</kbd>, or a right-click.</div>
+
+<h2 id="en-6">6. Subscriptions Tab</h2>
+<p>Subscribe to favorite YouTube channels and browse their content the same way YouTube itself does, split into Videos, Shorts, Live, and Playlists sections, without retyping the channel name each time.</p>
+<p><strong>To subscribe:</strong> in the Search and Download tab, find a video from the channel of interest (or search directly using the Channel search type), then press <kbd>Ctrl+S</kbd> on that result.</p>
+
+<h3>6.1 Subscribed Channels List</h3>
+<table>
+  <tr><th>Key</th><th>Action</th></tr>
+  <tr><td><kbd>Enter</kbd></td><td>Browse that channel (opens its Videos/Shorts/Live/Playlists sections)</td></tr>
+  <tr><td><kbd>F1</kbd></td><td>Download all of this channel's latest videos as MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>Download all of this channel's latest videos as MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>Announce this channel's download status</td></tr>
+  <tr><td><kbd>Delete</kbd></td><td>Unsubscribe from the channel (always asks for confirmation)</td></tr>
+  <tr><td><kbd>Space</kbd></td><td>Pause / resume (while something is playing)</td></tr>
+  <tr><td><kbd>Home</kbd></td><td>Volume up (while something is playing)</td></tr>
+  <tr><td><kbd>End</kbd></td><td>Volume down (while something is playing)</td></tr>
+</table>
+
+<h3>6.2 Browsing a Channel's Sections</h3>
+<p>Pressing <kbd>Enter</kbd> on a channel in section 6.1 shows that channel's sections first: Videos, Shorts, Live, and Playlists. Press <kbd>Enter</kbd> on a section to open it.</p>
+<ul>
+  <li>Opening <strong>Videos</strong>, <strong>Shorts</strong>, or <strong>Live</strong> shows that section's videos directly, ready to play or download.</li>
+  <li>Opening <strong>Playlists</strong> shows all of the channel's own playlists; press <kbd>Enter</kbd> on one to open the videos inside it.</li>
+  <li>Press <kbd>Backspace</kbd> at any point to go back up one level — from a video list to its section, from a playlist's videos to the playlist list, or from the sections back to the channel list.</li>
+</ul>
+
+<h3>6.3 Once a Video List Is Shown</h3>
+<table>
+  <tr><th>Key</th><th>Action</th></tr>
+  <tr><td><kbd>Enter</kbd> / <kbd>F7</kbd></td><td>Play/stop the selected video</td></tr>
+  <tr><td><kbd>Backspace</kbd></td><td>Go back up one level</td></tr>
+  <tr><td><kbd>Space</kbd></td><td>Pause / resume (while something is playing)</td></tr>
+  <tr><td><kbd>Home</kbd></td><td>Volume up (while something is playing)</td></tr>
+  <tr><td><kbd>End</kbd></td><td>Volume down (while something is playing)</td></tr>
+  <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>Seek −3 s / +3 s</td></tr>
+  <tr><td><kbd>Ctrl+←</kbd> / <kbd>Ctrl+→</kbd></td><td>Seek −30 s / +30 s</td></tr>
+  <tr><td><kbd>F8</kbd></td><td>Pause / resume</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>Previous track (announces title)</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>Next track (announces title)</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>Volume down</td></tr>
+  <tr><td><kbd>F12</kbd></td><td>Volume up</td></tr>
+  <tr><td><kbd>F1</kbd></td><td>Download the selected video as MP3</td></tr>
+  <tr><td><kbd>F2</kbd></td><td>Download the selected video as MP4</td></tr>
+  <tr><td><kbd>F3</kbd></td><td>Announce the selected video's download status</td></tr>
+  <tr><td><kbd>F4</kbd></td><td>Announce the total number of active downloads</td></tr>
+  <tr><td><kbd>F5</kbd></td><td>Open the download folder</td></tr>
+  <tr><td><kbd>Ctrl+C</kbd></td><td>Copy the selected video's link</td></tr>
+</table>
+<div class="note">Downloads started from this tab — individually with <kbd>F1</kbd>/<kbd>F2</kbd>, or in bulk from the channel list — are automatically saved into a subfolder named after that channel, the same way the Playlists tab organizes downloads by playlist name.</div>
+<div class="note">Both the channel list and the video list also have a context menu. Open it with the <kbd>Menu</kbd> key, <kbd>Shift+F10</kbd>, or a right-click.</div>
+
+<h2 id="en-7">7. Global Hotkeys</h2>
+<p>These shortcuts work system-wide when <strong>Enable global player hotkeys</strong> is turned on in Settings. Most of them also require mpv to be actively playing, except the sleep timer group — see the note below.</p>
+<table>
+  <tr><th>Key</th><th>Action</th></tr>
+  <tr><td><kbd>NVDA+Y</kbd></td><td>Open / show the add-on window (always available)</td></tr>
+  <tr><td><kbd>F7</kbd></td><td>Stop playback</td></tr>
+  <tr><td><kbd>Shift+F7</kbd></td><td>Replay the last item</td></tr>
+  <tr><td><kbd>F8</kbd></td><td>Pause / resume</td></tr>
+  <tr><td><kbd>F9</kbd></td><td>Previous track (announces title)</td></tr>
+  <tr><td><kbd>F10</kbd></td><td>Next track (announces title)</td></tr>
+  <tr><td><kbd>Shift+F9</kbd></td><td>Seek backward 30 seconds</td></tr>
+  <tr><td><kbd>Shift+F10</kbd></td><td>Seek forward 30 seconds</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>Volume down</td></tr>
+  <tr><td><kbd>F12</kbd></td><td>Volume up</td></tr>
+  <tr><td><kbd>Shift+F11</kbd></td><td>Decrease playback speed</td></tr>
+  <tr><td><kbd>Shift+F12</kbd></td><td>Increase playback speed</td></tr>
+  <tr><td><kbd>F6</kbd></td><td>Increase the sleep timer by 5 minutes</td></tr>
+  <tr><td><kbd>Shift+F6</kbd></td><td>Decrease the sleep timer by 5 minutes</td></tr>
+  <tr><td><kbd>Ctrl+F6</kbd></td><td>Announce the exact time remaining before the sleep timer fires (minutes:seconds)</td></tr>
+</table>
+<div class="note"><strong>Note:</strong> <kbd>NVDA+Y</kbd> always works regardless of this setting. The <kbd>F7</kbd>–<kbd>F12</kbd> keys require both "Enable global player hotkeys" to be on and mpv to be actively playing. <kbd>F6</kbd>, <kbd>Shift+F6</kbd>, and <kbd>Ctrl+F6</kbd> only require the setting to be on — they work whether or not anything is currently playing, since the sleep timer is independent of playback state. The timer starts counting from the moment it is set and is not reset until set again. When "Play advance warnings..." is on in Settings, a spoken notice plays at 1 minute remaining, followed by a short beep once per second for the final 10 seconds. The moment playback actually stops, a spoken announcement and one longer confirmation beep always play, regardless of that setting.</div>
+
+<h2 id="en-8">8. Settings Tab</h2>
+<table>
+  <tr><th>Option</th><th>Description</th></tr>
+  <tr><td>Download folder</td><td>The folder where downloaded files are saved</td></tr>
+  <tr><td>Video resolution</td><td>Resolution used for MP4 downloads</td></tr>
+  <tr><td>Audio quality bitrate</td><td>Bitrate used for MP3 downloads</td></tr>
+  <tr><td>Search result limit</td><td>Maximum number of search results shown</td></tr>
+  <tr><td>Announce player hotkeys</td><td>Makes NVDA speak feedback for player keys, including seek (Left/Right, <kbd>Shift+F9</kbd>/<kbd>F10</kbd>) and volume (<kbd>Home</kbd>/<kbd>End</kbd>, <kbd>F11</kbd>/<kbd>F12</kbd>). Turn this off for silent operation of those keys. The sleep timer keys (<kbd>F6</kbd>/<kbd>Shift+F6</kbd>/<kbd>Ctrl+F6</kbd>) always announce their result regardless of this setting, since that is the only way to know what value was just set.</td></tr>
+  <tr><td>Enable global player hotkeys outside this window</td><td>Enables the <kbd>F6</kbd>–<kbd>F12</kbd> shortcuts system-wide. <kbd>F7</kbd>–<kbd>F12</kbd> require audio to be actively playing; the sleep timer group (<kbd>F6</kbd>/<kbd>Shift+F6</kbd>/<kbd>Ctrl+F6</kbd>) works either way.</td></tr>
+  <tr><td>Automatically play the next item when the current one ends</td><td>Automatically continues to the next item when playback ends (off by default)</td></tr>
+  <tr><td>Play advance warnings before the sleep timer stops playback</td><td>Plays a spoken notice at 1 minute remaining, plus a short beep once per second for the final 10 seconds. Turning this off skips only those two warnings — the spoken announcement and confirmation beep when playback actually stops still always play (on by default).</td></tr>
+  <tr><td>Export subscriptions</td><td>Saves the full list of followed channels to a .json file of your choosing, for backup or moving to another computer</td></tr>
+  <tr><td>Import subscriptions</td><td>Adds channels from a previously exported .json file into the current subscriptions list, without removing any already followed</td></tr>
+  <tr><td>yt-dlp library</td><td>Shows the version of the bundled yt-dlp library currently in use</td></tr>
+  <tr><td>Automatically check for yt-dlp updates</td><td>Checks for a newer yt-dlp release shortly after the window opens; any update found is verified against its published sha256 checksum before installing (on by default)</td></tr>
+  <tr><td>Check for update now</td><td>Runs the same update check immediately instead of waiting for the automatic check</td></tr>
+</table>
+<p>Press <strong>Save settings</strong> to apply changes.</p>
+
+<h2 id="en-9">9. Troubleshooting</h2>
+<table>
+  <tr><th>Problem</th><th>Solution</th></tr>
+  <tr><td>A browser opens instead of playing through mpv</td><td>Check that the mpv files are present in the add-on's lib folder</td></tr>
+  <tr><td>F5 does not open the download folder</td><td>A download is still in progress; wait for it to finish</td></tr>
+  <tr><td>F9/F10 do not work as global shortcuts</td><td>Turn on "Enable global player hotkeys" in Settings</td></tr>
+  <tr><td>Need to jump to the search field quickly</td><td>Press <kbd>Ctrl+F</kbd> from anywhere in the window</td></tr>
+  <tr><td>Want to check how many downloads are active</td><td>Press <kbd>F4</kbd> for the total active count, or <kbd>F3</kbd> on a specific item for its own status</td></tr>
+</table>
+
+<p class="footer-note">YouTube Access Pro v2026.07.19</p>
+
+</body>
+</html>

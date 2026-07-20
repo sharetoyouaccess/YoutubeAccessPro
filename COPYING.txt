@@ -1,0 +1,16 @@
+YouTube Access Pro - an add-on for NVDA
+Copyright (C) Peem Narkkhwan <sharetoyouaccess@gmail.com>
+
+This add-on is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2, as
+published by the Free Software Foundation, as required for all
+add-ons distributed for use with NVDA (see NVDA's own COPYING.txt).
+
+This add-on is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details:
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+This package bundles third-party, redistributable components under
+their own licenses. See THIRD_PARTY_NOTICES.txt for details.

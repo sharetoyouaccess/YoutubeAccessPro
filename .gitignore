@@ -1,0 +1,19 @@
+# Byte-compiled / cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Vendor binaries - never commit these (too large for git, not this project's code).
+# scripts/build_addon.py pulls them from a known-good .nvda-addon at build time.
+globalPlugins/lib/ffmpeg/
+globalPlugins/lib/mpv/
+
+# Build output
+*.nvda-addon
+/build/
+/dist/
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
+*.swp
