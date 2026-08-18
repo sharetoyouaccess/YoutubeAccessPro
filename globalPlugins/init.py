@@ -289,6 +289,7 @@ TH_STRINGS = {
     'Global player sleep timer decrease when mpv is running': 'ลดเวลาของตัวจับเวลาปิดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player sleep timer increase when mpv is running': 'เพิ่มเวลาของตัวจับเวลาปิดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Live': 'ถ่ายทอดสด',
+    'Live stream  opening in your browser for stable playback': 'ถ่ายทอดสด  กำลังเปิดในเบราว์เซอร์เพื่อความเสถียร',
     'No channel selected': 'ไม่ได้เลือกช่อง',
     'No downloads for this channel': 'ไม่มีการดาวน์โหลดสำหรับช่องนี้',
     'No subscribed channels': 'ยังไม่ได้ติดตามช่องใดเลย',
@@ -443,6 +444,13 @@ subscriptions_json_path = os.path.join(addon_dir, 'subscriptions.json')
 # mpv paths
 mpv_folder = os.path.join(lib_path, 'mpv')
 mpv_exe = os.path.join(mpv_folder, 'mpv.exe')
+
+# Fixed path for mpv's own diagnostic log (see _start_playback_now(), which
+# clears this before every playback attempt and passes it to mpv via
+# --log-file so a real reason for any unexpected stop is available to read
+# afterward, instead of only ever seeing this add-on's own "Playback ended"
+# message with no insight into why mpv itself exited).
+_MPV_LOG_PATH = os.path.join(tempfile.gettempdir(), 'ytdlp_addon_mpv_log.txt')
 
 if lib_path not in sys.path:
     sys.path.insert(0, lib_path)
@@ -1663,7 +1671,17 @@ def _send_mpv_command(cmd_list):
             state.mpv_ipc_path = None
             return False
 
-    if not state.mpv_ipc_path:
+    # Captured into a local once, rather than re-reading state.mpv_ipc_path
+    # on every retry-loop iteration below - a concurrent _cleanup_player()
+    # call on another thread (e.g. the watchdog's auto-restart-on-live-exit
+    # logic, or a track switch landing mid-retry) sets state.mpv_ipc_path
+    # to None, and re-reading the global inside the loop let a later
+    # iteration pass None straight to open(), crashing with "expected str,
+    # bytes or os.PathLike object, not NoneType" instead of the intended
+    # clean False return - spotted in a real NVDA log from a user testing
+    # the mpv 0.41.0 upgrade (see DEV_NOTES.md round 37).
+    ipc_path = state.mpv_ipc_path
+    if not ipc_path:
         return False
 
     payload = json.dumps({'command': cmd_list}).encode('utf-8') + b'\n'
@@ -1681,7 +1699,7 @@ def _send_mpv_command(cmd_list):
     last_error = None
     for _ in range(30):
         try:
-            with open(state.mpv_ipc_path, 'wb', buffering=0) as handle:
+            with open(ipc_path, 'wb', buffering=0) as handle:
                 handle.write(payload)
             last_error = None
             break
@@ -1717,14 +1735,30 @@ def _resolve_playable_stream(url):
     """Resolve a video webpage URL to a direct, playable audio stream URL
     using the bundled yt-dlp library.
 
-    Returns the resolved stream URL, or None if it could not be resolved
-    (the caller should fall back to handing the original URL to the
-    player, which will still try to resolve it internally).
+    Returns a (stream_url, is_live) tuple. stream_url is None if it could
+    not be resolved (the caller should fall back to handing the original
+    URL to the player, which will still try to resolve it internally), and
+    is always None for a currently-live broadcast specifically - see below.
+    is_live is True whenever the video is a currently-airing broadcast.
+
+    Live streams are not resolved to a playable URL at all here - as of
+    round 40, start_playback() checks is_live and opens the original
+    webpage URL in the user's browser instead of ever calling this add-on's
+    own mpv-based player for it (see DEV_NOTES.md round 40). Earlier
+    rounds (32-34) tried several approaches to play live broadcasts inside
+    mpv itself - pinning a resolved URL, picking the HLS manifest,
+    auto-restarting mpv when it exited mid-broadcast - each closed one gap
+    without ever reaching fully stable playback, particularly with the
+    older bundled mpv 0.28.0. The browser's own native YouTube player has
+    full first-party support for live playback with none of those
+    limitations, so this function no longer needs to resolve anything for
+    the live case at all - it only needs to report is_live=True so the
+    caller can route to the browser instead.
     """
     if not url or yt_dlp is None:
-        return None
+        return None, False
     if not (url.startswith('http://') or url.startswith('https://')):
-        return None
+        return None, False
     try:
         opts = {
             'quiet': True,
@@ -1738,22 +1772,28 @@ def _resolve_playable_stream(url):
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=False)
         if not info:
-            return None
+            return None, False
         if info.get('entries'):
             for e in info['entries']:
                 if e:
                     info = e
                     break
+        # A currently-airing live broadcast (as opposed to a finished
+        # stream's VOD replay, where is_live is False/None and was_live
+        # may be True) is never resolved to a URL here - see the docstring
+        # above. The caller routes it to the browser instead.
+        if info.get('is_live'):
+            return None, True
         stream_url = info.get('url')
         if not stream_url:
             for f in (info.get('requested_formats') or []):
                 if f.get('url'):
                     stream_url = f['url']
                     break
-        return stream_url or None
+        return stream_url or None, False
     except Exception as e:
         log.error(f'Stream resolve error for {url}: {e}')
-        return None
+        return None, False
 
 
 def start_playback(url, title, announce=True, playing_url_hint=None, playlist_file=None, playlist_origin_url=None):
@@ -1787,22 +1827,61 @@ def start_playback(url, title, announce=True, playing_url_hint=None, playlist_fi
     )
 
     if not needs_resolve:
+        # Not a resolvable single-item webpage URL (a playlist file, or an
+        # already-direct URL). A playlist file needs mpv's own ytdl_hook to
+        # resolve each raw webpage URL it contains (see DEV_NOTES.md round
+        # 29), so needs_ytdl_hook stays True here.
         _start_playback_now(url, title, announce=announce, playing_url_hint=playing_url_hint,
                              playlist_file=playlist_file, playlist_origin_url=playlist_origin_url,
-                             browser_fallback_url=url)
+                             browser_fallback_url=url, needs_ytdl_hook=True)
         return
 
     gen = _next_play_generation()
 
     def _worker():
-        target = _resolve_playable_stream(url) or url
+        resolved, is_live = _resolve_playable_stream(url)
+
+        if is_live:
+            # Currently-airing live broadcasts are deliberately NOT played
+            # in-app through mpv at all as of round 40 - the browser's own
+            # native YouTube player has full first-party support for live
+            # playback that mpv could never reliably match here (see
+            # DEV_NOTES.md round 40, and _resolve_playable_stream()'s
+            # docstring for the history of what was tried before this).
+            # Everything else (regular videos, playlists, downloads) is
+            # unaffected and still plays in-app through mpv exactly as
+            # before.
+            def _apply_live_browser():
+                if gen != state._play_generation:
+                    return
+                # Stop whatever might already be playing in-app - the user
+                # is switching to this live stream, which will now play in
+                # the browser instead, not silently keep whatever was
+                # playing before running in the background.
+                _cleanup_player(silent=True)
+                if announce:
+                    _ui_message(_('Live stream  opening in your browser for stable playback'))
+                open_in_browser_background(url)
+
+            wx.CallAfter(_apply_live_browser)
+            return
+
+        target = resolved or url
+        # True only when _resolve_playable_stream() could not produce a
+        # usable direct/manifest URL and target had to fall back to the
+        # raw webpage url - in that case mpv's own ytdl_hook is needed to
+        # resolve it. When resolved is a real direct/manifest URL, ytdl_hook
+        # must stay disabled for it - see needs_ytdl_hook's definition on
+        # _start_playback_now() for why this matters with the mpv 0.41.0
+        # upgrade specifically.
+        needs_ytdl_hook = not bool(resolved)
 
         def _apply():
             if gen != state._play_generation:
                 return
             _start_playback_now(target, title, announce=announce, playing_url_hint=playing_url_hint or url,
                                  playlist_file=playlist_file, playlist_origin_url=playlist_origin_url,
-                                 browser_fallback_url=url)
+                                 browser_fallback_url=url, needs_ytdl_hook=needs_ytdl_hook)
 
         wx.CallAfter(_apply)
 
@@ -1811,7 +1890,30 @@ def start_playback(url, title, announce=True, playing_url_hint=None, playlist_fi
 
 
 def _start_playback_now(url, title, announce=True, playing_url_hint=None, playlist_file=None,
-                         playlist_origin_url=None, browser_fallback_url=None):
+                         playlist_origin_url=None, browser_fallback_url=None, needs_ytdl_hook=True):
+    """needs_ytdl_hook controls whether mpv's own built-in ytdl_hook script
+    (and, through it, the bundled youtube-dl.exe helper) is left enabled
+    for this playback - see DEV_NOTES.md round 38 for why this parameter
+    was added and defaults to True (matching every call site's behavior
+    before this parameter existed).
+
+    Pass True (or omit) for a playlist file, or any raw webpage URL that
+    still needs mpv to resolve it itself (the round 32-33 live fallback
+    when this add-on's own resolution came up empty). Pass False when url
+    is already a direct/manifest URL this add-on resolved itself via the
+    bundled yt-dlp library (the normal single-item case, and a
+    successfully-resolved live HLS manifest) - ytdl_hook has no reason to
+    touch an already-resolved URL, and with the mpv 0.41.0 upgrade (round
+    35) doing so was found to be the actual cause of a new "Playback
+    ended" regression on ordinary (non-live) videos: this newer mpv's
+    ytdl_hook still fires on these URLs (visible in an mpv --log-file a
+    user captured, showing "Running hook: ytdl_hook/on_load" for an
+    already-direct googlevideo.com link) and hands them to the ancient,
+    unrelated-to-this-add-on's-own-code bundled youtube-dl.exe helper
+    (2017), which does not know what to do with a raw resolved media URL
+    the way it does with an actual YouTube watch-page URL - interfering
+    with playback that this add-on had already fully resolved on its own.
+    """
 
     fallback_url = browser_fallback_url if browser_fallback_url is not None else url
 
@@ -1844,17 +1946,67 @@ def _start_playback_now(url, title, announce=True, playing_url_hint=None, playli
                 except Exception as e:
                     log.error(f'Error terminating previous player: {e}')
 
-            state.player_proc = subprocess.Popen(
-                [
-                    mpv_exe,
-                    '--no-config',
-                    '--no-terminal',
-                    '--force-window=no',
-                    '--idle=no',
-                    '--vid=no',
+            # Best-effort: clear out last session's mpv log before this one
+            # starts, so _MPV_LOG_PATH never grows unbounded across many
+            # play sessions and always reflects only the current/most
+            # recent playback attempt - see the mpv invocation below.
+            try:
+                if os.path.exists(_MPV_LOG_PATH):
+                    os.remove(_MPV_LOG_PATH)
+            except Exception:
+                pass
+
+            mpv_args = [
+                mpv_exe,
+                '--no-config',
+                '--no-terminal',
+                '--force-window=no',
+                '--idle=no',
+                '--vid=no',
+            ]
+            if not needs_ytdl_hook:
+                # See needs_ytdl_hook's docstring above - disable mpv's own
+                # built-in ytdl_hook script (and the ancient bundled
+                # youtube-dl.exe helper it would otherwise hand this
+                # already-resolved URL to) for URLs this add-on has
+                # already resolved to a direct/manifest link itself.
+                mpv_args.append('--ytdl=no')
+            mpv_args.extend([
+                    # The following two options were added alongside the
+                    # mpv 0.41.0 upgrade (see DEV_NOTES.md round 36): a user
+                    # reported that even normal (non-live) video playback
+                    # now stops early mid-video with "Playback ended",
+                    # something the old bundled mpv 0.28.0 did not do.
+                    # mpv itself does not automatically reconnect a dropped
+                    # HTTP connection to a network stream unless told to -
+                    # ffmpeg's http protocol (which mpv's demuxer uses for
+                    # the direct googlevideo.com URLs this add-on resolves
+                    # videos to) only reconnects when explicitly asked via
+                    # these reconnect_* options. It is plausible the old
+                    # 2017-era ffmpeg statically built into the old mpv
+                    # binary happened to behave more leniently here (by
+                    # accident or a different internal default), while this
+                    # much newer build follows the documented ffmpeg
+                    # default of not reconnecting at all - so a connection
+                    # YouTube's CDN drops partway through (a well-documented,
+                    # common occurrence for these direct media links,
+                    # unrelated to this add-on's own code) would end
+                    # playback outright instead of resuming.
+                    '--stream-lavf-o=reconnect=1,reconnect_streamed=1,reconnect_at_eof=1,reconnect_delay_max=5',
+                    '--cache=yes',
+                    # Write mpv's own diagnostic log to a fixed, known path
+                    # (cleared before each playback above) so if a report
+                    # like this comes in again, the actual reason mpv gave
+                    # for stopping can be read from the log instead of
+                    # guessing blind - see _MPV_LOG_PATH's definition.
+                    f'--log-file={_MPV_LOG_PATH}',
+                    '--msg-level=all=warn,demux=v,stream=v,ffmpeg=v',
                     f'--input-ipc-server={state.mpv_ipc_path}',
                     url,
-                ],
+            ])
+
+            state.player_proc = subprocess.Popen(
+                mpv_args,
                 cwd=mpv_folder,
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.DEVNULL,
@@ -4101,7 +4253,7 @@ class SearchAndDownloadTab(wx.Panel):
 
         self.lbl_search_type = wx.StaticText(self, label=_('Search type'))
         sizer.Add(self.lbl_search_type, 0, wx.LEFT, 10)
-        self.ch_search_type = wx.Choice(self, choices=[_('Video'), _('Playlist'), _('Channel')])
+        self.ch_search_type = wx.Choice(self, choices=[_('Video'), _('Playlist'), _('Channel'), _('Live')])
         self.ch_search_type.SetSelection(0)
         try:
             self.ch_search_type.Bind(wx.EVT_CHOICE, self.on_search_type_choice)
@@ -4407,7 +4559,7 @@ class SearchAndDownloadTab(wx.Panel):
     # broke Playlist-mode searches whenever the interface language was
     # switched to Thai - the search type is now read from the fixed
     # index instead, independent of the current display language.
-    _SEARCH_TYPE_KEYS = ('Video', 'Playlist', 'Channel')
+    _SEARCH_TYPE_KEYS = ('Video', 'Playlist', 'Channel', 'Live')
 
     def _selected_search_type(self):
         try:
@@ -4459,6 +4611,8 @@ class SearchAndDownloadTab(wx.Panel):
                 t = threading.Thread(target=self.bg_search_playlists, args=(query, limit, token))
             elif mode == 'Channel':
                 t = threading.Thread(target=self.bg_search_channels, args=(query, limit, token))
+            elif mode == 'Live':
+                t = threading.Thread(target=self.bg_search_live, args=(query, limit, token))
             else:
                 t = threading.Thread(target=self.bg_search, args=(query, limit, token))
         t.daemon = True
@@ -4639,6 +4793,116 @@ class SearchAndDownloadTab(wx.Panel):
             if token != self._search_token:
                 return
             wx.CallAfter(self.show_results, cleaned, None, 'channel', None)
+        except Exception as e:
+            if token != self._search_token:
+                return
+            wx.CallAfter(self.error, str(e))
+
+    def bg_search_live(self, query, limit, token=0):
+        try:
+            # yt-dlp's own YouTube extractor (extractor/youtube/_tab.py,
+            # _extract_video()) already computes a 'live_status' field
+            # ('is_live' / 'was_live' / 'is_upcoming' / None) for every entry
+            # straight from the search results page's badges/labels - no
+            # per-video page load needed - and this field is present on
+            # entries even with extract_flat enabled, since it's set on the
+            # flat "url"-type stub itself, not discovered by resolving each
+            # entry's own page. So a single flat ytsearch call already tells
+            # us which results are currently live, exactly like
+            # bg_search()/bg_search_playlists() above already do for their
+            # own filtering - see DEV_NOTES.md round 42/44 (an earlier
+            # version of this method did a slow per-candidate real
+            # extraction instead, which was unnecessary and made Live search
+            # noticeably slow).
+            want = limit if (limit and isinstance(limit, int) and limit > 0) else 25
+            pool_size = max(want * 4, 40)
+
+            search_opts = {'quiet': True, 'extract_flat': True, 'ignoreerrors': True, 'no_warnings': True}
+            with yt_dlp.YoutubeDL(search_opts) as ydl:
+                info = ydl.extract_info(f'ytsearch{pool_size}:{query}', download=False)
+                entries = [] if info is None else list(info.get('entries', []) or [])
+
+            if token != self._search_token:
+                return
+
+            saw_live_status_field = False
+            live_entries = []
+            seen = set()
+            for e in entries:
+                if not e or not isinstance(e, dict):
+                    continue
+                url = e.get('webpage_url') or e.get('url') or _build_watch_url_from_id(e.get('id'))
+                if not url or not isinstance(url, str):
+                    continue
+                if url in seen:
+                    continue
+                if 'live_status' in e:
+                    saw_live_status_field = True
+                if e.get('live_status') != 'is_live':
+                    continue
+                seen.add(url)
+                e = dict(e)
+                e['webpage_url'] = url
+                e['url'] = url
+                live_entries.append(e)
+                if len(live_entries) >= want:
+                    break
+
+            # Safety net only - if this yt-dlp version's flat search entries
+            # turn out not to carry 'live_status' at all (none of the pooled
+            # entries had the key), fall back to the slower but
+            # unconditionally correct per-candidate verification instead of
+            # silently returning zero results. Capped at a small subset since
+            # this path is expensive.
+            if not saw_live_status_field:
+                candidates = []
+                seen2 = set()
+                for e in entries:
+                    if not e or not isinstance(e, dict):
+                        continue
+                    url = e.get('webpage_url') or e.get('url') or _build_watch_url_from_id(e.get('id'))
+                    if not url or not isinstance(url, str) or url in seen2:
+                        continue
+                    seen2.add(url)
+                    e = dict(e)
+                    e['webpage_url'] = url
+                    e['url'] = url
+                    candidates.append(e)
+                candidates = candidates[:15]
+
+                verify_opts = {'quiet': True, 'no_warnings': True, 'skip_download': True, 'format': 'worst'}
+
+                def _verify_one(entry):
+                    vid_url = entry.get('webpage_url')
+                    if not vid_url:
+                        return None
+                    try:
+                        with yt_dlp.YoutubeDL(dict(verify_opts)) as ydl:
+                            vinfo = ydl.extract_info(vid_url, download=False)
+                        if vinfo and vinfo.get('is_live'):
+                            return entry
+                    except Exception:
+                        pass
+                    return None
+
+                try:
+                    with ThreadPoolExecutor(max_workers=5) as executor:
+                        futures = {executor.submit(_verify_one, e): e for e in candidates}
+                        for future in as_completed(futures):
+                            if token != self._search_token:
+                                executor.shutdown(wait=False, cancel_futures=True)
+                                return
+                            result = future.result()
+                            if result is not None:
+                                live_entries.append(result)
+                except Exception:
+                    pass
+
+            final_entries = live_entries[:want]
+
+            if token != self._search_token:
+                return
+            wx.CallAfter(self.show_results, final_entries, None, 'video', None)
         except Exception as e:
             if token != self._search_token:
                 return

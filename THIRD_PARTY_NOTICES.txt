@@ -2,9 +2,22 @@ YouTube Access Pro bundles the following third-party components
 in globalPlugins/lib. They are not covered by this add-on's own
 license; each remains under its own upstream license.
 
-- yt-dlp (globalPlugins/lib/yt_dlp), version 2026.07.04
+- yt-dlp (globalPlugins/lib/yt_dlp), version 2026.08.17.073947.dev0
   https://github.com/yt-dlp/yt-dlp
   License: Unlicense (public domain)
+  Installed via `pip download --pre yt-dlp==2026.8.17.73947.dev0` from
+  PyPI (https://pypi.org/project/yt-dlp/#history). This is a pre-release
+  ("nightly") build rather than the latest tagged stable release, which
+  was still 2026.7.4 (identical to the version this add-on previously
+  bundled) at the time of this update - yt-dlp's maintainers had already
+  published several dated nightly builds fixing YouTube extraction
+  changes ahead of cutting their next stable release, and this add-on
+  needed one of those fixes (see DEV_NOTES.md round 39: pasted links had
+  stopped resolving at all, "Could not fetch data", after YouTube changed
+  something extraction-dependent following the previous 2026.07.04
+  release). yt-dlp's own nightly builds go through the same CI/test
+  process as their stable releases, just released more frequently when a
+  live site-breakage fix can't wait for the next scheduled stable cut.
 
 - FFmpeg / FFprobe (globalPlugins/lib/ffmpeg)
   Build: "essentials" build dated 2025-08-25 (git 1b62f9d3ae) from
@@ -20,19 +33,28 @@ license; each remains under its own upstream license.
   FFmpeg project source.
 
 - mpv (globalPlugins/lib/mpv/mpv.exe)
-  Version: 0.28.0
+  Version: 0.28.0 (originally published 2017)
   https://mpv.io
   License: GNU Lesser General Public License (LGPL), as reported by
   the bundled binary itself. Corresponding source for the mpv
   project is available from https://github.com/mpv-player/mpv.
-  Note: this is an older mpv release (originally published in
-  2017). It has not been updated since this add-on's playback
-  feature was first built, because every prior change touching
-  playback in this project has carried real regression risk that
-  could not be verified without a live NVDA/Windows test pass (see
-  DEV_NOTES.md). Upgrading this binary is tracked as a deferred,
-  separate piece of work, not a correctness issue with the add-on's
-  own code.
+  Note: rounds 35-38 built and tested a newer 0.41.0 build (shinchiro's
+  official Windows build, 32-bit/i686, dated 2026-06-07, git commit
+  71ebd0840, from
+  https://sourceforge.net/projects/mpv-player-windows/) to fix a
+  specific problem with this old build's HLS demuxer, which does not
+  keep re-polling a live YouTube manifest for new segments the way a
+  modern HLS client does - it plays only the handful of segments it
+  sees on its first fetch of a live stream and then stops. That
+  upgrade is NOT what ships in this build: round 40 changed how
+  currently-live broadcasts are handled instead - they now open in the
+  user's default browser rather than ever being played through mpv at
+  all (the browser's own native YouTube player has no such limitation),
+  which made the mpv upgrade unnecessary for that problem, and round 39
+  had already shipped this version with the original 0.28.0 build per
+  an explicit choice to avoid re-testing an unverified binary swap
+  alongside an unrelated yt-dlp update. See DEV_NOTES.md rounds 35-40
+  for the full history if a future round revisits upgrading mpv.
 
 - youtube-dl (globalPlugins/lib/mpv/youtube-dl.exe)
   https://github.com/ytdl-org/youtube-dl
@@ -53,7 +75,8 @@ license; each remains under its own upstream license.
   Direct3D video output on Windows. Distributed under Microsoft's
   own redistributable terms as part of the DirectX End-User Runtime,
   not under FFmpeg/mpv's GPL/LGPL terms. Not modified by this
-  add-on.
+  add-on. Paired with, and taken from the same source as, the mpv
+  0.28.0 build above - not modified from that build's own copy.
 
 Redistributing GPL/LGPL-licensed binaries alongside this add-on does
 not change the license of this add-on's own source code, which is

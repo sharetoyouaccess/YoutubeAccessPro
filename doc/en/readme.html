@@ -67,7 +67,7 @@
 <!-- ======================== ภาษาไทย ======================== -->
 
 <h1 id="th-top">คู่มือการใช้งาน YouTube Access Pro สำหรับ NVDA</h1>
-<p class="meta">เวอร์ชัน 2026.07.19 &nbsp;·&nbsp; ผู้พัฒนา: Peem Narkkhwan</p>
+<p class="meta">เวอร์ชัน 2026.08.18 &nbsp;·&nbsp; ผู้พัฒนา: Peem Narkkhwan</p>
 
 <p class="intro">YouTube Access Pro เป็นโปรแกรมเสริมสำหรับ NVDA ที่ให้ผู้ใช้สามารถค้นหา เล่น และดาวน์โหลดเนื้อหาจาก YouTube ได้อย่างเต็มรูปแบบ ควบคุมการทำงานทั้งหมดด้วยแป้นพิมพ์โดยไม่ต้องพึ่งเมาส์ พร้อมรองรับการอ่านสถานะโดย NVDA ตลอดการใช้งาน</p>
 
@@ -130,9 +130,11 @@
   <li><strong>Video</strong> — ค้นหาวิดีโอทั่วไป</li>
   <li><strong>Playlist</strong> — ค้นหาเพลย์ลิสต์</li>
   <li><strong>Channel</strong> — ค้นหาช่องโดยตรงจากชื่อ โดยไม่ต้องค้นหาวิดีโอของช่องนั้นก่อน</li>
+  <li><strong>Live</strong> — ค้นหาเฉพาะวิดีโอที่กำลังถ่ายทอดสดอยู่ในขณะนั้นตามคำค้นหา</li>
 </ul>
 <p>เมื่อโฟกัสอยู่ที่ตัวเลือก Search type สามารถกด <kbd>Enter</kbd> เพื่อเริ่มค้นหาได้ทันที</p>
 <div class="note">การเปิดผลลัพธ์ที่เป็นช่อง (ทั้งจากการค้นหาแบบ Channel และจากการเลือกชื่อผู้อัปโหลดในผลลัพธ์อื่น) จะแสดงรายการคลิปของช่องนั้นในลิสต์เดียวกัน เช่นเดียวกับการเปิดเพลย์ลิสต์ กด <kbd>Ctrl+S</kbd> ที่แถวของช่องเพื่อติดตามช่องนั้นได้ทันที โดยไม่จำเป็นต้องเปิดดูคลิปก่อน</div>
+<div class="note"><strong>วิดีโอที่กำลังถ่ายทอดสด:</strong> เมื่อกด <kbd>Enter</kbd> เล่นวิดีโอที่กำลังถ่ายทอดสดอยู่ (ไม่ว่าจะมาจากผลค้นหาหมวด Live, หมวด Live ในแท็บ Subscriptions หรือวางลิงก์โดยตรง) โปรแกรมจะเปิดวิดีโอนั้นในเบราว์เซอร์เริ่มต้นของเครื่องแทนการเล่นในโปรแกรมนี้ เนื่องจากตัวเล่นวิดีโอของเบราว์เซอร์เองรองรับการถ่ายทอดสดได้เสถียรกว่า วิดีโอที่บันทึกไว้แล้ว (ไม่ใช่การถ่ายทอดสด) ยังคงเล่นในโปรแกรมนี้ตามปกติ</div>
 
 <h3>4.3 รายการผลการค้นหา</h3>
 <table>
@@ -295,7 +297,8 @@
 <h2 id="th-9">9. การแก้ปัญหาเบื้องต้น</h2>
 <table>
   <tr><th>ปัญหา</th><th>วิธีแก้ไข</th></tr>
-  <tr><td>เปิดเบราว์เซอร์แทนที่จะเล่นด้วย mpv</td><td>ตรวจสอบว่ามีไฟล์ mpv อยู่ในโฟลเดอร์ lib ของโปรแกรมเสริมครบถ้วน</td></tr>
+  <tr><td>วิดีโอที่กำลังถ่ายทอดสดเปิดในเบราว์เซอร์เสมอ</td><td>เป็นการทำงานปกติ ไม่ใช่ปัญหา — วิดีโอที่กำลังถ่ายทอดสดจะเปิดในเบราว์เซอร์แทนการเล่นในโปรแกรมนี้เสมอ เพื่อความเสถียร (ดูหัวข้อ 4.2)</td></tr>
+  <tr><td>วิดีโอปกติ (ไม่ใช่ถ่ายทอดสด) เปิดเบราว์เซอร์แทนที่จะเล่นด้วย mpv</td><td>ตรวจสอบว่ามีไฟล์ mpv อยู่ในโฟลเดอร์ lib ของโปรแกรมเสริมครบถ้วน</td></tr>
   <tr><td>กด F5 แล้วไม่เปิดโฟลเดอร์</td><td>มีการดาวน์โหลดกำลังดำเนินการอยู่ กรุณารอให้เสร็จสิ้นก่อน</td></tr>
   <tr><td>F9/F10 ไม่ทำงานเมื่อใช้แบบทั่วทั้งระบบ</td><td>เปิดตัวเลือก "Enable global player hotkeys" ในแท็บ Settings</td></tr>
   <tr><td>ต้องการกลับไปยังช่องค้นหาอย่างรวดเร็ว</td><td>กด <kbd>Ctrl+F</kbd> จากตำแหน่งใดก็ได้ในหน้าต่าง</td></tr>
@@ -307,7 +310,7 @@
 <!-- ======================== ENGLISH ======================== -->
 
 <h1 id="en-top">User Guide — YouTube Access Pro Add-on for NVDA</h1>
-<p class="meta">Version 2026.07.19 &nbsp;·&nbsp; Author: Peem Narkkhwan</p>
+<p class="meta">Version 2026.08.18 &nbsp;·&nbsp; Author: Peem Narkkhwan</p>
 
 <p class="intro">YouTube Access Pro is an NVDA add-on that gives users full access to YouTube: searching, playing, and downloading content entirely from the keyboard, with complete NVDA speech feedback throughout.</p>
 
@@ -370,9 +373,11 @@
   <li><strong>Video</strong> — search for individual videos</li>
   <li><strong>Playlist</strong> — search for playlists</li>
   <li><strong>Channel</strong> — search for a channel directly by name, without first finding one of its videos</li>
+  <li><strong>Live</strong> — search only for videos that are currently live-streaming, matching the search text</li>
 </ul>
 <p>When focus is on the Search type control, press <kbd>Enter</kbd> to search immediately.</p>
 <div class="note">Opening a channel result — whether from a Channel search or from an uploader name elsewhere — shows that channel's videos in the same list, the same way opening a playlist does. Press <kbd>Ctrl+S</kbd> on a channel row to subscribe to it immediately, without opening its videos first.</div>
+<div class="note"><strong>Currently-live videos:</strong> pressing <kbd>Enter</kbd> to play a video that is currently live-streaming (whether found via a Live search, the Subscriptions tab's Live section, or a pasted link) opens it in the system's default browser instead of playing it inside this add-on, since the browser's own video player handles live streaming more reliably. Videos that have already finished streaming (recordings, not currently live) still play inside this add-on as usual.</div>
 
 <h3>4.3 Results List</h3>
 <table>
@@ -535,14 +540,15 @@
 <h2 id="en-9">9. Troubleshooting</h2>
 <table>
   <tr><th>Problem</th><th>Solution</th></tr>
-  <tr><td>A browser opens instead of playing through mpv</td><td>Check that the mpv files are present in the add-on's lib folder</td></tr>
+  <tr><td>A currently-live video always opens in the browser</td><td>This is expected behavior, not a problem — live videos always open in the browser instead of playing inside the add-on, for stability (see section 4.2)</td></tr>
+  <tr><td>An ordinary (non-live) video opens a browser instead of playing through mpv</td><td>Check that the mpv files are present in the add-on's lib folder</td></tr>
   <tr><td>F5 does not open the download folder</td><td>A download is still in progress; wait for it to finish</td></tr>
   <tr><td>F9/F10 do not work as global shortcuts</td><td>Turn on "Enable global player hotkeys" in Settings</td></tr>
   <tr><td>Need to jump to the search field quickly</td><td>Press <kbd>Ctrl+F</kbd> from anywhere in the window</td></tr>
   <tr><td>Want to check how many downloads are active</td><td>Press <kbd>F4</kbd> for the total active count, or <kbd>F3</kbd> on a specific item for its own status</td></tr>
 </table>
 
-<p class="footer-note">YouTube Access Pro v2026.07.19</p>
+<p class="footer-note">YouTube Access Pro v2026.08.18</p>
 
 </body>
 </html>

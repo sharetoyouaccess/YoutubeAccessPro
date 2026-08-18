@@ -1,8 +1,8 @@
 # YouTube Access Pro
 
-An [NVDA](https://www.nvaccess.org/) add-on that provides full keyboard-only access to YouTube: search, play, and download videos, playlists, and channels, entirely from NVDA, without needing a browser.
+An [NVDA](https://www.nvaccess.org/) add-on that provides full keyboard-only access to YouTube: search, play, and download videos, playlists, and channels, entirely from NVDA, without needing a browser. (The one exception: currently-live broadcasts open in the default browser instead, since the browser's native YouTube player handles live playback more reliably than the bundled offline media player.)
 
-- Search or paste a link to play/download videos, playlists, or channels directly
+- Search or paste a link to play/download videos, playlists, or channels directly, including a dedicated search type for currently-live broadcasts
 - Full playback shortcuts: play/pause, seek, volume, speed, automatic continuous playback
 - Built-in sleep timer
 - Personal playlist management
@@ -55,7 +55,7 @@ Bundled at runtime in `globalPlugins/lib/` of the built `.nvda-addon` (not in th
 
 | Component | Version | License | Source |
 |---|---|---|---|
-| yt-dlp | 2026.07.04 | Unlicense (public domain) | https://github.com/yt-dlp/yt-dlp |
+| yt-dlp | 2026.08.17.073947.dev0 (pre-release) | Unlicense (public domain) | https://github.com/yt-dlp/yt-dlp |
 | ffmpeg / ffprobe | "essentials" build, gyan.dev, git 2025-08-25 | GPL v3+ | https://www.gyan.dev/ffmpeg/builds/ / https://ffmpeg.org |
 | mpv | 0.28.0 | LGPL | https://mpv.io |
 | youtube-dl | (bundled with the mpv build above) | Unlicense (public domain) | https://github.com/ytdl-org/youtube-dl |

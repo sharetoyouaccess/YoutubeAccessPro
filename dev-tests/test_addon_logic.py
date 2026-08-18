@@ -619,6 +619,75 @@ def test_playlist_items_item_kind_builds_playlist_urls():
     )
 
 
+def test_live_stream_resolution_reports_is_live_without_resolving_url():
+    """_resolve_playable_stream() returns a (stream_url, is_live) tuple.
+    As of round 40, a currently-airing live stream is never resolved to a
+    playable URL at all - stream_url always comes back None for it, and
+    is_live comes back True so the caller (start_playback()) knows to open
+    the video in the browser instead of ever starting mpv for it. This is
+    a deliberate simplification: rounds 32-34 tried playing live broadcasts
+    inside mpv itself (pinning a resolved URL, picking the HLS manifest, an
+    auto-restart watchdog for when mpv exited mid-broadcast) and never
+    reached fully stable playback, so this add-on stopped trying to play
+    live content in-app at all rather than continuing to work around mpv's
+    limitations for it - see DEV_NOTES.md round 40."""
+    addon = _load_addon()
+    addon.yt_dlp.reset()
+
+    live_url = 'https://www.youtube.com/watch?v=live123'
+    addon.yt_dlp.set_fake_video_info(live_url, {
+        'is_live': True,
+        'url': 'https://dash-direct.googlevideo.com/videoplayback?id=live123-dash',
+    })
+    resolved_live, is_live_1 = addon._resolve_playable_stream(live_url)
+    check(
+        'a currently-live stream is never resolved to a playable url',
+        resolved_live is None,
+    )
+    check('is_live is True for a currently-live stream', is_live_1 is True)
+
+    vod_url = 'https://www.youtube.com/watch?v=vod456'
+    addon.yt_dlp.set_fake_video_info(vod_url, {
+        'is_live': False,
+        'url': 'https://rr-vod.googlevideo.com/videoplayback?id=vod456',
+    })
+    resolved_vod, is_live_vod = addon._resolve_playable_stream(vod_url)
+    check(
+        'a normal (non-live) video is still resolved to its direct stream url, unaffected by the live check',
+        resolved_vod == 'https://rr-vod.googlevideo.com/videoplayback?id=vod456',
+    )
+    check('is_live is False for a normal video', is_live_vod is False)
+
+    # A finished stream's VOD replay (was_live=True, is_live False/absent)
+    # is a fixed-length file like any other video, not a live manifest -
+    # it must still be resolved normally, not skipped.
+    replay_url = 'https://www.youtube.com/watch?v=replay789'
+    addon.yt_dlp.set_fake_video_info(replay_url, {
+        'was_live': True,
+        'url': 'https://rr-vod.googlevideo.com/videoplayback?id=replay789',
+    })
+    resolved_replay, is_live_replay = addon._resolve_playable_stream(replay_url)
+    check(
+        "a finished stream's VOD replay (was_live, not currently live) is still resolved normally",
+        resolved_replay == 'https://rr-vod.googlevideo.com/videoplayback?id=replay789',
+    )
+    check('is_live is False for a finished stream\'s VOD replay', is_live_replay is False)
+
+    # requested_formats fallback path (used when 'url' isn't set directly)
+    # must still work for non-live videos too.
+    fmt_url = 'https://www.youtube.com/watch?v=fmt999'
+    addon.yt_dlp.set_fake_video_info(fmt_url, {
+        'is_live': False,
+        'requested_formats': [{'url': 'https://rr-vod.googlevideo.com/videoplayback?id=fmt999-audio'}],
+    })
+    resolved_fmt, is_live_fmt = addon._resolve_playable_stream(fmt_url)
+    check(
+        'requested_formats fallback still works for non-live videos',
+        resolved_fmt == 'https://rr-vod.googlevideo.com/videoplayback?id=fmt999-audio',
+    )
+    check('is_live is False for the requested_formats fallback case too', is_live_fmt is False)
+
+
 def run_all():
     tests = [
         test_normalize_playlist_url,
@@ -632,6 +701,7 @@ def run_all():
         test_playlist_cache_force_refresh_bypasses_stale_cache,
         test_playlist_items_item_kind_builds_playlist_urls,
         test_cleanup_removes_canceled_jobs_leftover_raw_file,
+        test_live_stream_resolution_reports_is_live_without_resolving_url,
     ]
     for t in tests:
         print(f'--- {t.__name__} ---')

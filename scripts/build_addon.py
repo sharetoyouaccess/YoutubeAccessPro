@@ -42,6 +42,20 @@ What gets taken from the repo (always fresh from this working tree):
 Everything else in the vendor .nvda-addon (globalPlugins/lib/ffmpeg/**,
 globalPlugins/lib/mpv/**, and anything else not listed above) is copied
 through byte-for-byte, unchanged.
+
+Deliberately overriding one specific vendor binary (--override)
+-----------------------------------------------------------------------
+For the rare, deliberate case where one specific vendor binary needs to
+be upgraded on purpose (with real reasoning and its own test pass - see
+DEV_NOTES.md round 35 for the mpv.exe upgrade this flag was added for),
+pass one or more --override ARCNAME=PATH options. Each named arcname is
+taken from the given local file instead of the vendor archive (and
+instead of the repo tree, if it happens to also be repo-managed - this
+takes priority over both). Example:
+
+    python3 scripts/build_addon.py --vendor old.nvda-addon --out new.nvda-addon \
+        --override globalPlugins/lib/mpv/mpv.exe=/path/to/new_mpv_build/mpv.exe \
+        --override globalPlugins/lib/mpv/d3dcompiler_43.dll=/path/to/new_mpv_build/d3dcompiler_43.dll
 """
 
 import argparse
@@ -90,9 +104,13 @@ def repo_source_files(repo_root: str):
             yield rel, abs_path
 
 
-def build(vendor_path: str, repo_root: str, out_path: str) -> None:
+def build(vendor_path: str, repo_root: str, out_path: str, overrides: dict = None) -> None:
+    overrides = overrides or {}
     if not os.path.isfile(vendor_path):
         raise SystemExit(f"Vendor .nvda-addon not found: {vendor_path}")
+    for arcname, abs_path in overrides.items():
+        if not os.path.isfile(abs_path):
+            raise SystemExit(f"--override file not found for {arcname}: {abs_path}")
 
     with zipfile.ZipFile(vendor_path, "r") as vendor_zip:
         bad = vendor_zip.testzip()
@@ -104,6 +122,8 @@ def build(vendor_path: str, repo_root: str, out_path: str) -> None:
             for info in vendor_zip.infolist():
                 if info.is_dir():
                     continue
+                if info.filename in overrides:
+                    continue  # will be added fresh from --override below
                 if is_repo_managed(info.filename):
                     continue  # will be added fresh from the repo below
                 data = vendor_zip.read(info.filename)
@@ -112,8 +132,13 @@ def build(vendor_path: str, repo_root: str, out_path: str) -> None:
 
             added_from_repo = 0
             for arcname, abs_path in repo_source_files(repo_root):
+                if arcname in overrides:
+                    continue  # --override takes priority even over repo-managed files
                 out_zip.write(abs_path, arcname)
                 added_from_repo += 1
+
+            for arcname, abs_path in overrides.items():
+                out_zip.write(abs_path, arcname)
 
     with zipfile.ZipFile(out_path, "r") as check:
         bad = check.testzip()
@@ -125,6 +150,8 @@ def build(vendor_path: str, repo_root: str, out_path: str) -> None:
     print(f"Built {out_path}")
     print(f"  {copied_from_vendor} files copied unchanged from vendor (binaries etc.)")
     print(f"  {added_from_repo} files added fresh from this repo")
+    if overrides:
+        print(f"  {len(overrides)} file(s) deliberately overridden: {', '.join(sorted(overrides))}")
     print(f"  {total} files total, {size:,} bytes")
     print("  testzip(): OK, no corrupt entries")
 
@@ -135,8 +162,19 @@ def main():
     parser.add_argument("--out", required=True, help="Path to write the new .nvda-addon to")
     parser.add_argument("--repo-root", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                          help="Path to the repo root (default: parent of this script's directory)")
+    parser.add_argument("--override", action="append", default=[], metavar="ARCNAME=PATH",
+                         help="Deliberately source one specific archive path from a local file instead of "
+                              "the vendor archive or repo tree. Repeatable. See the module docstring.")
     args = parser.parse_args()
-    build(args.vendor, args.repo_root, args.out)
+
+    overrides = {}
+    for entry in args.override:
+        if "=" not in entry:
+            raise SystemExit(f"--override must be ARCNAME=PATH, got: {entry}")
+        arcname, abs_path = entry.split("=", 1)
+        overrides[arcname] = abs_path
+
+    build(args.vendor, args.repo_root, args.out, overrides)
 
 
 if __name__ == "__main__":
