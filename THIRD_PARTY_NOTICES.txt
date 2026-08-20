@@ -2,22 +2,19 @@ YouTube Access Pro bundles the following third-party components
 in globalPlugins/lib. They are not covered by this add-on's own
 license; each remains under its own upstream license.
 
-- yt-dlp (globalPlugins/lib/yt_dlp), version 2026.08.17.073947.dev0
+- yt-dlp (globalPlugins/lib/yt_dlp), version 2026.08.19
   https://github.com/yt-dlp/yt-dlp
   License: Unlicense (public domain)
-  Installed via `pip download --pre yt-dlp==2026.8.17.73947.dev0` from
-  PyPI (https://pypi.org/project/yt-dlp/#history). This is a pre-release
-  ("nightly") build rather than the latest tagged stable release, which
-  was still 2026.7.4 (identical to the version this add-on previously
-  bundled) at the time of this update - yt-dlp's maintainers had already
-  published several dated nightly builds fixing YouTube extraction
-  changes ahead of cutting their next stable release, and this add-on
-  needed one of those fixes (see DEV_NOTES.md round 39: pasted links had
-  stopped resolving at all, "Could not fetch data", after YouTube changed
-  something extraction-dependent following the previous 2026.07.04
-  release). yt-dlp's own nightly builds go through the same CI/test
-  process as their stable releases, just released more frequently when a
-  live site-breakage fix can't wait for the next scheduled stable cut.
+  Installed via `pip download yt-dlp==2026.8.19` from PyPI
+  (https://pypi.org/project/yt-dlp/#history). This is yt-dlp's regular
+  tagged stable release, current as of 2026-08-20 - it supersedes the
+  2026.08.17.073947.dev0 pre-release ("nightly") build this add-on
+  bundled in version 2026.08.18, once yt-dlp's maintainers cut an actual
+  stable release incorporating that and further fixes. See DEV_NOTES.md
+  round 39 for why a pre-release build was used in the first place
+  (pasted links had stopped resolving at all, "Could not fetch data",
+  after YouTube changed something extraction-dependent, and no stable
+  yt-dlp release fixing it existed yet at that time).
 
 - FFmpeg / FFprobe (globalPlugins/lib/ffmpeg)
   Build: "essentials" build dated 2025-08-25 (git 1b62f9d3ae) from

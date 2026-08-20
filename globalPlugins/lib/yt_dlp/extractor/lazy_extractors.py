@@ -12549,7 +12549,7 @@ class TikTokEffectIE(TikTokBaseListIE):
 class TikTokIE(TikTokBaseIE):
     _module = 'yt_dlp.extractor.tiktok'
     IE_NAME = 'TikTok'
-    _VALID_URL = 'https?://www\\.tiktok\\.com/(?:embed|@(?P<user_id>[\\w\\.-]+)?/video)/(?P<id>\\d+)'
+    _VALID_URL = 'https?://www\\.tiktokv?\\.com/(?:embed|(?:share|@(?P<user_id>[\\w\\.-]+)?)/video)/(?P<id>\\d+)'
     _RETURN_TYPE = 'video'
 
 
@@ -13001,7 +13001,7 @@ class TwitterBroadcastIE(TwitterBaseIE, PeriscopeBaseIE):
     _module = 'yt_dlp.extractor.twitter'
     IE_NAME = 'twitter:broadcast'
     _VALID_URL = 'https?://(?:(?:www|m(?:obile)?)\\.)?(?:(?:twitter|x)\\.com|twitter3e4tixl4xyajtrzo62zg5vztmjuricljdp2c5kshju4avyoid\\.onion)/i/(?P<type>broadcasts|events)/(?P<id>\\w+)'
-    _RETURN_TYPE = 'video'
+    _RETURN_TYPE = 'any'
 
 
 class TwitterCardIE(LazyLoadExtractor):
@@ -14205,7 +14205,7 @@ class WhoWatchIE(LazyLoadExtractor):
 class WhypIE(LazyLoadExtractor):
     _module = 'yt_dlp.extractor.whyp'
     IE_NAME = 'Whyp'
-    _VALID_URL = 'https?://(?:www\\.)?whyp\\.it/tracks/(?P<id>\\d+)'
+    _VALID_URL = 'https?://(?:www\\.)?whyp\\.it/tracks/(?:(?P<id>\\d{5,})/)?(?P<display_id>[^/?#]+)'
     _RETURN_TYPE = 'video'
 
 

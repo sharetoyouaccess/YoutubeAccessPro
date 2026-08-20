@@ -51,11 +51,11 @@ python3 test_addon_logic.py
 
 ## Third-party components
 
-Bundled at runtime in `globalPlugins/lib/` of the built `.nvda-addon` (not in this repository):
+Bundled at runtime in `globalPlugins/lib/` of the built `.nvda-addon`. yt-dlp is committed to this repository (see `scripts/build_addon.py`); the rest are pulled from a known-good vendor build at build time and are not in this repository (see `.gitignore`):
 
 | Component | Version | License | Source |
 |---|---|---|---|
-| yt-dlp | 2026.08.17.073947.dev0 (pre-release) | Unlicense (public domain) | https://github.com/yt-dlp/yt-dlp |
+| yt-dlp | 2026.08.19 | Unlicense (public domain) | https://github.com/yt-dlp/yt-dlp |
 | ffmpeg / ffprobe | "essentials" build, gyan.dev, git 2025-08-25 | GPL v3+ | https://www.gyan.dev/ffmpeg/builds/ / https://ffmpeg.org |
 | mpv | 0.28.0 | LGPL | https://mpv.io |
 | youtube-dl | (bundled with the mpv build above) | Unlicense (public domain) | https://github.com/ytdl-org/youtube-dl |

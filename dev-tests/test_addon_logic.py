@@ -688,6 +688,128 @@ def test_live_stream_resolution_reports_is_live_without_resolving_url():
     check('is_live is False for the requested_formats fallback case too', is_live_fmt is False)
 
 
+def test_ytdlp_update_verification_and_startup_gate():
+    """Round-47 regression coverage for the yt-dlp updater bug report
+    (user tested 2026-08-20: auto-update checkbox on but not checking, and
+    a manual update + restart still showing the old version).
+
+    Two behavior changes are covered here:
+
+    1. maybe_auto_check_for_ytdlp_update() used to skip entirely unless
+       more than 24h had passed since last_ytdlp_update_check, which could
+       make automatic updates look broken if the user had already tested
+       earlier the same day. It now only looks at the auto_update_ytdlp
+       setting (and secure-desktop), and always proceeds to
+       check_for_ytdlp_update() otherwise - verified here by stubbing
+       check_for_ytdlp_update() and confirming it is invoked even with a
+       last_ytdlp_update_check timestamp of "just now".
+
+    2. check_ytdlp_update_took_effect() is new: it compares a pending
+       "we just installed this version" marker (written by
+       check_for_ytdlp_update() on success) against the version actually
+       running after a real restart, and warns the user if they don't
+       match - covering the case (confirmed reproducible against the real
+       update code, but only outside of NVDA/Windows in this project's own
+       testing - see DEV_NOTES.md round 47) where something on the user's
+       machine reverts the newly-written files between install and
+       restart."""
+    # NOTE: use addon.ui / addon.log (the mock module objects init.py
+    # itself imported into its own namespace via `import ui` / `from
+    # logHandler import log`) rather than `from mocks import ui`/etc here.
+    # `import ui` (with mocks/ on sys.path directly) and `from mocks
+    # import ui` register as two *different* entries in sys.modules
+    # ('ui' vs 'mocks.ui'), each holding its own separate mocks/ui.py
+    # module instance with its own separate `messages` list - asserting
+    # against a freshly-`from mocks import`-ed copy would silently watch
+    # the wrong list and never see what init.py actually recorded.
+
+    # --- check_ytdlp_update_took_effect() ---
+
+    # No pending marker at all: must be a no-op (no message, nothing to warn about).
+    addon, _tmp = _load_addon_with_temp_storage()
+    before = len(addon.ui.messages)
+    addon.check_ytdlp_update_took_effect()
+    check(
+        'no pending update marker means no message is spoken',
+        len(addon.ui.messages) == before,
+    )
+
+    # Pending marker matches what's actually running (mocks/yt_dlp.py
+    # reports '2026.01.01'): the update genuinely took effect, so this
+    # should clear the marker silently, not warn.
+    addon, _tmp = _load_addon_with_temp_storage()
+    settings = addon.load_settings()
+    settings['ytdlp_update_pending_version'] = '2026.01.01'
+    settings['ytdlp_update_pending_since'] = 12345.0
+    addon.save_settings(settings)
+    before = len(addon.ui.messages)
+    addon.check_ytdlp_update_took_effect()
+    check(
+        'matching pending/actual version speaks no warning',
+        len(addon.ui.messages) == before,
+    )
+    reloaded = addon.load_settings()
+    check(
+        'matching pending/actual version still clears the pending marker',
+        reloaded.get('ytdlp_update_pending_version') is None,
+    )
+
+    # Pending marker does NOT match what's actually running: the update
+    # was reported successful but did not stick - this must speak a
+    # warning, log an error, and clear the marker so it does not repeat
+    # forever.
+    addon, _tmp = _load_addon_with_temp_storage()
+    settings = addon.load_settings()
+    settings['ytdlp_update_pending_version'] = '2026.08.19'
+    settings['ytdlp_update_pending_since'] = 12345.0
+    addon.save_settings(settings)
+    before_msgs = len(addon.ui.messages)
+    before_errs = len(addon.log.records)
+    addon.check_ytdlp_update_took_effect()
+    check(
+        'mismatched pending/actual version speaks a warning',
+        len(addon.ui.messages) == before_msgs + 1,
+    )
+    spoken = addon.ui.messages[-1]
+    check('the warning mentions the version that was supposed to install', '2026.08.19' in spoken)
+    check('the warning mentions the version actually running', '2026.01.01' in spoken)
+    check(
+        'mismatched pending/actual version logs an error for diagnosis',
+        len(addon.log.records) == before_errs + 1,
+    )
+    reloaded = addon.load_settings()
+    check(
+        'mismatched pending/actual version still clears the pending marker (does not repeat every startup)',
+        reloaded.get('ytdlp_update_pending_version') is None,
+    )
+
+    # --- maybe_auto_check_for_ytdlp_update() no longer throttled to once/day ---
+
+    addon, _tmp = _load_addon_with_temp_storage()
+    calls = []
+    addon.check_for_ytdlp_update = lambda manual=False, on_done=None: calls.append(manual)
+
+    settings = addon.load_settings()
+    settings['auto_update_ytdlp'] = True
+    settings['last_ytdlp_update_check'] = addon.time.time()  # "just checked, right now"
+    addon.save_settings(settings)
+    addon.maybe_auto_check_for_ytdlp_update()
+    check(
+        'auto-check runs on every startup even if last check was seconds ago',
+        calls == [False],
+    )
+
+    calls.clear()
+    settings = addon.load_settings()
+    settings['auto_update_ytdlp'] = False
+    addon.save_settings(settings)
+    addon.maybe_auto_check_for_ytdlp_update()
+    check(
+        'auto-check still respects the user disabling it in Settings',
+        calls == [],
+    )
+
+
 def run_all():
     tests = [
         test_normalize_playlist_url,
@@ -702,6 +824,7 @@ def run_all():
         test_playlist_items_item_kind_builds_playlist_urls,
         test_cleanup_removes_canceled_jobs_leftover_raw_file,
         test_live_stream_resolution_reports_is_live_without_resolving_url,
+        test_ytdlp_update_verification_and_startup_gate,
     ]
     for t in tests:
         print(f'--- {t.__name__} ---')

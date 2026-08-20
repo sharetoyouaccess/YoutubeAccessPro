@@ -265,6 +265,8 @@ TH_STRINGS = {
     'yt-dlp update failed: {}': 'อัปเดต yt-dlp ไม่สำเร็จ: {}',
     'yt-dlp updated to {}. Restart NVDA to use it.': 'อัปเดต yt-dlp เป็น {} แล้ว รีสตาร์ต NVDA เพื่อใช้งาน',
     'yt-dlp {} is already up to date': 'yt-dlp {} เป็นเวอร์ชันล่าสุดอยู่แล้ว',
+    'yt-dlp update to {} did not take effect after restarting NVDA  still running {}. This is usually caused by antivirus software blocking the new files, or another NVDA installation on this computer. Check Settings and try updating again.':
+        'การอัปเดต yt-dlp เป็น {} ไม่มีผลหลังจากรีสตาร์ต NVDA  ยังคงใช้เวอร์ชัน {} อยู่ สาเหตุมักเกิดจากโปรแกรมแอนตี้ไวรัสบล็อกไฟล์ใหม่ หรือมี NVDA ติดตั้งอยู่มากกว่าหนึ่งชุดในเครื่องนี้ ลองตรวจสอบที่หน้าตั้งค่าและอัปเดตอีกครั้ง',
     '{}  tab': '{}  แท็บ',
     '{} ({})': '{} ({})',
     '{} - {} [{}]': '{} - {} [{}]',
@@ -549,7 +551,6 @@ except Exception as e:
 YTDLP_UPDATE_CHECK_URL = 'https://pypi.org/pypi/yt-dlp/json'
 YTDLP_UPDATE_CHECK_TIMEOUT = 20
 YTDLP_UPDATE_DOWNLOAD_TIMEOUT = 180
-YTDLP_UPDATE_CHECK_INTERVAL_SEC = 24 * 60 * 60  # at most once a day automatically
 YTDLP_UPDATE_USER_AGENT = 'YouTubeProDownloaderNVDA-Updater/1.0'
 
 state._ytdlp_update_lock = threading.Lock()
@@ -720,12 +721,19 @@ def check_for_ytdlp_update(manual=False, on_done=None):
     if manual:
         _ui_message(_('Checking for yt-dlp update'))
 
-    def _finish(found_update, message):
+    def _finish(found_update, message, installed_version=None):
         with state._ytdlp_update_lock:
             state._ytdlp_update_in_progress = False
         try:
             settings = load_settings()
             settings['last_ytdlp_update_check'] = time.time()
+            if installed_version:
+                # Record what we just wrote to disk so the *next* startup
+                # (a real restart, once the new files are actually the
+                # ones Python imports) can check whether it actually took
+                # effect - see check_ytdlp_update_took_effect() below.
+                settings['ytdlp_update_pending_version'] = installed_version
+                settings['ytdlp_update_pending_since'] = time.time()
             save_settings(settings)
         except Exception:
             pass
@@ -752,7 +760,7 @@ def check_for_ytdlp_update(manual=False, on_done=None):
         ok, err = _download_and_install_ytdlp(wheel_url, expected_sha256=sha256_hex)
         if ok:
             msg = _tr('yt-dlp updated to {}. Restart NVDA to use it.', latest)
-            wx.CallAfter(_finish, True, msg)
+            wx.CallAfter(_finish, True, msg, latest)
         else:
             wx.CallAfter(_finish, False, _tr('yt-dlp update failed: {}', err))
 
@@ -761,20 +769,73 @@ def check_for_ytdlp_update(manual=False, on_done=None):
 
 
 def maybe_auto_check_for_ytdlp_update():
-    """Run the update check automatically at most once a day, only if the
-    user has not disabled it in Settings, and never on a secure desktop."""
+    """Run the update check automatically on every NVDA startup, as long
+    as the user has not disabled it in Settings, and never on a secure
+    desktop.
+
+    This used to only check once every 24 hours (tracked via
+    last_ytdlp_update_check), but that made it easy for a user to reasonably
+    believe automatic updates were not working at all if they happened to
+    test on the same day a check had already run. Checking on every
+    startup instead is simpler to reason about and PyPI's JSON API is
+    lightweight enough that this is not a meaningful burden - yt-dlp's own
+    release cadence (frequently multiple times a week) means a real update
+    being available is common enough that a daily-at-most cap was actively
+    unhelpful here."""
     if _is_secure_mode():
         return
     try:
         settings = load_settings()
         if not settings.get('auto_update_ytdlp', True):
             return
-        last_check = float(settings.get('last_ytdlp_update_check') or 0)
     except Exception:
         return
-    if (time.time() - last_check) < YTDLP_UPDATE_CHECK_INTERVAL_SEC:
-        return
     check_for_ytdlp_update(manual=False)
+
+
+def check_ytdlp_update_took_effect():
+    """Verify that a yt-dlp update installed during a previous session
+    actually became the version now running, now that NVDA has genuinely
+    restarted and freshly imported yt_dlp from disk.
+
+    check_for_ytdlp_update() only proves the new files were written to
+    lib/yt_dlp at the time of the update - it cannot prove anything about
+    what happens between that write and the next restart. If something
+    else on the computer reverts, blocks, or quarantines those files
+    afterward (most plausibly antivirus/Windows Defender reacting to a
+    large batch of newly-created .py files - this add-on's own bundle has
+    already been flagged as a false positive by at least one VirusTotal
+    engine - or NVDA actually running from a different installation than
+    the one that was updated), the add-on would otherwise stay silently on
+    the old, possibly broken yt-dlp version with no indication anything
+    went wrong. This runs once per pending update and tells the user
+    plainly instead."""
+    try:
+        settings = load_settings()
+        pending = settings.get('ytdlp_update_pending_version')
+        if not pending:
+            return
+        current = _get_bundled_ytdlp_version()
+        settings['ytdlp_update_pending_version'] = None
+        settings['ytdlp_update_pending_since'] = 0
+        save_settings(settings)
+        if current and _normalize_version_str(current) == _normalize_version_str(pending):
+            return
+        log.error(
+            f'yt-dlp update to {pending} was reported successful last session but is not '
+            f'active after restart (currently running {current}). The file replacement in '
+            f'lib/yt_dlp was likely reverted or blocked after installation - check '
+            f'antivirus/Windows Defender exclusions for the NVDA add-ons folder, and '
+            f'confirm this is the only NVDA installation on this computer.'
+        )
+        _ui_message(_tr(
+            'yt-dlp update to {} did not take effect after restarting NVDA  still running {}. '
+            'This is usually caused by antivirus software blocking the new files, or another '
+            'NVDA installation on this computer. Check Settings and try updating again.',
+            pending, current or _('unknown'),
+        ))
+    except Exception as e:
+        log.error(f'yt-dlp update verification failed: {e}')
 
 
 # --- DOWNLOAD STATE ---
@@ -1382,6 +1443,8 @@ default_settings = {
     'global_player_hotkeys': False,
     'auto_update_ytdlp': True,
     'last_ytdlp_update_check': 0,
+    'ytdlp_update_pending_version': None,
+    'ytdlp_update_pending_since': 0,
     'ui_language': 'en',
     'auto_continue_playback': False,
     'last_volume': 100,
@@ -3395,8 +3458,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         gui.mainFrame.sysTrayIcon.Bind(wx.EVT_MENU, self.on_menu_click, self.menu_item)
 
         # Give NVDA a little time to finish starting up before doing any
-        # network work in the background.
-        wx.CallLater(15000, maybe_auto_check_for_ytdlp_update)
+        # network work in the background. check_ytdlp_update_took_effect()
+        # is local-only (no network), so it runs first and immediately
+        # tells the user if a previous update silently failed to stick.
+        wx.CallLater(15000, check_ytdlp_update_took_effect)
+        wx.CallLater(15500, maybe_auto_check_for_ytdlp_update)
 
     def on_menu_click(self, event):
         self.script_openInterface(None)
