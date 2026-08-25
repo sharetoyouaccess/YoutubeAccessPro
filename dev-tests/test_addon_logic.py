@@ -810,6 +810,73 @@ def test_ytdlp_update_verification_and_startup_gate():
     )
 
 
+def test_mp4_format_selector_uses_bestvideo_plus_bestaudio_merge():
+    """Round-48 regression coverage for the "cannot download MP4, MP3
+    still works" bug report. _build_format_options() used to select MP4
+    downloads with 'best[ext=mp4]/best' (or a height-constrained variant)
+    - a selector that only matches a format YouTube has *already* muxed
+    together into one file. YouTube increasingly does not offer such a
+    format at all for many videos anymore (mostly separate video-only +
+    audio-only DASH streams now), so that selector matched nothing and
+    the whole download failed - while MP3 kept working fine, since
+    'bestaudio/best' only ever needs a single audio stream, which is
+    essentially always available. The fix requests bestvideo+bestaudio
+    explicitly (yt-dlp downloads both streams and muxes them with the
+    bundled ffmpeg) with merge_output_format='mp4' so the result is
+    always a real .mp4 file regardless of what format YouTube serves."""
+    addon = _load_addon()
+
+    # MP3 (fmt_code == 1) must be completely unaffected by this fix.
+    mp3_opts = addon._build_format_options(1, None, '192')
+    check('MP3 format selector is unchanged', mp3_opts.get('format') == 'bestaudio/best')
+    check(
+        'MP3 still uses FFmpegExtractAudio with the requested bitrate',
+        mp3_opts.get('postprocessors') == [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    )
+    check(
+        'MP3 postprocessor_args still set the bitrate explicitly',
+        mp3_opts.get('postprocessor_args') == ['-b:a', '192k'],
+    )
+    check('MP3 does not force a merge output format (nothing to merge)', 'merge_output_format' not in mp3_opts)
+
+    # MP4 / "Best - automatic" quality (vid_height is None): must prefer
+    # merging separate bestvideo+bestaudio streams, not a combined-only
+    # 'best' selector, and must force the final container to mp4.
+    mp4_opts_best = addon._build_format_options(0, None, '192')
+    fmt = mp4_opts_best.get('format', '')
+    check('MP4 (best quality) format string tries bestvideo+bestaudio merging', 'bestvideo' in fmt and 'bestaudio' in fmt)
+    check(
+        'MP4 (best quality) tries the merge option before falling back to a combined-only format',
+        fmt.index('bestvideo') < fmt.index('best[ext=mp4]/best'),
+    )
+    check(
+        'MP4 forces the final container to mp4 regardless of source stream formats',
+        mp4_opts_best.get('merge_output_format') == 'mp4',
+    )
+    check('MP4 does not carry over the MP3 audio-extraction postprocessor', 'postprocessors' not in mp4_opts_best)
+
+    # MP4 with a specific height cap (e.g. 720p): the height constraint
+    # must apply to every clause of the fallback chain, not just the
+    # first one - otherwise a height-capped download could silently fall
+    # through to an uncapped 'best' at the end.
+    mp4_opts_720 = addon._build_format_options(0, 720, '192')
+    fmt720 = mp4_opts_720.get('format', '')
+    check('height-capped MP4 constrains the bestvideo clause', 'bestvideo[height<=720]' in fmt720)
+    check('height-capped MP4 constrains the combined-format fallback too', 'best[height<=720][ext=mp4]' in fmt720)
+    check(
+        "height-capped MP4 still has a final uncapped 'best' safety net so the download never matches nothing",
+        fmt720.rstrip().endswith('/best'),
+    )
+    check(
+        'height-capped MP4 also forces the final container to mp4',
+        mp4_opts_720.get('merge_output_format') == 'mp4',
+    )
+
+
 def run_all():
     tests = [
         test_normalize_playlist_url,
@@ -825,6 +892,7 @@ def run_all():
         test_cleanup_removes_canceled_jobs_leftover_raw_file,
         test_live_stream_resolution_reports_is_live_without_resolving_url,
         test_ytdlp_update_verification_and_startup_gate,
+        test_mp4_format_selector_uses_bestvideo_plus_bestaudio_merge,
     ]
     for t in tests:
         print(f'--- {t.__name__} ---')

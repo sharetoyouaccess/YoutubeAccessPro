@@ -3001,14 +3001,14 @@ def _make_postprocessor_hook(target_url, target_fmt_code):
             if status == 'started':
                 if 'FFmpegExtractAudio' in pp:
                     stage_msg = 'Processing audio file  please wait'
-                elif 'FFmpegVideoRemuxer' in pp or 'FFmpegMetadata' in pp:
+                elif 'FFmpegVideoRemuxer' in pp or 'FFmpegMetadata' in pp or 'Merger' in pp:
                     stage_msg = 'Processing video file  please wait'
                 else:
                     stage_msg = 'Processing file  please wait'
             elif status == 'finished':
                 if 'FFmpegExtractAudio' in pp:
                     stage_msg = 'Audio file ready  finalizing  please wait'
-                elif 'FFmpegVideoRemuxer' in pp or 'FFmpegMetadata' in pp:
+                elif 'FFmpegVideoRemuxer' in pp or 'FFmpegMetadata' in pp or 'Merger' in pp:
                     stage_msg = 'Video file ready  finalizing  please wait'
                 else:
                     stage_msg = 'Processing finished  please wait'
@@ -3214,6 +3214,63 @@ def start_download_playlist(window, playlist_url, playlist_title, format_overrid
     )
 
 
+def _build_format_options(fmt_code, vid_height, aud_bitrate):
+    """Return the yt-dlp opts fragment (format selector + any
+    postprocessors) for the requested download type.
+
+    fmt_code == 1 is MP3 (audio-only extraction); anything else is MP4.
+
+    The MP4 branch deliberately requests bestvideo+bestaudio rather than
+    a single already-combined 'best' format. YouTube increasingly does
+    not serve a single pre-muxed (audio+video already combined) format
+    at all for many videos - it is mostly separate video-only and
+    audio-only DASH streams now. A selector like 'best[ext=mp4]/best'
+    only matches already-combined formats, so once a video has no such
+    format left, it matches nothing and the download fails outright
+    (round 48: reported as "cannot download MP4", while MP3 - which only
+    ever needs a single audio stream via 'bestaudio/best' - kept working
+    normally, since an audio-only stream is essentially always
+    available). Requesting bestvideo+bestaudio explicitly tells yt-dlp to
+    download the two separate streams and mux them together with the
+    bundled ffmpeg, which is the standard, reliable way to get an
+    audio+video file regardless of whether YouTube still offers a
+    combined format for that particular video. merge_output_format='mp4'
+    then guarantees the final file is always .mp4 even when the source
+    streams are e.g. webm video + opus audio, matching what the rest of
+    this add-on (_predict_possible_paths(), cleanup, "Download completed"
+    messaging) already assumes the output extension will be."""
+    if fmt_code == 1:
+        return {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': aud_bitrate,
+            }],
+            'postprocessor_args': [
+                '-b:a', f'{aud_bitrate}k',
+            ],
+        }
+
+    if vid_height is None:
+        format_str = (
+            'bestvideo[ext=mp4]+bestaudio[ext=m4a]/'
+            'bestvideo+bestaudio/'
+            'best[ext=mp4]/best'
+        )
+    else:
+        format_str = (
+            f'bestvideo[height<={vid_height}][ext=mp4]+bestaudio[ext=m4a]/'
+            f'bestvideo[height<={vid_height}]+bestaudio/'
+            f'best[height<={vid_height}][ext=mp4]/'
+            f'best[height<={vid_height}]/best'
+        )
+    return {
+        'format': format_str,
+        'merge_output_format': 'mp4',
+    }
+
+
 def bg_download(url, settings, fmt_code, title):
     source_playlist = None
     subfolder_title = None
@@ -3282,27 +3339,7 @@ def bg_download(url, settings, fmt_code, title):
             'no_warnings': True,
         }
 
-        if fmt_code == 1:
-            opts.update({
-                'format': 'bestaudio/best',
-                'postprocessors': [{
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                    'preferredquality': aud_bitrate,
-                }],
-                'postprocessor_args': [
-                    '-b:a', f'{aud_bitrate}k',
-                ],
-            })
-        else:
-            if vid_height is None:
-                format_str = 'best[ext=mp4]/best'
-            else:
-                format_str = (
-                    f'best[height<={vid_height}][ext=mp4]/'
-                    f'best[height<={vid_height}]/best'
-                )
-            opts['format'] = format_str
+        opts.update(_build_format_options(fmt_code, vid_height, aud_bitrate))
 
         # pre probe playlist size when downloading whole playlist
         if is_playlist_job:
