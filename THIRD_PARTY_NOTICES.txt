@@ -57,15 +57,29 @@ license; each remains under its own upstream license.
   https://github.com/ytdl-org/youtube-dl
   License: Unlicense (public domain)
   This is not invoked directly by this add-on's own code (single-item
-  playback, and downloads, resolve and fetch media through the
-  bundled yt-dlp library above). It is required by mpv's own built-in
-  "ytdl_hook" script, which mpv uses internally to resolve each entry
-  of a playlist file (.m3u) handed to it for multi-item playback (for
-  example, playing a whole saved playlist or a channel's Subscriptions
-  list back to back). mpv looks for an external helper program named
-  "youtube-dl" next to its own executable to do this; without it
-  present, mpv cannot play any item from a playlist file at all. This
-  file must stay in this exact folder for playlist playback to work.
+  playback, and downloads, resolve and fetch media through the bundled
+  yt-dlp library above). It exists only as an external helper mpv's own
+  built-in "ytdl_hook" script looks for next to mpv's own executable,
+  used when mpv is handed a playlist file (.m3u) containing raw,
+  unresolved YouTube page links and asked to resolve each one itself.
+  As of 2026.09.10, every playlist-file call site in this add-on
+  (PlaylistTab's own saved playlists, opening a YouTube playlist from
+  search results, and opening one from a followed channel's Playlists
+  section) resolves every item through this add-on's own up-to-date
+  bundled yt-dlp first and disables ytdl_hook for that playlist file
+  (see start_resolved_playlist_playback()), after a user reported the
+  Playlists tab's Enter/F7 failing with "Playback ended" almost
+  immediately because this old (2017) helper could not reliably extract
+  current YouTube pages - then confirmed the same failure in the other
+  two call sites once asked to test them. So as of this version nothing
+  in this add-on's own code currently causes ytdl_hook to invoke this
+  helper. It is kept bundled anyway: start_playback()/_start_playback_now()
+  still support the old needs_ytdl_hook=True behavior as a fallback for
+  a URL this add-on's own resolver cannot handle, and mpv cannot play
+  any item from a playlist file at all without this helper present if
+  that fallback is ever exercised again in the future. This file must
+  stay in this exact folder for that reason, even though no current
+  feature currently depends on it.
 
 - d3dcompiler_43.dll (globalPlugins/lib/mpv)
   A Microsoft Direct3D shader-compiler redistributable used by mpv's

@@ -94,6 +94,8 @@ TH_STRINGS = {
     'Cannot create playlist file': 'ไม่สามารถสร้างไฟล์เพลย์ลิสต์ได้',
     'Cannot open browser': 'ไม่สามารถเปิดเบราว์เซอร์ได้',
     'Cannot play last item': 'ไม่สามารถเล่นรายการล่าสุดได้',
+    'Could not play this playlist': 'ไม่สามารถเล่นเพลย์ลิสต์นี้ได้',
+    'No playable items in this playlist': 'ไม่มีรายการที่เล่นได้ในเพลย์ลิสต์นี้',
     'Cannot set speed': 'ไม่สามารถตั้งความเร็วได้',
     'Cannot start player  opening in browser': 'ไม่สามารถเริ่มเครื่องเล่นได้  กำลังเปิดในเบราว์เซอร์',
     'Check for update now': 'ตรวจสอบอัปเดตตอนนี้',
@@ -278,7 +280,7 @@ TH_STRINGS = {
     'item': 'รายการ',
     'items': 'รายการ',
     'Switched the interface menu to {}': 'เปลี่ยนเมนูการใช้งานเป็นภาษา{}',
-    'Playlists help. This tab has two lists: your saved playlists, and the songs inside the one you have selected. Press Tab to move between them. Use the arrow keys to move around, and press Enter or F7 to play. On the playlist list: F1 and F2 download the whole playlist as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. On the song list: F7 plays from that song onward, Space pauses or resumes, F1 and F2 download the selected song as audio or video, F3 announces its download status, Delete removes it from the playlist after asking you to confirm, Control+C copies its link. F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าเพลย์ลิสต์ แท็บนี้มีสองรายการ คือเพลย์ลิสต์ที่บันทึกไว้ และเพลงภายในเพลย์ลิสต์ที่เลือก กด Tab เพื่อสลับไปมาระหว่างสองรายการนี้ ใช้ปุ่มลูกศรเลื่อนดู แล้วกด Enter หรือ F7 เพื่อเล่น ในรายการเพลย์ลิสต์ F1 และ F2 ดาวน์โหลดทั้งเพลย์ลิสต์เป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด R เปลี่ยนชื่อเพลย์ลิสต์ Delete ลบเพลย์ลิสต์หลังจากถามยืนยันก่อน ในรายการเพลง F7 เล่นต่อจากเพลงนั้น Space หยุดชั่วคราวหรือเล่นต่อ F1 และ F2 ดาวน์โหลดเพลงที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด Delete ลบออกจากเพลย์ลิสต์หลังจากถามยืนยันก่อน Control+C คัดลอกลิงก์ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
+    'Playlists help. This tab has two lists: your saved playlists, and the songs inside the one you have selected. Press Tab to move between them. Use the arrow keys to move around, and press Enter or F7 to play. On the playlist list: F1 and F2 download the whole playlist as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. On the song list: F7 plays from that song onward, Space or F8 pauses or resumes, F1 and F2 download the selected song as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Delete removes it from the playlist after asking you to confirm, Control+C copies its link. F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าเพลย์ลิสต์ แท็บนี้มีสองรายการ คือเพลย์ลิสต์ที่บันทึกไว้ และเพลงภายในเพลย์ลิสต์ที่เลือก กด Tab เพื่อสลับไปมาระหว่างสองรายการนี้ ใช้ปุ่มลูกศรเลื่อนดู แล้วกด Enter หรือ F7 เพื่อเล่น ในรายการเพลย์ลิสต์ F1 และ F2 ดาวน์โหลดทั้งเพลย์ลิสต์เป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด R เปลี่ยนชื่อเพลย์ลิสต์ Delete ลบเพลย์ลิสต์หลังจากถามยืนยันก่อน ในรายการเพลง F7 เล่นต่อจากเพลงนั้น Space หรือ F8 หยุดชั่วคราวหรือเล่นต่อ F1 และ F2 ดาวน์โหลดเพลงที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Delete ลบออกจากเพลย์ลิสต์หลังจากถามยืนยันก่อน Control+C คัดลอกลิงก์ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
     '  {} subscribers': '  ผู้ติดตาม {} คน',
     'Already subscribed to {}': 'ติดตามช่อง {} อยู่แล้ว',
     'Automatically play the next item when the current one ends': 'เล่นรายการถัดไปโดยอัตโนมัติเมื่อรายการปัจจุบันจบ',
@@ -317,7 +319,7 @@ TH_STRINGS = {
     '{} minutes {} seconds left on the sleep timer': 'เหลือเวลา {} นาที {} วินาที ก่อนตัวจับเวลาปิดจะทำงาน',
     '{} minutes left on the sleep timer': 'เหลือเวลา {} นาที ก่อนตัวจับเวลาปิดจะทำงาน',
     '{} seconds left on the sleep timer': 'เหลือเวลา {} วินาที ก่อนตัวจับเวลาปิดจะทำงาน',
-    'Search and Download help. Type text or paste a link in the search box, then press Enter. Press Tab to reach the search type control, and choose Video, Playlist, or Channel. Use the arrow keys to move through results, and press Enter to open or play the selected item; opening a playlist or a channel shows its videos in the same list. Press Backspace to go back after opening a playlist or a channel. F1 downloads the selected item as audio, F2 downloads it as video. F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder. F6 increases the sleep timer by 5 minutes, which stops playback automatically after a set time; Shift+F6 decreases it by 5 minutes, and Control+F6 announces exactly how much time is left. F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Shift+F7 replays the last item, Shift+F9 and Shift+F10 seek 30 seconds back or forward, Shift+F11 and Shift+F12 change the playback speed. Control+C copies the link, Control+B opens it in your browser, Control+P adds it to a playlist, Control+S subscribes to the channel of the selected item. Control+Tab switches between tabs. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าค้นหาและดาวน์โหลด พิมพ์ข้อความหรือวางลิงก์ในช่องค้นหา แล้วกด Enter กด Tab เพื่อไปที่ช่องประเภทการค้นหา แล้วเลือกวิดีโอ เพลย์ลิสต์ หรือช่อง ใช้ปุ่มลูกศรเลื่อนดูผลการค้นหา แล้วกด Enter เพื่อเปิดหรือเล่นรายการที่เลือก การเปิดเพลย์ลิสต์หรือช่องจะแสดงคลิปของมันในรายการเดียวกันนี้ กด Backspace เพื่อย้อนกลับหลังจากเปิดเพลย์ลิสต์หรือช่อง F1 ดาวน์โหลดรายการที่เลือกเป็นเสียง F2 ดาวน์โหลดเป็นวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด F6 เพิ่มเวลาของตัวจับเวลาปิดทีละ 5 นาที ซึ่งจะหยุดเล่นเพลงเองเมื่อครบเวลาที่ตั้งไว้ Shift+F6 ลดเวลานั้นลงทีละ 5 นาที และ Control+F6 แจ้งเวลาที่เหลืออยู่อย่างแม่นยำ F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Shift+F7 เล่นรายการล่าสุดซ้ำ Shift+F9 และ Shift+F10 กรอถอยหลังหรือไปข้างหน้า 30 วินาที Shift+F11 และ Shift+F12 เปลี่ยนความเร็วการเล่น Control+C คัดลอกลิงก์ Control+B เปิดในเบราว์เซอร์ Control+P เพิ่มลงเพลย์ลิสต์ Control+S ติดตามช่องของรายการที่เลือก Control+Tab สลับระหว่างแท็บ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
+    'Search and Download help. Type text or paste a link in the search box, then press Enter. Press Tab to reach the search type control, and choose Video, Playlist, Channel, Live, or Shorts. Use the arrow keys to move through results, and press Enter to open or play the selected item; opening a playlist or a channel shows its videos in the same list. Press Backspace to go back after opening a playlist or a channel. F1 downloads the selected item as audio, F2 downloads it as video. F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder. F6 increases the sleep timer by 5 minutes, which stops playback automatically after a set time; Shift+F6 decreases it by 5 minutes, and Control+F6 announces exactly how much time is left. F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Shift+F7 replays the last item, Shift+F9 and Shift+F10 seek 30 seconds back or forward, Shift+F11 and Shift+F12 change the playback speed. Control+C copies the link, Control+B opens it in your browser, Control+P adds it to a playlist, Control+S subscribes to the channel of the selected item. Control+Tab switches between tabs. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าค้นหาและดาวน์โหลด พิมพ์ข้อความหรือวางลิงก์ในช่องค้นหา แล้วกด Enter กด Tab เพื่อไปที่ช่องประเภทการค้นหา แล้วเลือกวิดีโอ เพลย์ลิสต์ ช่อง ถ่ายทอดสด หรือ Shorts ใช้ปุ่มลูกศรเลื่อนดูผลการค้นหา แล้วกด Enter เพื่อเปิดหรือเล่นรายการที่เลือก การเปิดเพลย์ลิสต์หรือช่องจะแสดงคลิปของมันในรายการเดียวกันนี้ กด Backspace เพื่อย้อนกลับหลังจากเปิดเพลย์ลิสต์หรือช่อง F1 ดาวน์โหลดรายการที่เลือกเป็นเสียง F2 ดาวน์โหลดเป็นวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด F6 เพิ่มเวลาของตัวจับเวลาปิดทีละ 5 นาที ซึ่งจะหยุดเล่นเพลงเองเมื่อครบเวลาที่ตั้งไว้ Shift+F6 ลดเวลานั้นลงทีละ 5 นาที และ Control+F6 แจ้งเวลาที่เหลืออยู่อย่างแม่นยำ F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Shift+F7 เล่นรายการล่าสุดซ้ำ Shift+F9 และ Shift+F10 กรอถอยหลังหรือไปข้างหน้า 30 วินาที Shift+F11 และ Shift+F12 เปลี่ยนความเร็วการเล่น Control+C คัดลอกลิงก์ Control+B เปิดในเบราว์เซอร์ Control+P เพิ่มลงเพลย์ลิสต์ Control+S ติดตามช่องของรายการที่เลือก Control+Tab สลับระหว่างแท็บ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
     'Settings help. Choose your download folder, then set video resolution and audio quality; both lists now read from lowest to highest quality. Choose how many search results to fetch. The checkboxes control whether player hotkeys are announced, whether they still work when this window does not have focus while something is playing, whether the next item in the list plays automatically when the current one ends, and whether you get advance warnings before the sleep timer stops playback  a spoken notice at 1 minute left and a short beep once per second for the last 10 seconds; turning this off leaves only the announcement and one longer confirmation beep the moment playback actually stops, which always happen. Export subscriptions saves your followed channels to a file you choose, and Import subscriptions adds channels from a previously exported file into your current list without removing any you already follow - useful when moving to a new computer or reinstalling NVDA. The yt-dlp library section shows the version in use, lets you turn automatic update checks on or off, and has a button to check for an update right now. Remember to press Save settings after making changes for them to take effect.': 'วิธีใช้หน้าตั้งค่า เลือกโฟลเดอร์ดาวน์โหลด จากนั้นตั้งค่าความละเอียดวิดีโอและคุณภาพเสียง ทั้งสองรายการเรียงจากคุณภาพต่ำสุดไปสูงสุด เลือกจำนวนผลการค้นหาที่ต้องการดึงมา ช่องกาเครื่องหมายควบคุมว่าจะแจ้งปุ่มลัดของเครื่องเล่นหรือไม่ ปุ่มลัดเหล่านั้นจะยังทำงานได้หรือไม่เมื่อหน้าต่างนี้ไม่ได้โฟกัสในขณะที่กำลังเล่นอยู่ จะเล่นรายการถัดไปอัตโนมัติเมื่อรายการปัจจุบันจบหรือไม่ และจะมีการเตือนล่วงหน้าก่อนตัวจับเวลาปิดจะหยุดเล่นเพลงหรือไม่ ซึ่งได้แก่เสียงพูดแจ้งเมื่อเหลือเวลา 1 นาที และเสียงบี๊บสั้นนับถอยหลังทีละวินาทีในช่วง 10 วินาทีสุดท้าย หากปิดตัวเลือกนี้จะเหลือเพียงการแจ้งเตือนด้วยเสียงพูดและเสียงบี๊บยาวหนึ่งครั้งตอนที่หยุดเล่นเพลงจริง ซึ่งจะมีเสมอไม่ว่าจะตั้งค่านี้ไว้อย่างไร ปุ่มส่งออกรายชื่อช่องที่ติดตามจะบันทึกช่องที่คุณติดตามไว้เป็นไฟล์ที่คุณเลือก ส่วนปุ่มนำเข้ารายชื่อช่องที่ติดตามจะเพิ่มช่องจากไฟล์ที่เคยส่งออกไว้เข้าไปในรายการปัจจุบันโดยไม่ลบช่องที่ติดตามอยู่แล้ว มีประโยชน์เมื่อย้ายเครื่องหรือติดตั้ง NVDA ใหม่ ส่วนไลบรารี yt-dlp แสดงเวอร์ชันที่ใช้งานอยู่ เปิดหรือปิดการตรวจสอบอัปเดตอัตโนมัติได้ และมีปุ่มสำหรับตรวจสอบอัปเดตทันที อย่าลืมกดบันทึกการตั้งค่าหลังจากเปลี่ยนแปลงเพื่อให้มีผล',
     "Subscriptions help. The channel list holds channels you have subscribed to. Press Tab to move to the right-hand list. On the channel list: press Enter to browse that channel, F1 and F2 download all of its latest videos as audio or video, F3 announces its download status, Delete unsubscribes after asking you to confirm. The right-hand list browses a selected channel the same way YouTube itself does: selecting a channel first shows its Videos, Shorts, Live, and Playlists sections - press Enter on one to open it. Opening Videos, Shorts, or Live shows that section's videos directly; opening Playlists shows the channel's own playlists, and pressing Enter on one of those opens its videos. Press Backspace to go back up one level at any point. Once a video is shown: F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Space also pauses or resumes, and Home and End turn the volume up or down. F1 and F2 download the selected video as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Control+C copies its link. To subscribe to a channel in the first place, find one of its videos on the Search and Download tab and press Control+S there. Press Control+F1 again on any tab to hear its own help.": 'วิธีใช้หน้าติดตาม รายการช่องเก็บช่องที่คุณติดตามไว้ กด Tab เพื่อไปที่รายการทางขวา ในรายการช่อง กด Enter เพื่อดูเนื้อหาของช่องนั้น F1 และ F2 ดาวน์โหลดคลิปล่าสุดทั้งหมดของช่องนั้นเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลดของช่องนั้น Delete เลิกติดตามหลังจากถามยืนยันก่อน รายการทางขวาเรียกดูช่องที่เลือกเหมือนกับ YouTube เอง เมื่อเลือกช่องจะเห็นหมวด Videos, Shorts, Live และ Playlists ก่อน กด Enter บนหมวดใดเพื่อเปิดดู การเปิด Videos, Shorts หรือ Live จะแสดงคลิปของหมวดนั้นโดยตรง ส่วนการเปิด Playlists จะแสดงเพลย์ลิสต์ของช่องนั้น กด Enter บนเพลย์ลิสต์ใดเพื่อเปิดดูคลิปในเพลย์ลิสต์นั้น กด Backspace เพื่อย้อนกลับขึ้นไปหนึ่งชั้นได้ทุกเมื่อ เมื่อเห็นคลิปแล้ว F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Space หยุดชั่วคราวหรือเล่นต่อได้เช่นกัน ส่วน Home และ End เพิ่มหรือลดเสียง F1 และ F2 ดาวน์โหลดคลิปที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Control+C คัดลอกลิงก์ ส่วนวิธีติดตามช่องในตอนแรก ให้ไปหาคลิปของช่องนั้นในแท็บค้นหาและดาวน์โหลด แล้วกด Control+S ที่คลิปนั้น กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
     'YouTube Access Pro': 'YouTube Access Pro',
@@ -437,11 +439,87 @@ addon_dir = os.path.dirname(__file__)
 lib_path = os.path.join(addon_dir, 'lib')
 ffmpeg_folder = os.path.join(lib_path, 'ffmpeg')
 ffmpeg_exe = os.path.join(ffmpeg_folder, 'ffmpeg.exe')
-config_file = os.path.join(addon_dir, 'config.json')
+
+
+def _get_persistent_data_dir():
+    """Directory for this add-on's own persistent user data (settings,
+    saved playlists, subscriptions) - deliberately NOT inside addon_dir
+    (this add-on's own installed folder).
+
+    Before this fix, config.json/playlists.json/subscriptions.json lived
+    directly under addon_dir. NVDA's add-on installer extracts an update
+    into a fresh directory and then replaces the existing installed
+    add-on folder with it, so anything living inside addon_dir that was
+    never part of the shipped .nvda-addon package - which describes all
+    three of these, since they are only ever created at runtime - is
+    wiped out on every update or reinstall. A user asked directly whether
+    updating this add-on would lose their saved playlists, subscriptions
+    and settings; without this fix it would have. The NVDA Add-on
+    Development Guide's own recommendation for exactly this situation is
+    to build a path from globalVars.appArgs.configPath (NVDA's per-user
+    config directory, e.g. %APPDATA%\\nvda on Windows) instead of the
+    add-on's own folder, since that directory is never touched by
+    installing or updating an add-on.
+    """
+    try:
+        base = globalVars.appArgs.configPath
+    except Exception:
+        base = None
+    if not base:
+        # No real NVDA environment available - this add-on's own
+        # dev-tests suite mocks/omits globalVars, and this function
+        # should not need a fuller mock just to import cleanly there.
+        # Falling back to addon_dir only affects that development/test
+        # environment, never a real NVDA install.
+        return addon_dir
+    return os.path.join(base, 'YoutubeAccessPro')
+
+
+_persistent_data_dir = _get_persistent_data_dir()
+
+
+def _migrate_legacy_data_files():
+    """One-time best-effort migration for data files a pre-fix version of
+    this add-on left directly under addon_dir, copying each into
+    _persistent_data_dir if it exists there but hasn't already been
+    migrated.
+
+    This can only help if addon_dir's old copy still exists by the time
+    this runs. Per _get_persistent_data_dir()'s docstring, updating
+    through the NVDA Add-on Store or Add-ons Manager typically replaces
+    the entire installed add-on folder as part of applying the update, so
+    for that path the old files are usually already gone before this
+    code ever gets a chance to run - there is no way to migrate data that
+    NVDA has already deleted before the add-on containing this migration
+    code was ever loaded. It is included anyway since it is harmless and
+    still helps in any case where the old folder does survive (e.g. a
+    manual/portable copy that does not delete the previous folder
+    first)."""
+    if _persistent_data_dir == addon_dir:
+        return
+    try:
+        os.makedirs(_persistent_data_dir, exist_ok=True)
+    except Exception as e:
+        log.error(f'Could not create persistent data directory {_persistent_data_dir}: {e}')
+        return
+    legacy_filenames = ('config.json', 'playlists.json', 'subscriptions.json')
+    for filename in legacy_filenames:
+        old_path = os.path.join(addon_dir, filename)
+        new_path = os.path.join(_persistent_data_dir, filename)
+        try:
+            if os.path.isfile(old_path) and not os.path.isfile(new_path):
+                shutil.copy2(old_path, new_path)
+        except Exception as e:
+            log.error(f'Could not migrate legacy data file {old_path} to {new_path}: {e}')
+
+
+_migrate_legacy_data_files()
+
+config_file = os.path.join(_persistent_data_dir, 'config.json')
 
 # renamed to avoid confusion with mpv playlist file argument name
-playlists_json_path = os.path.join(addon_dir, 'playlists.json')
-subscriptions_json_path = os.path.join(addon_dir, 'subscriptions.json')
+playlists_json_path = os.path.join(_persistent_data_dir, 'playlists.json')
+subscriptions_json_path = os.path.join(_persistent_data_dir, 'subscriptions.json')
 
 # mpv paths
 mpv_folder = os.path.join(lib_path, 'mpv')
@@ -1039,6 +1117,28 @@ def _build_watch_url_from_id(v_id):
     if not v_id:
         return ''
     return f'https://www.youtube.com/watch?v={v_id}'
+
+
+def _is_short_entry(url, duration):
+    """True if a yt-dlp flat search-result entry looks like a YouTube Short.
+
+    Used by SearchAndDownloadTab.bg_search_shorts() to filter a plain
+    ytsearch pool down to just its Shorts. Checking url first (rather than
+    duration alone, which the first version of that filter did) matters
+    because the bundled yt-dlp's own YouTube extractor
+    (extractor/youtube/_tab.py, _extract_video()) builds a Short's url as
+    .../shorts/<id> specifically when YouTube's page data tags it with the
+    SHORTS overlay style or a '/shorts/' navigation link - that is
+    YouTube's own classification, carried through regardless of whether a
+    usable duration was also extracted. A Short frequently has no duration
+    at all in search results (YouTube doesn't show a duration badge for
+    Shorts there), so duration alone missed every genuine Short - reported
+    by a user as Shorts search returning no results at all right after
+    this search type shipped. Duration is kept only as a fallback for an
+    entry that doesn't carry the /shorts/ url shape."""
+    if isinstance(url, str) and '/shorts/' in url:
+        return True
+    return isinstance(duration, (int, float)) and 0 < duration <= 60
 
 
 def _extract_channel_url(vid):
@@ -1952,6 +2052,95 @@ def start_playback(url, title, announce=True, playing_url_hint=None, playlist_fi
     t.start()
 
 
+def start_resolved_playlist_playback(items, title, origin_url, announce=True):
+    """Play a locally-saved playlist (or any other in-app multi-item list)
+    by resolving every item's URL through this add-on's own bundled
+    yt-dlp first, then handing mpv an m3u file made of already-direct
+    stream URLs with mpv's own ytdl_hook disabled for it.
+
+    This exists because the previous approach - writing the raw YouTube
+    webpage URLs straight into the m3u file and leaving ytdl_hook enabled
+    so mpv would resolve each one itself - relies on mpv's own ancient
+    bundled youtube-dl.exe helper (2017) to do that resolution, and that
+    helper generally cannot extract current YouTube pages at all. In
+    practice this meant mpv exited almost immediately with nothing
+    playable, and the watchdog loop reported "Playback ended" moments
+    later. First reported from the Playlists tab specifically (Enter/F7
+    appearing to do nothing but actually failing near-instantly); a user
+    then confirmed the same failure in the two other places in this file
+    that used to build a playlist m3u the same way
+    (SearchAndDownloadTab._open_playlist_contents_in_list()'s auto_play
+    branch, and _play_playlist_from_selection()) - all three now go
+    through this function instead. This is exactly the same class of bug
+    _start_playback_now()'s needs_ytdl_hook parameter already fixed for
+    single-item playback back in round 35 - this function applies the
+    same fix to the multi-item case, instead of only single items.
+
+    Runs entirely on a background thread so the UI is never blocked by
+    resolving several items in a row. Items that cannot be resolved, or
+    that turn out to be a currently-live broadcast (a multi-item mpv
+    playlist has no way to hand just one entry off to the browser
+    mid-playback the way single-item playback does), are skipped rather
+    than aborting the whole playlist over one bad item.
+
+    Also records state.last_play_request (normally only set by
+    start_playback(), which this function deliberately bypasses) so that
+    play_last_request() - the global "replay last item" F7/Shift+F7
+    hotkey - can still resume a playlist played this way, by re-resolving
+    the original (unresolved) item list fresh rather than replaying a
+    resolved m3u whose direct stream URLs may since have expired.
+    """
+    gen = _next_play_generation()
+
+    def _worker():
+        resolved_items = []
+        for it in items:
+            if gen != state._play_generation:
+                return
+            u = (it.get('url') or '').strip() if it else ''
+            if not u:
+                continue
+            stream_url, is_live = _resolve_playable_stream(u)
+            if is_live or not stream_url:
+                continue
+            resolved_items.append({
+                'url': stream_url,
+                'title': it.get('title') or '',
+                'duration': it.get('duration') or '',
+            })
+
+        def _apply():
+            if gen != state._play_generation:
+                return
+            if not resolved_items:
+                _ui_message(_('No playable items in this playlist'))
+                return
+            pl_file = _create_temp_m3u(resolved_items, title=title)
+            if not pl_file:
+                _ui_message(_('Cannot create playlist file'))
+                return
+            first_url = resolved_items[0].get('url') or ''
+            state.last_play_request = {
+                'url': pl_file,
+                'title': title,
+                'playing_url_hint': first_url,
+                'playlist_file': pl_file,
+                'playlist_origin_url': origin_url,
+                'resolved_playlist_source_items': items,
+            }
+            _start_playback_now(
+                pl_file, title, announce=announce,
+                playing_url_hint=first_url,
+                playlist_file=pl_file, playlist_origin_url=origin_url,
+                browser_fallback_url=first_url, needs_ytdl_hook=False,
+            )
+
+        wx.CallAfter(_apply)
+
+    t = threading.Thread(target=_worker, daemon=True)
+    t.start()
+
+
 def _start_playback_now(url, title, announce=True, playing_url_hint=None, playlist_file=None,
                          playlist_origin_url=None, browser_fallback_url=None, needs_ytdl_hook=True):
     """needs_ytdl_hook controls whether mpv's own built-in ytdl_hook script
@@ -2488,6 +2677,31 @@ def play_last_request(announce=True):
         if announce:
             _ui_message(_('No last item to play'))
         return False
+
+    # A playlist played through start_resolved_playlist_playback() (see its
+    # docstring) deliberately bypasses start_playback(), so it records this
+    # extra key itself. Replaying it means re-resolving the original,
+    # unresolved item list fresh - rather than handing start_playback() the
+    # already-resolved m3u file, which would (a) go through the
+    # needs_ytdl_hook=True path this function exists to avoid, since
+    # start_playback() has no way to know this particular m3u was already
+    # resolved, and (b) may contain direct stream URLs that have since
+    # expired.
+    resolved_source_items = state.last_play_request.get('resolved_playlist_source_items')
+    if resolved_source_items:
+        try:
+            start_resolved_playlist_playback(
+                resolved_source_items,
+                state.last_play_request.get('title') or 'Last item',
+                state.last_play_request.get('playlist_origin_url'),
+                announce=announce,
+            )
+            return True
+        except Exception as e:
+            log.error(f'Error replaying last playlist request: {e}')
+            if announce:
+                _ui_message(_('Cannot play last item'))
+            return False
 
     try:
         start_playback(
@@ -4356,7 +4570,7 @@ class SearchAndDownloadTab(wx.Panel):
 
         self.lbl_search_type = wx.StaticText(self, label=_('Search type'))
         sizer.Add(self.lbl_search_type, 0, wx.LEFT, 10)
-        self.ch_search_type = wx.Choice(self, choices=[_('Video'), _('Playlist'), _('Channel'), _('Live')])
+        self.ch_search_type = wx.Choice(self, choices=[_('Video'), _('Playlist'), _('Channel'), _('Live'), _('Shorts')])
         self.ch_search_type.SetSelection(0)
         try:
             self.ch_search_type.Bind(wx.EVT_CHOICE, self.on_search_type_choice)
@@ -4460,7 +4674,14 @@ class SearchAndDownloadTab(wx.Panel):
             self.lbl_search_prompt.SetLabel(_('Search text or paste a link'))
             self.lbl_search_type.SetLabel(_('Search type'))
             sel = self.ch_search_type.GetSelection()
-            self.ch_search_type.Set([_('Video'), _('Playlist'), _('Channel')])
+            # Must list every entry in _SEARCH_TYPE_KEYS, in the same
+            # order - this rebuild previously only listed Video/Playlist/
+            # Channel, so switching interface language (Ctrl+T) silently
+            # dropped Live (and would have dropped Shorts too) from the
+            # dropdown until the window was reopened. _selected_search_type()
+            # reads the choice by fixed index, so a mismatch here silently
+            # changes what search type a given dropdown position means.
+            self.ch_search_type.Set([_('Video'), _('Playlist'), _('Channel'), _('Live'), _('Shorts')])
             if sel != wx.NOT_FOUND:
                 self.ch_search_type.SetSelection(sel)
             self.lbl_results.SetLabel(_('Results'))
@@ -4479,7 +4700,7 @@ class SearchAndDownloadTab(wx.Panel):
         _ui_message(_(
             'Search and Download help. '
             'Type text or paste a link in the search box, then press Enter. '
-            'Press Tab to reach the search type control, and choose Video, Playlist, or Channel. '
+            'Press Tab to reach the search type control, and choose Video, Playlist, Channel, Live, or Shorts. '
             'Use the arrow keys to move through results, and press Enter to open or play the selected item; '
             'opening a playlist or a channel shows its videos in the same list. '
             'Press Backspace to go back after opening a playlist or a channel. '
@@ -4656,13 +4877,13 @@ class SearchAndDownloadTab(wx.Panel):
         event.Skip()
 
     # Fixed, language-independent identifiers matching the on-screen
-    # order of the search-type dropdown (Video, Playlist, Channel).
-    # Using GetString() here would return the currently displayed
+    # order of the search-type dropdown (Video, Playlist, Channel, Live,
+    # Shorts). Using GetString() here would return the currently displayed
     # (possibly Thai-translated) label instead of a stable value, which
     # broke Playlist-mode searches whenever the interface language was
     # switched to Thai - the search type is now read from the fixed
     # index instead, independent of the current display language.
-    _SEARCH_TYPE_KEYS = ('Video', 'Playlist', 'Channel', 'Live')
+    _SEARCH_TYPE_KEYS = ('Video', 'Playlist', 'Channel', 'Live', 'Shorts')
 
     def _selected_search_type(self):
         try:
@@ -4716,6 +4937,8 @@ class SearchAndDownloadTab(wx.Panel):
                 t = threading.Thread(target=self.bg_search_channels, args=(query, limit, token))
             elif mode == 'Live':
                 t = threading.Thread(target=self.bg_search_live, args=(query, limit, token))
+            elif mode == 'Shorts':
+                t = threading.Thread(target=self.bg_search_shorts, args=(query, limit, token))
             else:
                 t = threading.Thread(target=self.bg_search, args=(query, limit, token))
         t.daemon = True
@@ -5006,6 +5229,75 @@ class SearchAndDownloadTab(wx.Panel):
             if token != self._search_token:
                 return
             wx.CallAfter(self.show_results, final_entries, None, 'video', None)
+        except Exception as e:
+            if token != self._search_token:
+                return
+            wx.CallAfter(self.error, str(e))
+
+    def bg_search_shorts(self, query, limit, token=0):
+        """YouTube Shorts are ordinary uploaded videos, just short enough to
+        qualify - there is no separate "Shorts" search index to query, so a
+        normal ytsearch is filtered down to just the Shorts among its
+        results (mirroring bg_search_live()'s approach, for the same
+        reason: a per-candidate real extraction to check each one would be
+        slow).
+
+        The first version of this filter matched on each flat result's own
+        'duration' field alone (<= 60 seconds). That returned nothing for
+        any query, reported by a user after testing right after this
+        search type shipped: reading the bundled yt-dlp's own YouTube
+        extractor (extractor/youtube/_tab.py, _extract_video()) shows why -
+        a Short surfaced inside normal search results (YouTube often embeds
+        a horizontal "Shorts" shelf, reelShelfRenderer, among ordinary
+        results) frequently has no usable duration at all, since Shorts
+        don't display a duration badge on YouTube's own search results UI
+        the way normal videos do; only a best-effort fallback that parses a
+        screen-reader accessibility label sometimes recovers one. Filtering
+        on duration alone silently dropped every genuine Short.
+
+        What does reliably mark an entry as a Short is the very same field
+        this add-on's own bundled yt-dlp uses to build the channel Shorts
+        tab's URLs: that extractor function builds each entry's url as
+        .../shorts/<id> instead of the normal .../watch?v=<id> whenever
+        YouTube's own page data tags it with the SHORTS overlay style or a
+        '/shorts/' navigation link - i.e. YouTube's own classification, not
+        a guess. So a result is now treated as a Short if its url already
+        says /shorts/, falling back to the duration check only for the
+        (presumably rare) case where an entry both lacks that url shape and
+        does carry a short duration."""
+        try:
+            want = limit if (limit and isinstance(limit, int) and limit > 0) else 25
+            pool_size = max(want * 4, 40)
+
+            search_opts = {'quiet': True, 'extract_flat': True, 'ignoreerrors': True, 'no_warnings': True}
+            with yt_dlp.YoutubeDL(search_opts) as ydl:
+                info = ydl.extract_info(f'ytsearch{pool_size}:{query}', download=False)
+                entries = [] if info is None else list(info.get('entries', []) or [])
+
+            if token != self._search_token:
+                return
+
+            short_entries = []
+            seen = set()
+            for e in entries:
+                if not e or not isinstance(e, dict):
+                    continue
+                url = e.get('webpage_url') or e.get('url') or _build_watch_url_from_id(e.get('id'))
+                if not url or not isinstance(url, str) or url in seen:
+                    continue
+                if not _is_short_entry(url, e.get('duration')):
+                    continue
+                seen.add(url)
+                e = dict(e)
+                e['webpage_url'] = url
+                e['url'] = url
+                short_entries.append(e)
+                if len(short_entries) >= want:
+                    break
+
+            if token != self._search_token:
+                return
+            wx.CallAfter(self.show_results, short_entries, None, 'video', None)
         except Exception as e:
             if token != self._search_token:
                 return
@@ -5349,21 +5641,24 @@ class SearchAndDownloadTab(wx.Panel):
             pl_url2 = data.get('url') or pl_url
             items_list = list(data.get('items') or [])
 
-            if auto_play:
-                pl_file = _create_temp_m3u(items_list, title=pl_title)
-                if pl_file:
-                    first_url = items_list[0].get('url') if items_list else ''
-                    # Set the same track context that _play_playlist_from_selection
-                    # sets, so that if mpv's own (older, bundled) playlist resolver
-                    # stops advancing partway through the m3u, the watchdog's
-                    # auto-continue-playback fallback (which resolves each stream
-                    # through the newer bundled yt-dlp library) can still pick up
-                    # and keep going, and F9/F10 previous/next also work here.
-                    _set_track_context(items_list, 0)
-                    announce_player = self.main_window.current_settings.get('announce_player_keys', True)
-                    start_playback(pl_file, pl_title, announce=announce_player, playing_url_hint=first_url, playlist_file=pl_file, playlist_origin_url=pl_url2)
-                else:
-                    _ui_message(_('Cannot create playlist file'))
+            if auto_play and items_list:
+                # Resolved through start_resolved_playlist_playback() rather
+                # than the old _create_temp_m3u()+start_playback() combo -
+                # that old combo left raw/unresolved YouTube page links in
+                # the m3u and relied on mpv's own ytdl_hook (and its ancient
+                # bundled youtube-dl.exe) to resolve each one, which is
+                # exactly the bug already found and fixed for the Playlists
+                # tab's own saved playlists (reported as Enter/F7 announcing
+                # "Playback ended" almost immediately): a user confirmed
+                # this same failure happens here too, opening a playlist
+                # from search results/a followed channel's Playlists section
+                # with auto-play. See start_resolved_playlist_playback()'s
+                # own docstring for the full root-cause explanation.
+                _set_track_context(items_list, 0)
+                announce_player = self.main_window.current_settings.get('announce_player_keys', True)
+                start_resolved_playlist_playback(items_list, pl_title, pl_url2, announce=announce_player)
+            elif auto_play:
+                _ui_message(_('No valid url to play'))
 
             entries_for_show = []
             for it in items_list:
@@ -5666,26 +5961,22 @@ class SearchAndDownloadTab(wx.Panel):
         if not items_to_play:
             items_to_play = items_all
 
-        pl_file = _create_temp_m3u(items_to_play, title=pl_title)
-        if not pl_file:
-            _ui_message(_('Cannot create playlist file'))
-            return
-
-        first_url = items_to_play[0].get('url') or ''
-
         _set_track_context(items_to_play, 0)
 
         if is_player_running():
             stop_playback(announce=False, preserve_volume=True)
 
-        start_playback(
-            pl_file,
-            pl_title,
-            announce=announce_player,
-            playing_url_hint=first_url,
-            playlist_file=pl_file,
-            playlist_origin_url=origin,
-        )
+        # Resolved through start_resolved_playlist_playback() rather than
+        # the old _create_temp_m3u()+start_playback() combo - see that
+        # function's docstring. That old combo left raw/unresolved YouTube
+        # page links in the m3u and relied on mpv's own ytdl_hook (and its
+        # ancient bundled youtube-dl.exe) to resolve each one, the same bug
+        # already found and fixed for the Playlists tab's own saved
+        # playlists (Enter/F7 announcing "Playback ended" almost
+        # immediately) - a user confirmed this exact failure happens here
+        # too, playing a YouTube playlist opened from search results or a
+        # followed channel's Playlists section.
+        start_resolved_playlist_playback(items_to_play, pl_title, origin, announce=announce_player)
 
     def handle_player_key(self, code):
         announce_player = self.main_window.current_settings.get('announce_player_keys', True)
@@ -6048,8 +6339,9 @@ class PlaylistTab(wx.Panel):
             'On the playlist list: F1 and F2 download the whole playlist as audio or video, '
             'F3 announces its download status, F4 announces how many downloads are running, '
             'F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. '
-            'On the song list: F7 plays from that song onward, Space pauses or resumes, '
+            'On the song list: F7 plays from that song onward, Space or F8 pauses or resumes, '
             'F1 and F2 download the selected song as audio or video, F3 announces its download status, '
+            'F4 announces how many downloads are running, F5 opens the download folder, '
             'Delete removes it from the playlist after asking you to confirm, Control+C copies its link. '
             'F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. '
             'Press Control+F1 again on any tab to hear its own help.'
@@ -6489,6 +6781,23 @@ class PlaylistTab(wx.Panel):
         _ui_message(_('Removed'))
 
     def play(self, e):
+        # Wrapped in a top-level try/except so that any unexpected failure
+        # here is always audible and logged at error level, instead of
+        # potentially being silently swallowed by the caller (see
+        # MainWindow._kd_enter_backspace_tab_dispatch, which calls this via
+        # Enter and only logs its own wrapping try/except at debug level -
+        # invisible unless NVDA's log level is manually raised). A blind
+        # "nothing happened when I pressed Enter" report is exactly the
+        # symptom an uncaught exception here would produce, so from this
+        # point on that class of bug should instead announce clearly and
+        # leave a normal-level log entry to diagnose from.
+        try:
+            self._play_impl(e)
+        except Exception as ex:
+            log.error(f'PlaylistTab.play() failed: {ex}')
+            _ui_message(_('Could not play this playlist'))
+
+    def _play_impl(self, e):
         announce_player = self.main_window.current_settings.get('announce_player_keys', True)
 
         list_name = self.lb_left.GetStringSelection()
@@ -6542,25 +6851,28 @@ class PlaylistTab(wx.Panel):
             _ui_message(_('No valid url to play'))
             return
 
-        pl_file = _create_temp_m3u(items_to_play, title=list_name)
-        if not pl_file:
-            _ui_message(_('Cannot create playlist file'))
-            return
-
-        first_url = items_to_play[0].get('url') or ''
-
         _set_track_context(items_to_play, 0)
 
         if is_player_running():
             stop_playback(announce=False, preserve_volume=True)
 
-        start_playback(
-            pl_file,
+        # Saved playlists are played through start_resolved_playlist_playback()
+        # rather than the plain _create_temp_m3u()+start_playback() combo
+        # used elsewhere - see that function's docstring. In short: writing
+        # raw YouTube webpage URLs into the m3u and letting mpv's own
+        # ytdl_hook resolve them (start_playback()'s normal playlist-file
+        # behavior) relies on mpv's ancient bundled youtube-dl.exe, which
+        # cannot reliably extract current YouTube pages and made Enter/F7 on
+        # this tab announce "Playback ended" almost immediately - reported
+        # by a user, and confirmed by the fact that F9/F10 (which resolve a
+        # single URL through this add-on's own up-to-date yt-dlp instead)
+        # played the same items normally. Resolving every item ourselves
+        # first avoids mpv's ytdl_hook/youtube-dl.exe path entirely.
+        start_resolved_playlist_playback(
+            items_to_play,
             list_name,
+            origin,
             announce=announce_player,
-            playing_url_hint=first_url,
-            playlist_file=pl_file,
-            playlist_origin_url=origin,
         )
 
 

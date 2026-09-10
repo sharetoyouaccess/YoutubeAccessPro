@@ -67,7 +67,7 @@
 <!-- ======================== ภาษาไทย ======================== -->
 
 <h1 id="th-top">คู่มือการใช้งาน YouTube Access Pro สำหรับ NVDA</h1>
-<p class="meta">เวอร์ชัน 2026.09.02 &nbsp;·&nbsp; ผู้พัฒนา: Peem Narkkhwan</p>
+<p class="meta">เวอร์ชัน 2026.09.10 &nbsp;·&nbsp; ผู้พัฒนา: Peem Narkkhwan</p>
 
 <p class="intro">YouTube Access Pro เป็นโปรแกรมเสริมสำหรับ NVDA ที่ให้ผู้ใช้สามารถค้นหา เล่น และดาวน์โหลดเนื้อหาจาก YouTube ได้อย่างเต็มรูปแบบ ควบคุมการทำงานทั้งหมดด้วยแป้นพิมพ์โดยไม่ต้องพึ่งเมาส์ พร้อมรองรับการอ่านสถานะโดย NVDA ตลอดการใช้งาน</p>
 
@@ -131,6 +131,7 @@
   <li><strong>Playlist</strong> — ค้นหาเพลย์ลิสต์</li>
   <li><strong>Channel</strong> — ค้นหาช่องโดยตรงจากชื่อ โดยไม่ต้องค้นหาวิดีโอของช่องนั้นก่อน</li>
   <li><strong>Live</strong> — ค้นหาเฉพาะวิดีโอที่กำลังถ่ายทอดสดอยู่ในขณะนั้นตามคำค้นหา</li>
+  <li><strong>Shorts</strong> — ค้นหาเฉพาะคลิปสั้น (Shorts) ตามคำค้นหา โดยไม่ต้องติดตามช่องก่อน</li>
 </ul>
 <p>เมื่อโฟกัสอยู่ที่ตัวเลือก Search type สามารถกด <kbd>Enter</kbd> เพื่อเริ่มค้นหาได้ทันที</p>
 <div class="note">การเปิดผลลัพธ์ที่เป็นช่อง (ทั้งจากการค้นหาแบบ Channel และจากการเลือกชื่อผู้อัปโหลดในผลลัพธ์อื่น) จะแสดงรายการคลิปของช่องนั้นในลิสต์เดียวกัน เช่นเดียวกับการเปิดเพลย์ลิสต์ กด <kbd>Ctrl+S</kbd> ที่แถวของช่องเพื่อติดตามช่องนั้นได้ทันที โดยไม่จำเป็นต้องเปิดดูคลิปก่อน</div>
@@ -303,6 +304,7 @@
   <tr><td>F9/F10 ไม่ทำงานเมื่อใช้แบบทั่วทั้งระบบ</td><td>เปิดตัวเลือก "Enable global player hotkeys" ในแท็บ Settings</td></tr>
   <tr><td>ต้องการกลับไปยังช่องค้นหาอย่างรวดเร็ว</td><td>กด <kbd>Ctrl+F</kbd> จากตำแหน่งใดก็ได้ในหน้าต่าง</td></tr>
   <tr><td>ต้องการทราบจำนวนการดาวน์โหลดที่กำลังทำงาน</td><td>กด <kbd>F4</kbd> เพื่ออ่านจำนวนการดาวน์โหลดทั้งหมด หรือ <kbd>F3</kbd> บนรายการที่ต้องการเพื่ออ่านสถานะของรายการนั้นโดยเฉพาะ</td></tr>
+  <tr><td>กังวลว่าเพลย์ลิสต์ ช่องที่ติดตาม หรือการตั้งค่าจะหายไปตอนอัปเดตโปรแกรมเสริม</td><td>ไม่ต้องกังวล ตั้งแต่เวอร์ชันนี้เป็นต้นไป ข้อมูลเหล่านี้จะถูกเก็บแยกไว้นอกโฟลเดอร์ของโปรแกรมเสริมเอง (ในโฟลเดอร์การตั้งค่าของ NVDA) การอัปเดตหรือติดตั้งใหม่จึงไม่ลบข้อมูลเหล่านี้ทิ้งอีกต่อไป</td></tr>
 </table>
 
 <hr class="section-divider">
@@ -310,7 +312,7 @@
 <!-- ======================== ENGLISH ======================== -->
 
 <h1 id="en-top">User Guide — YouTube Access Pro Add-on for NVDA</h1>
-<p class="meta">Version 2026.09.02 &nbsp;·&nbsp; Author: Peem Narkkhwan</p>
+<p class="meta">Version 2026.09.10 &nbsp;·&nbsp; Author: Peem Narkkhwan</p>
 
 <p class="intro">YouTube Access Pro is an NVDA add-on that gives users full access to YouTube: searching, playing, and downloading content entirely from the keyboard, with complete NVDA speech feedback throughout.</p>
 
@@ -374,6 +376,7 @@
   <li><strong>Playlist</strong> — search for playlists</li>
   <li><strong>Channel</strong> — search for a channel directly by name, without first finding one of its videos</li>
   <li><strong>Live</strong> — search only for videos that are currently live-streaming, matching the search text</li>
+  <li><strong>Shorts</strong> — search only for Shorts (short-form clips) matching the search text, without first following a channel</li>
 </ul>
 <p>When focus is on the Search type control, press <kbd>Enter</kbd> to search immediately.</p>
 <div class="note">Opening a channel result — whether from a Channel search or from an uploader name elsewhere — shows that channel's videos in the same list, the same way opening a playlist does. Press <kbd>Ctrl+S</kbd> on a channel row to subscribe to it immediately, without opening its videos first.</div>
@@ -546,9 +549,10 @@
   <tr><td>F9/F10 do not work as global shortcuts</td><td>Turn on "Enable global player hotkeys" in Settings</td></tr>
   <tr><td>Need to jump to the search field quickly</td><td>Press <kbd>Ctrl+F</kbd> from anywhere in the window</td></tr>
   <tr><td>Want to check how many downloads are active</td><td>Press <kbd>F4</kbd> for the total active count, or <kbd>F3</kbd> on a specific item for its own status</td></tr>
+  <tr><td>Worried that playlists, subscriptions, or settings will be lost when updating the add-on</td><td>No need to worry — as of this version, this data is stored outside the add-on's own folder (inside NVDA's own configuration folder), so updating or reinstalling no longer erases it</td></tr>
 </table>
 
-<p class="footer-note">YouTube Access Pro v2026.09.02</p>
+<p class="footer-note">YouTube Access Pro v2026.09.10</p>
 
 </body>
 </html>

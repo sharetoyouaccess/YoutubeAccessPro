@@ -688,6 +688,137 @@ def test_live_stream_resolution_reports_is_live_without_resolving_url():
     check('is_live is False for the requested_formats fallback case too', is_live_fmt is False)
 
 
+def test_start_resolved_playlist_playback_pre_resolves_urls_and_skips_unresolvable():
+    """Regression coverage for the Playlists tab's Enter/F7 "Playback ended"
+    bug (user tested 2026-09-10 with a 3-item saved playlist): pressing
+    Enter or F7 announced "Playback ended" almost immediately, while F9/F10
+    (track_next/track_prev) played the very same items normally, and a
+    second Enter/F7 afterward announced "Playing" as if nothing were wrong.
+
+    Root cause: PlaylistTab.play() built an m3u file out of the raw,
+    unresolved YouTube watch-page URLs and handed it to start_playback(),
+    which hardcodes needs_ytdl_hook=True for any playlist file - leaving
+    mpv's own built-in ytdl_hook script enabled. That script falls back to
+    mpv's ancient bundled youtube-dl.exe (2017) to resolve each raw URL
+    itself, which cannot reliably extract modern YouTube pages, so mpv
+    exited almost immediately and the watchdog announced "Playback ended"
+    moments later. F9/F10 bypass the m3u entirely and call start_playback()
+    on a single raw URL, which correctly resolves it through this add-on's
+    own up-to-date bundled yt-dlp first (needs_ytdl_hook=False) - exactly
+    why F9/F10 "worked" and Enter/F7 did not.
+
+    start_resolved_playlist_playback() (now used by PlaylistTab.play()
+    instead of the raw m3u approach) fixes this by resolving every item
+    through _resolve_playable_stream() up front, building the m3u from the
+    resolved direct-stream URLs, and calling _start_playback_now() with
+    needs_ytdl_hook=False so mpv's own ytdl_hook/youtube-dl.exe never
+    touches it. A currently-live item or one that fails to resolve is
+    skipped rather than aborting the whole playlist."""
+    addon = _load_addon()
+    addon.yt_dlp.reset()
+
+    url_ok = 'https://www.youtube.com/watch?v=ok1'
+    url_live = 'https://www.youtube.com/watch?v=live1'
+    url_bad = 'https://www.youtube.com/watch?v=bad1'
+    addon.yt_dlp.set_fake_video_info(url_ok, {
+        'is_live': False,
+        'url': 'https://rr-vod.googlevideo.com/videoplayback?id=ok1',
+    })
+    addon.yt_dlp.set_fake_video_info(url_live, {'is_live': True})
+    # url_bad is deliberately left unregistered - the fake yt_dlp's
+    # extract_info() then returns an empty-entries dict with no 'url',
+    # simulating an item _resolve_playable_stream() could not extract
+    # anything playable for.
+
+    captured = {}
+    done = threading.Event()
+
+    def _fake_start_playback_now(url, title, **kwargs):
+        captured['url'] = url
+        captured['title'] = title
+        captured['kwargs'] = kwargs
+        done.set()
+
+    addon._start_playback_now = _fake_start_playback_now
+
+    items = [
+        {'url': url_ok, 'title': 'Good item', 'duration': 100},
+        {'url': url_live, 'title': 'Live item', 'duration': ''},
+        {'url': url_bad, 'title': 'Bad item', 'duration': ''},
+    ]
+    addon.start_resolved_playlist_playback(
+        items, 'My Playlist', 'userplaylist::My Playlist', announce=True,
+    )
+
+    finished = done.wait(timeout=5)
+    check('start_resolved_playlist_playback finishes and calls _start_playback_now', finished)
+    check(
+        'ytdl_hook is disabled since this add-on already resolved every url itself',
+        captured.get('kwargs', {}).get('needs_ytdl_hook') is False,
+    )
+    check(
+        'playlist_origin_url is passed through so F9/F10 and re-pressing play still work',
+        captured.get('kwargs', {}).get('playlist_origin_url') == 'userplaylist::My Playlist',
+    )
+    pl_file = captured.get('url')
+    check('a playlist file was created and handed to the player (not a raw item url)',
+          bool(pl_file) and pl_file != url_ok and os.path.isfile(pl_file))
+    with open(pl_file, encoding='utf-8') as f:
+        content = f.read()
+    check(
+        "the m3u contains the item's resolved direct-stream url",
+        'rr-vod.googlevideo.com/videoplayback?id=ok1' in content,
+    )
+    check(
+        'the m3u does NOT contain the raw watch-page url (that is exactly what let ytdl_hook '
+        'and the ancient bundled youtube-dl.exe fail on it before)',
+        url_ok not in content,
+    )
+    check('the currently-live item was skipped rather than aborting the whole playlist', 'live1' not in content)
+    check('the unresolvable item was skipped too', 'bad1' not in content)
+    try:
+        os.remove(pl_file)
+    except Exception:
+        pass
+
+
+def test_start_resolved_playlist_playback_announces_when_nothing_resolves():
+    """Covers the empty-resolved_items branch of
+    start_resolved_playlist_playback(): if every item in the playlist fails
+    to resolve (e.g. every item is a currently-live stream), the user should
+    hear a clear "No playable items in this playlist" message instead of
+    silence or the player starting with nothing playable in it."""
+    addon = _load_addon()
+    addon.yt_dlp.reset()
+
+    url_live = 'https://www.youtube.com/watch?v=onlylive'
+    addon.yt_dlp.set_fake_video_info(url_live, {'is_live': True})
+
+    messages = []
+    done = threading.Event()
+
+    def _fake_ui_message(msg):
+        messages.append(msg)
+        done.set()
+
+    addon._ui_message = _fake_ui_message
+    called = {'start_playback_now': False}
+    addon._start_playback_now = lambda *a, **k: called.__setitem__('start_playback_now', True)
+
+    items = [{'url': url_live, 'title': 'Only live item', 'duration': ''}]
+    addon.start_resolved_playlist_playback(
+        items, 'Live Only', 'userplaylist::Live Only', announce=True,
+    )
+
+    finished = done.wait(timeout=5)
+    check('a message is announced even when nothing in the playlist could be resolved', finished)
+    check(
+        'the message clearly says there is nothing playable, not a silent no-op',
+        messages == ['No playable items in this playlist'],
+    )
+    check('the player is never started when there is nothing playable to give it', called['start_playback_now'] is False)
+
+
 def test_ytdlp_update_verification_and_startup_gate():
     """Round-47 regression coverage for the yt-dlp updater bug report
     (user tested 2026-08-20: auto-update checkbox on but not checking, and
@@ -877,6 +1008,234 @@ def test_mp4_format_selector_uses_bestvideo_plus_bestaudio_merge():
     )
 
 
+def test_search_type_keys_include_shorts():
+    """Round 49: added 'Shorts' as a fifth Search and Download search type,
+    alongside the existing Video/Playlist/Channel/Live. _SEARCH_TYPE_KEYS is
+    a plain class attribute (a tuple), not something that needs a real wx
+    widget to exist or a method to be called, so it can be checked directly
+    without violating this suite's "no wx.Panel-derived class" scope note -
+    only the value of the attribute is inspected here, nothing is
+    instantiated or invoked.
+
+    This guards exactly the bug class already found and fixed in this same
+    round: _SEARCH_TYPE_KEYS is read by _selected_search_type() using a
+    dropdown's numeric index, so if this tuple's order or length ever
+    drifts from the wx.Choice's actual on-screen option order (built
+    separately in __init__ and rebuilt again in refresh_language() on every
+    language switch), the search type the dropdown reports back no longer
+    matches what the user actually selected - which is exactly what had
+    silently happened to 'Live' here until this round, since
+    refresh_language() had never been updated to include it after it was
+    added."""
+    addon, _tmp = _load_addon_with_temp_storage()
+
+    keys = addon.SearchAndDownloadTab._SEARCH_TYPE_KEYS
+    check(
+        'search type keys are exactly Video/Playlist/Channel/Live/Shorts in that order',
+        tuple(keys) == ('Video', 'Playlist', 'Channel', 'Live', 'Shorts'),
+    )
+
+
+def test_is_short_entry_prefers_shorts_url_over_duration():
+    """Regression coverage for the Shorts search type returning zero
+    results for every query (reported by a user right after it shipped).
+
+    bg_search_shorts()'s first version filtered a plain ytsearch pool down
+    to Shorts using only each flat entry's 'duration' field (<= 60
+    seconds). Reading the bundled yt-dlp's own YouTube extractor
+    (extractor/youtube/_tab.py, _extract_video()) shows this can never work
+    reliably: that function builds a Short's url as .../shorts/<id>
+    whenever YouTube's page data tags the entry with the SHORTS overlay
+    style or a '/shorts/' navigation link - its own, reliable
+    classification - but a Short surfaced inside normal search results
+    frequently has no duration at all, since YouTube's search results UI
+    doesn't show a duration badge for Shorts the way it does for normal
+    videos. Filtering on duration alone therefore silently dropped every
+    genuine Short, no matter the query.
+
+    _is_short_entry() fixes this by checking for '/shorts/' in the entry's
+    url first, only falling back to the duration check when that url shape
+    isn't present."""
+    addon = _load_addon()
+
+    check(
+        'a /shorts/ url is recognized as a Short even with no duration at all',
+        addon._is_short_entry('https://www.youtube.com/shorts/abc123', None) is True,
+    )
+    check(
+        'a /shorts/ url is recognized as a Short even if duration looks like a long video '
+        '(the url is YouTube\'s own classification and should win)',
+        addon._is_short_entry('https://www.youtube.com/shorts/abc123', 600) is True,
+    )
+    check(
+        'a normal /watch?v= url with a short duration is still recognized via the duration fallback',
+        addon._is_short_entry('https://www.youtube.com/watch?v=abc123', 45) is True,
+    )
+    check(
+        'a normal /watch?v= url with a long duration and no shorts url is not treated as a Short',
+        addon._is_short_entry('https://www.youtube.com/watch?v=abc123', 600) is False,
+    )
+    check(
+        'a normal /watch?v= url with no duration at all (the original failure mode) is not a Short',
+        addon._is_short_entry('https://www.youtube.com/watch?v=abc123', None) is False,
+    )
+    check(
+        'a zero or negative duration never counts, even without a shorts url',
+        addon._is_short_entry('https://www.youtube.com/watch?v=abc123', 0) is False,
+    )
+
+
+def test_play_last_request_replays_resolved_playlist_by_re_resolving():
+    """Regression coverage for a gap found while fixing the Playlists tab's
+    Enter/F7 "Playback ended" bug: start_resolved_playlist_playback()
+    deliberately calls _start_playback_now() directly instead of going
+    through start_playback(), to bypass start_playback()'s hardcoded
+    needs_ytdl_hook=True for playlist files. But state.last_play_request -
+    used by play_last_request(), the global "replay last item" F7/Shift+F7
+    hotkey - used to only ever get set inside start_playback() itself. Left
+    unfixed, that would mean pressing "replay last item" after playing a
+    saved playlist (or a playlist opened from search results/a followed
+    channel) either said "No last item to play" or replayed something
+    stale instead of the playlist that was actually just playing.
+
+    start_resolved_playlist_playback() now records
+    resolved_playlist_source_items (the ORIGINAL, unresolved item list) in
+    state.last_play_request, and play_last_request() replays a playlist by
+    calling start_resolved_playlist_playback() again with that original
+    list - re-resolving fresh, rather than replaying the previous run's
+    already-resolved m3u file through start_playback() (which would both
+    reintroduce the needs_ytdl_hook=True bug and risk replaying expired
+    direct stream URLs)."""
+    addon = _load_addon()
+    addon.yt_dlp.reset()
+
+    url_ok = 'https://www.youtube.com/watch?v=replay1'
+    addon.yt_dlp.set_fake_video_info(url_ok, {
+        'is_live': False,
+        'url': 'https://rr-vod.googlevideo.com/videoplayback?id=replay1',
+    })
+
+    captured = []
+    done = threading.Event()
+
+    def _fake_start_playback_now(url, title, **kwargs):
+        captured.append({'url': url, 'title': title, 'kwargs': kwargs})
+        done.set()
+
+    addon._start_playback_now = _fake_start_playback_now
+
+    items = [{'url': url_ok, 'title': 'Replay item', 'duration': 30}]
+    addon.start_resolved_playlist_playback(
+        items, 'Replay Playlist', 'userplaylist::Replay Playlist', announce=True,
+    )
+    finished = done.wait(timeout=5)
+    check('initial playback via start_resolved_playlist_playback completes', finished)
+
+    check(
+        'state.last_play_request records the original (unresolved) source items for replay',
+        addon.state.last_play_request.get('resolved_playlist_source_items') == items,
+    )
+    check(
+        'state.last_play_request records the playlist origin url too',
+        addon.state.last_play_request.get('playlist_origin_url') == 'userplaylist::Replay Playlist',
+    )
+
+    # Now simulate "replay last item": a second, independent call captured
+    # separately, proving play_last_request() re-invokes
+    # start_resolved_playlist_playback() (re-resolving) rather than calling
+    # start_playback() directly with the stale resolved m3u path.
+    captured.clear()
+    done.clear()
+    result = addon.play_last_request(announce=True)
+    finished2 = done.wait(timeout=5)
+    check('play_last_request() reports success for a replayed playlist', result is True)
+    check('play_last_request() re-resolves and starts playback again', finished2)
+    check(
+        'the replayed playback still has ytdl_hook disabled (still going through the fixed path)',
+        bool(captured) and captured[0]['kwargs'].get('needs_ytdl_hook') is False,
+    )
+
+
+def test_persistent_data_dir_survives_reinstall_and_migrates_legacy_files():
+    """Regression coverage for a user's question about whether updating or
+    reinstalling this add-on would delete their saved playlists,
+    subscriptions and settings.
+
+    Before this fix, config.json/playlists.json/subscriptions.json lived
+    directly under addon_dir (this add-on's own installed folder).
+    Updating an NVDA add-on replaces the entire installed folder with the
+    freshly-extracted package, so any file there that was never part of
+    the shipped .nvda-addon - which describes all three of these, since
+    they are only ever created at runtime - is wiped out on every update
+    or reinstall. _get_persistent_data_dir() now builds a path from
+    globalVars.appArgs.configPath instead (NVDA's own per-user config
+    directory, which an update never touches), and
+    _migrate_legacy_data_files() best-effort copies any data left behind
+    by a pre-fix version into the new location the first time this runs
+    after such an update (only where the old folder still exists to copy
+    from - see that function's own docstring for why this cannot help
+    with the specific update that introduces this fix, only ones after
+    it)."""
+    addon = _load_addon()
+
+    class _FakeAppArgs:
+        configPath = None
+
+    class _FakeGlobalVars:
+        appArgs = _FakeAppArgs()
+
+    tmp_config_root = tempfile.mkdtemp(prefix='ytdlp_addon_test_configpath_')
+    _FakeAppArgs.configPath = tmp_config_root
+
+    addon.globalVars = _FakeGlobalVars()
+    data_dir = addon._get_persistent_data_dir()
+    check(
+        'the persistent data dir is built under globalVars.appArgs.configPath, not addon_dir',
+        data_dir == os.path.join(tmp_config_root, 'YoutubeAccessPro'),
+    )
+    check(
+        "the persistent data dir is NOT inside this add-on's own installed folder",
+        data_dir != addon.addon_dir,
+    )
+
+    # Simulate a pre-fix installation: legacy data files sitting directly
+    # under a fake addon_dir, as every version before this fix wrote them.
+    fake_addon_dir = tempfile.mkdtemp(prefix='ytdlp_addon_test_legacy_addondir_')
+    with open(os.path.join(fake_addon_dir, 'config.json'), 'w', encoding='utf-8') as f:
+        f.write('{"ui_language": "th"}')
+    with open(os.path.join(fake_addon_dir, 'playlists.json'), 'w', encoding='utf-8') as f:
+        f.write('{"My Playlist": {"items": []}}')
+    # subscriptions.json is deliberately left out, to confirm migration
+    # only copies files that actually exist rather than erroring on one
+    # that doesn't.
+
+    addon.addon_dir = fake_addon_dir
+    addon._persistent_data_dir = data_dir
+    addon._migrate_legacy_data_files()
+
+    check('the persistent data directory itself gets created', os.path.isdir(data_dir))
+    migrated_config = os.path.join(data_dir, 'config.json')
+    migrated_playlists = os.path.join(data_dir, 'playlists.json')
+    migrated_subs = os.path.join(data_dir, 'subscriptions.json')
+    check('an existing legacy config.json is migrated', os.path.isfile(migrated_config))
+    check('an existing legacy playlists.json is migrated', os.path.isfile(migrated_playlists))
+    check('a legacy file that never existed is not created out of nowhere', not os.path.isfile(migrated_subs))
+    with open(migrated_config, encoding='utf-8') as f:
+        check('the migrated config.json content matches the original', f.read() == '{"ui_language": "th"}')
+
+    # A second migration pass (e.g. next NVDA startup) must never clobber
+    # data the user has since saved through the new location with
+    # whatever was left behind in the old one.
+    with open(migrated_config, 'w', encoding='utf-8') as f:
+        f.write('{"ui_language": "en"}')
+    addon._migrate_legacy_data_files()
+    with open(migrated_config, encoding='utf-8') as f:
+        check(
+            'migration never overwrites a file that already exists at the new location',
+            f.read() == '{"ui_language": "en"}',
+        )
+
+
 def run_all():
     tests = [
         test_normalize_playlist_url,
@@ -893,6 +1252,12 @@ def run_all():
         test_live_stream_resolution_reports_is_live_without_resolving_url,
         test_ytdlp_update_verification_and_startup_gate,
         test_mp4_format_selector_uses_bestvideo_plus_bestaudio_merge,
+        test_search_type_keys_include_shorts,
+        test_start_resolved_playlist_playback_pre_resolves_urls_and_skips_unresolvable,
+        test_start_resolved_playlist_playback_announces_when_nothing_resolves,
+        test_is_short_entry_prefers_shorts_url_over_duration,
+        test_play_last_request_replays_resolved_playlist_by_re_resolving,
+        test_persistent_data_dir_survives_reinstall_and_migrates_legacy_files,
     ]
     for t in tests:
         print(f'--- {t.__name__} ---')

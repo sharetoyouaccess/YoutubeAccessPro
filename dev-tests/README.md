@@ -68,6 +68,47 @@ This folder finds `globalPlugins/init.py` to test automatically, in order:
   actually gets deleted, that a sibling format's still-active file for the
   same URL is never touched, and that the non-aggressive (success-path)
   default still leaves ordinary tracked files alone
+- `_resolve_playable_stream`'s `(stream_url, is_live)` tuple - a currently-live
+  broadcast is never resolved to a URL (only reported as live so the caller
+  routes it to the browser), a normal video and a finished stream's VOD
+  replay are still resolved normally, and the `requested_formats` fallback
+  path works too
+- the yt-dlp auto-updater's every-startup check gate and its post-restart
+  self-verification warning for an update that reported success but didn't
+  actually take effect
+- the MP4 download format selector requesting best video + best audio
+  separately and muxing them, instead of only matching an already-combined
+  format (which YouTube increasingly doesn't offer)
+- `SearchAndDownloadTab._SEARCH_TYPE_KEYS` staying in sync with the actual
+  on-screen dropdown order (Video/Playlist/Channel/Live/Shorts) - guards the
+  class of bug where `refresh_language()`'s rebuilt choice list silently
+  fell out of sync with `__init__`'s
+- `start_resolved_playlist_playback` - every way of playing a playlist
+  (the Playlists tab's own saved playlists, opening a YouTube playlist
+  from search results, and opening one from a followed channel's
+  Playlists section) resolving every item's URL through this add-on's own
+  yt-dlp before building the player's playlist file (instead of leaving
+  mpv's own ytdl_hook to resolve raw YouTube page links, which relies on
+  an ancient bundled `youtube-dl.exe` that fails on current YouTube
+  pages), skipping live/unresolvable items, and announcing clearly when
+  nothing in a playlist could be resolved at all
+- `play_last_request` replaying a playlist played through
+  `start_resolved_playlist_playback` by re-resolving the original item
+  list fresh, rather than replaying a previous run's already-resolved
+  (and possibly by-then-expired) stream URLs through the old
+  `ytdl_hook`-enabled path
+- `_is_short_entry` - the Shorts search type recognizing a result via its
+  `/shorts/` URL (YouTube's own classification) rather than relying on a
+  `duration` field that real Shorts frequently don't carry in search
+  results, which is why an earlier version of Shorts search returned no
+  results at all
+- `_get_persistent_data_dir` / `_migrate_legacy_data_files` - saved
+  settings, playlists, and subscriptions being stored under NVDA's own
+  per-user config directory (`globalVars.appArgs.configPath`) instead of
+  inside this add-on's own installed folder, which NVDA's installer
+  replaces on every update; and a pre-fix version's leftover data files
+  getting copied into the new location the first time this runs, without
+  ever overwriting data already saved at the new location
 
 ## How the mocking works
 
