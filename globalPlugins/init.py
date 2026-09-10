@@ -1,6 +1,6 @@
 # YouTube Access Pro for NVDA
 # Author  Peem Narkkhwan <sharetoyouaccess@gmail.com>
-# Version  2026.07.19
+# Version  2026.09.11
 # Description  Global plugin for searching, downloading and playing YouTube videos and audio using yt-dlp
 
 import globalPluginHandler
@@ -280,7 +280,7 @@ TH_STRINGS = {
     'item': 'รายการ',
     'items': 'รายการ',
     'Switched the interface menu to {}': 'เปลี่ยนเมนูการใช้งานเป็นภาษา{}',
-    'Playlists help. This tab has two lists: your saved playlists, and the songs inside the one you have selected. Press Tab to move between them. Use the arrow keys to move around, and press Enter or F7 to play. On the playlist list: F1 and F2 download the whole playlist as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. On the song list: F7 plays from that song onward, Space or F8 pauses or resumes, F1 and F2 download the selected song as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Delete removes it from the playlist after asking you to confirm, Control+C copies its link. F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าเพลย์ลิสต์ แท็บนี้มีสองรายการ คือเพลย์ลิสต์ที่บันทึกไว้ และเพลงภายในเพลย์ลิสต์ที่เลือก กด Tab เพื่อสลับไปมาระหว่างสองรายการนี้ ใช้ปุ่มลูกศรเลื่อนดู แล้วกด Enter หรือ F7 เพื่อเล่น ในรายการเพลย์ลิสต์ F1 และ F2 ดาวน์โหลดทั้งเพลย์ลิสต์เป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด R เปลี่ยนชื่อเพลย์ลิสต์ Delete ลบเพลย์ลิสต์หลังจากถามยืนยันก่อน ในรายการเพลง F7 เล่นต่อจากเพลงนั้น Space หรือ F8 หยุดชั่วคราวหรือเล่นต่อ F1 และ F2 ดาวน์โหลดเพลงที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Delete ลบออกจากเพลย์ลิสต์หลังจากถามยืนยันก่อน Control+C คัดลอกลิงก์ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
+    'Playlists help. This tab has two lists: your saved playlists, and the songs inside the one you have selected. Press Tab to move between them. Use the arrow keys to move around, and press Enter or F7 to play. On the playlist list: F1 and F2 download the whole playlist as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. On the song list: F7 plays from that song onward, Space or F8 pauses or resumes, F1 and F2 download the selected song as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Delete removes it from the playlist after asking you to confirm, Control+C copies its link. F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Press Tab from the playlist list to reach two buttons: Export playlists saves all of your playlists to a file you choose, and Import playlists adds playlists from a previously exported file into your current list without overwriting any playlist you already have - useful when moving to a new computer or reinstalling NVDA. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าเพลย์ลิสต์ แท็บนี้มีสองรายการ คือเพลย์ลิสต์ที่บันทึกไว้ และเพลงภายในเพลย์ลิสต์ที่เลือก กด Tab เพื่อสลับไปมาระหว่างสองรายการนี้ ใช้ปุ่มลูกศรเลื่อนดู แล้วกด Enter หรือ F7 เพื่อเล่น ในรายการเพลย์ลิสต์ F1 และ F2 ดาวน์โหลดทั้งเพลย์ลิสต์เป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด R เปลี่ยนชื่อเพลย์ลิสต์ Delete ลบเพลย์ลิสต์หลังจากถามยืนยันก่อน ในรายการเพลง F7 เล่นต่อจากเพลงนั้น Space หรือ F8 หยุดชั่วคราวหรือเล่นต่อ F1 และ F2 ดาวน์โหลดเพลงที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Delete ลบออกจากเพลย์ลิสต์หลังจากถามยืนยันก่อน Control+C คัดลอกลิงก์ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง กด Tab จากรายการเพลย์ลิสต์เพื่อไปที่ปุ่มสองปุ่ม คือ Export playlists บันทึกเพลย์ลิสต์ทั้งหมดของคุณเป็นไฟล์ที่คุณเลือก และ Import playlists เพิ่มเพลย์ลิสต์จากไฟล์ที่เคยส่งออกไว้เข้าสู่รายการปัจจุบันโดยไม่เขียนทับเพลย์ลิสต์ที่มีอยู่แล้ว มีประโยชน์เมื่อย้ายเครื่องหรือติดตั้ง NVDA ใหม่ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
     '  {} subscribers': '  ผู้ติดตาม {} คน',
     'Already subscribed to {}': 'ติดตามช่อง {} อยู่แล้ว',
     'Automatically play the next item when the current one ends': 'เล่นรายการถัดไปโดยอัตโนมัติเมื่อรายการปัจจุบันจบ',
@@ -308,7 +308,6 @@ TH_STRINGS = {
     'Subscribed channels': 'ช่องที่ติดตาม',
     'Subscribed to {}': 'ติดตามช่อง {} แล้ว',
     'Subscriptions': 'ติดตาม',
-    'Subscriptions backup': 'สำรองรายชื่อช่องที่ติดตาม',
     'Unknown channel': 'ไม่ทราบชื่อช่อง',
     'Unsubscribe  Del': 'เลิกติดตาม  Del',
     'Unsubscribe from {}': 'เลิกติดตามช่อง {} ใช่หรือไม่',
@@ -316,12 +315,17 @@ TH_STRINGS = {
     'channel link': 'ลิงก์ช่อง',
     'Exported {} channels': 'ส่งออกช่อง {} ช่องแล้ว',
     'Imported {} new channels': 'นำเข้าช่องใหม่ {} ช่องแล้ว',
+    'Export playlists': 'ส่งออกเพลย์ลิสต์',
+    'Import playlists': 'นำเข้าเพลย์ลิสต์',
+    'No playlists to export': 'ยังไม่มีเพลย์ลิสต์ให้ส่งออก',
+    'Exported {} playlists': 'ส่งออกเพลย์ลิสต์ {} รายการแล้ว',
+    'Imported {} new playlists': 'นำเข้าเพลย์ลิสต์ใหม่ {} รายการแล้ว',
     '{} minutes {} seconds left on the sleep timer': 'เหลือเวลา {} นาที {} วินาที ก่อนตัวจับเวลาปิดจะทำงาน',
     '{} minutes left on the sleep timer': 'เหลือเวลา {} นาที ก่อนตัวจับเวลาปิดจะทำงาน',
     '{} seconds left on the sleep timer': 'เหลือเวลา {} วินาที ก่อนตัวจับเวลาปิดจะทำงาน',
     'Search and Download help. Type text or paste a link in the search box, then press Enter. Press Tab to reach the search type control, and choose Video, Playlist, Channel, Live, or Shorts. Use the arrow keys to move through results, and press Enter to open or play the selected item; opening a playlist or a channel shows its videos in the same list. Press Backspace to go back after opening a playlist or a channel. F1 downloads the selected item as audio, F2 downloads it as video. F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder. F6 increases the sleep timer by 5 minutes, which stops playback automatically after a set time; Shift+F6 decreases it by 5 minutes, and Control+F6 announces exactly how much time is left. F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Shift+F7 replays the last item, Shift+F9 and Shift+F10 seek 30 seconds back or forward, Shift+F11 and Shift+F12 change the playback speed. Control+C copies the link, Control+B opens it in your browser, Control+P adds it to a playlist, Control+S subscribes to the channel of the selected item. Control+Tab switches between tabs. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าค้นหาและดาวน์โหลด พิมพ์ข้อความหรือวางลิงก์ในช่องค้นหา แล้วกด Enter กด Tab เพื่อไปที่ช่องประเภทการค้นหา แล้วเลือกวิดีโอ เพลย์ลิสต์ ช่อง ถ่ายทอดสด หรือ Shorts ใช้ปุ่มลูกศรเลื่อนดูผลการค้นหา แล้วกด Enter เพื่อเปิดหรือเล่นรายการที่เลือก การเปิดเพลย์ลิสต์หรือช่องจะแสดงคลิปของมันในรายการเดียวกันนี้ กด Backspace เพื่อย้อนกลับหลังจากเปิดเพลย์ลิสต์หรือช่อง F1 ดาวน์โหลดรายการที่เลือกเป็นเสียง F2 ดาวน์โหลดเป็นวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด F6 เพิ่มเวลาของตัวจับเวลาปิดทีละ 5 นาที ซึ่งจะหยุดเล่นเพลงเองเมื่อครบเวลาที่ตั้งไว้ Shift+F6 ลดเวลานั้นลงทีละ 5 นาที และ Control+F6 แจ้งเวลาที่เหลืออยู่อย่างแม่นยำ F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Shift+F7 เล่นรายการล่าสุดซ้ำ Shift+F9 และ Shift+F10 กรอถอยหลังหรือไปข้างหน้า 30 วินาที Shift+F11 และ Shift+F12 เปลี่ยนความเร็วการเล่น Control+C คัดลอกลิงก์ Control+B เปิดในเบราว์เซอร์ Control+P เพิ่มลงเพลย์ลิสต์ Control+S ติดตามช่องของรายการที่เลือก Control+Tab สลับระหว่างแท็บ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
-    'Settings help. Choose your download folder, then set video resolution and audio quality; both lists now read from lowest to highest quality. Choose how many search results to fetch. The checkboxes control whether player hotkeys are announced, whether they still work when this window does not have focus while something is playing, whether the next item in the list plays automatically when the current one ends, and whether you get advance warnings before the sleep timer stops playback  a spoken notice at 1 minute left and a short beep once per second for the last 10 seconds; turning this off leaves only the announcement and one longer confirmation beep the moment playback actually stops, which always happen. Export subscriptions saves your followed channels to a file you choose, and Import subscriptions adds channels from a previously exported file into your current list without removing any you already follow - useful when moving to a new computer or reinstalling NVDA. The yt-dlp library section shows the version in use, lets you turn automatic update checks on or off, and has a button to check for an update right now. Remember to press Save settings after making changes for them to take effect.': 'วิธีใช้หน้าตั้งค่า เลือกโฟลเดอร์ดาวน์โหลด จากนั้นตั้งค่าความละเอียดวิดีโอและคุณภาพเสียง ทั้งสองรายการเรียงจากคุณภาพต่ำสุดไปสูงสุด เลือกจำนวนผลการค้นหาที่ต้องการดึงมา ช่องกาเครื่องหมายควบคุมว่าจะแจ้งปุ่มลัดของเครื่องเล่นหรือไม่ ปุ่มลัดเหล่านั้นจะยังทำงานได้หรือไม่เมื่อหน้าต่างนี้ไม่ได้โฟกัสในขณะที่กำลังเล่นอยู่ จะเล่นรายการถัดไปอัตโนมัติเมื่อรายการปัจจุบันจบหรือไม่ และจะมีการเตือนล่วงหน้าก่อนตัวจับเวลาปิดจะหยุดเล่นเพลงหรือไม่ ซึ่งได้แก่เสียงพูดแจ้งเมื่อเหลือเวลา 1 นาที และเสียงบี๊บสั้นนับถอยหลังทีละวินาทีในช่วง 10 วินาทีสุดท้าย หากปิดตัวเลือกนี้จะเหลือเพียงการแจ้งเตือนด้วยเสียงพูดและเสียงบี๊บยาวหนึ่งครั้งตอนที่หยุดเล่นเพลงจริง ซึ่งจะมีเสมอไม่ว่าจะตั้งค่านี้ไว้อย่างไร ปุ่มส่งออกรายชื่อช่องที่ติดตามจะบันทึกช่องที่คุณติดตามไว้เป็นไฟล์ที่คุณเลือก ส่วนปุ่มนำเข้ารายชื่อช่องที่ติดตามจะเพิ่มช่องจากไฟล์ที่เคยส่งออกไว้เข้าไปในรายการปัจจุบันโดยไม่ลบช่องที่ติดตามอยู่แล้ว มีประโยชน์เมื่อย้ายเครื่องหรือติดตั้ง NVDA ใหม่ ส่วนไลบรารี yt-dlp แสดงเวอร์ชันที่ใช้งานอยู่ เปิดหรือปิดการตรวจสอบอัปเดตอัตโนมัติได้ และมีปุ่มสำหรับตรวจสอบอัปเดตทันที อย่าลืมกดบันทึกการตั้งค่าหลังจากเปลี่ยนแปลงเพื่อให้มีผล',
-    "Subscriptions help. The channel list holds channels you have subscribed to. Press Tab to move to the right-hand list. On the channel list: press Enter to browse that channel, F1 and F2 download all of its latest videos as audio or video, F3 announces its download status, Delete unsubscribes after asking you to confirm. The right-hand list browses a selected channel the same way YouTube itself does: selecting a channel first shows its Videos, Shorts, Live, and Playlists sections - press Enter on one to open it. Opening Videos, Shorts, or Live shows that section's videos directly; opening Playlists shows the channel's own playlists, and pressing Enter on one of those opens its videos. Press Backspace to go back up one level at any point. Once a video is shown: F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Space also pauses or resumes, and Home and End turn the volume up or down. F1 and F2 download the selected video as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Control+C copies its link. To subscribe to a channel in the first place, find one of its videos on the Search and Download tab and press Control+S there. Press Control+F1 again on any tab to hear its own help.": 'วิธีใช้หน้าติดตาม รายการช่องเก็บช่องที่คุณติดตามไว้ กด Tab เพื่อไปที่รายการทางขวา ในรายการช่อง กด Enter เพื่อดูเนื้อหาของช่องนั้น F1 และ F2 ดาวน์โหลดคลิปล่าสุดทั้งหมดของช่องนั้นเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลดของช่องนั้น Delete เลิกติดตามหลังจากถามยืนยันก่อน รายการทางขวาเรียกดูช่องที่เลือกเหมือนกับ YouTube เอง เมื่อเลือกช่องจะเห็นหมวด Videos, Shorts, Live และ Playlists ก่อน กด Enter บนหมวดใดเพื่อเปิดดู การเปิด Videos, Shorts หรือ Live จะแสดงคลิปของหมวดนั้นโดยตรง ส่วนการเปิด Playlists จะแสดงเพลย์ลิสต์ของช่องนั้น กด Enter บนเพลย์ลิสต์ใดเพื่อเปิดดูคลิปในเพลย์ลิสต์นั้น กด Backspace เพื่อย้อนกลับขึ้นไปหนึ่งชั้นได้ทุกเมื่อ เมื่อเห็นคลิปแล้ว F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Space หยุดชั่วคราวหรือเล่นต่อได้เช่นกัน ส่วน Home และ End เพิ่มหรือลดเสียง F1 และ F2 ดาวน์โหลดคลิปที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Control+C คัดลอกลิงก์ ส่วนวิธีติดตามช่องในตอนแรก ให้ไปหาคลิปของช่องนั้นในแท็บค้นหาและดาวน์โหลด แล้วกด Control+S ที่คลิปนั้น กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
+    'Settings help. Choose your download folder, then set video resolution and audio quality; both lists now read from lowest to highest quality. Choose how many search results to fetch. The checkboxes control whether player hotkeys are announced, whether they still work when this window does not have focus while something is playing, whether the next item in the list plays automatically when the current one ends, and whether you get advance warnings before the sleep timer stops playback  a spoken notice at 1 minute left and a short beep once per second for the last 10 seconds; turning this off leaves only the announcement and one longer confirmation beep the moment playback actually stops, which always happen. This one setting now governs every part of the add-on the same way: turned on, everything continues on its own to the next item when the current one ends - search results, a followed channel\'s lists, and every kind of playlist alike. Turned off, nothing continues automatically, including a real playlist - only the item you actually selected plays, and reaching its end always announces plain "Playback ended". Manually moving with F9 and F10 always works either way. Export and Import subscriptions have moved to their own buttons on the Subscriptions tab, and Export and Import playlists to their own buttons on the Playlists tab. The yt-dlp library section shows the version in use, lets you turn automatic update checks on or off, and has a button to check for an update right now. Remember to press Save settings after making changes for them to take effect.': 'วิธีใช้หน้าตั้งค่า เลือกโฟลเดอร์ดาวน์โหลด จากนั้นตั้งค่าความละเอียดวิดีโอและคุณภาพเสียง ทั้งสองรายการเรียงจากคุณภาพต่ำสุดไปสูงสุด เลือกจำนวนผลการค้นหาที่ต้องการดึงมา ช่องกาเครื่องหมายควบคุมว่าจะแจ้งปุ่มลัดของเครื่องเล่นหรือไม่ ปุ่มลัดเหล่านั้นจะยังทำงานได้หรือไม่เมื่อหน้าต่างนี้ไม่ได้โฟกัสในขณะที่กำลังเล่นอยู่ จะเล่นรายการถัดไปอัตโนมัติเมื่อรายการปัจจุบันจบหรือไม่ และจะมีการเตือนล่วงหน้าก่อนตัวจับเวลาปิดจะหยุดเล่นเพลงหรือไม่ ซึ่งได้แก่เสียงพูดแจ้งเมื่อเหลือเวลา 1 นาที และเสียงบี๊บสั้นนับถอยหลังทีละวินาทีในช่วง 10 วินาทีสุดท้าย หากปิดตัวเลือกนี้จะเหลือเพียงการแจ้งเตือนด้วยเสียงพูดและเสียงบี๊บยาวหนึ่งครั้งตอนที่หยุดเล่นเพลงจริง ซึ่งจะมีเสมอไม่ว่าจะตั้งค่านี้ไว้อย่างไร ตอนนี้ตัวเลือกนี้ตัวเดียวควบคุมทุกส่วนของโปรแกรมแบบเดียวกันหมด เปิดไว้ ทุกอย่างจะเล่นต่อเนื่องไปยังรายการถัดไปเองเมื่อรายการปัจจุบันจบ ไม่ว่าจะเป็นผลการค้นหา รายการของช่องที่ติดตาม หรือเพลย์ลิสต์ทุกประเภท ปิดไว้ จะไม่มีการเล่นต่อเนื่องอัตโนมัติเลยแม้แต่เพลย์ลิสต์จริง จะเล่นเฉพาะรายการที่เลือกไว้เท่านั้น และเมื่อเล่นจบจะแจ้งเพียงว่า Playback ended เสมอ ส่วนการเลื่อนไปเองด้วย F9 และ F10 ยังใช้งานได้ตามปกติไม่ว่าจะตั้งค่านี้ไว้อย่างไร ปุ่มส่งออกและนำเข้ารายชื่อช่องที่ติดตามได้ย้ายไปเป็นปุ่มของตัวเองในแท็บ Subscriptions แล้ว ส่วนปุ่มส่งออกและนำเข้าเพลย์ลิสต์ก็ย้ายไปเป็นปุ่มของตัวเองในแท็บ Playlists เช่นกัน ส่วนไลบรารี yt-dlp แสดงเวอร์ชันที่ใช้งานอยู่ เปิดหรือปิดการตรวจสอบอัปเดตอัตโนมัติได้ และมีปุ่มสำหรับตรวจสอบอัปเดตทันที อย่าลืมกดบันทึกการตั้งค่าหลังจากเปลี่ยนแปลงเพื่อให้มีผล',
+    "Subscriptions help. The channel list holds channels you have subscribed to. Press Tab to move to the right-hand list. On the channel list: press Enter to browse that channel, F1 and F2 download all of its latest videos as audio or video, F3 announces its download status, Delete unsubscribes after asking you to confirm. The right-hand list browses a selected channel the same way YouTube itself does: selecting a channel first shows its Videos, Shorts, Live, and Playlists sections - press Enter on one to open it. Opening Videos, Shorts, or Live shows that section's videos directly; opening Playlists shows the channel's own playlists, and pressing Enter on one of those opens its videos. Press Backspace to go back up one level at any point. Once a video is shown: F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Space also pauses or resumes, and Home and End turn the volume up or down. F1 and F2 download the selected video as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Control+C copies its link. To subscribe to a channel in the first place, find one of its videos on the Search and Download tab and press Control+S there. Press Tab from the channel list to reach two buttons: Export subscriptions saves your followed channels to a file you choose, and Import subscriptions adds channels from a previously exported file into your current list without removing any you already follow - useful when moving to a new computer or reinstalling NVDA. Press Control+F1 again on any tab to hear its own help.": 'วิธีใช้หน้าติดตาม รายการช่องเก็บช่องที่คุณติดตามไว้ กด Tab เพื่อไปที่รายการทางขวา ในรายการช่อง กด Enter เพื่อดูเนื้อหาของช่องนั้น F1 และ F2 ดาวน์โหลดคลิปล่าสุดทั้งหมดของช่องนั้นเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลดของช่องนั้น Delete เลิกติดตามหลังจากถามยืนยันก่อน รายการทางขวาเรียกดูช่องที่เลือกเหมือนกับ YouTube เอง เมื่อเลือกช่องจะเห็นหมวด Videos, Shorts, Live และ Playlists ก่อน กด Enter บนหมวดใดเพื่อเปิดดู การเปิด Videos, Shorts หรือ Live จะแสดงคลิปของหมวดนั้นโดยตรง ส่วนการเปิด Playlists จะแสดงเพลย์ลิสต์ของช่องนั้น กด Enter บนเพลย์ลิสต์ใดเพื่อเปิดดูคลิปในเพลย์ลิสต์นั้น กด Backspace เพื่อย้อนกลับขึ้นไปหนึ่งชั้นได้ทุกเมื่อ เมื่อเห็นคลิปแล้ว F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Space หยุดชั่วคราวหรือเล่นต่อได้เช่นกัน ส่วน Home และ End เพิ่มหรือลดเสียง F1 และ F2 ดาวน์โหลดคลิปที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Control+C คัดลอกลิงก์ ส่วนวิธีติดตามช่องในตอนแรก ให้ไปหาคลิปของช่องนั้นในแท็บค้นหาและดาวน์โหลด แล้วกด Control+S ที่คลิปนั้น กด Tab จากรายการช่องเพื่อไปที่ปุ่มสองปุ่ม คือ Export subscriptions บันทึกรายชื่อช่องที่คุณติดตามเป็นไฟล์ที่คุณเลือก และ Import subscriptions เพิ่มช่องจากไฟล์ที่เคยส่งออกไว้เข้าสู่รายการปัจจุบันโดยไม่ลบช่องที่ติดตามอยู่แล้ว มีประโยชน์เมื่อย้ายเครื่องหรือติดตั้ง NVDA ใหม่ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
     'YouTube Access Pro': 'YouTube Access Pro',
 }
 
@@ -2054,47 +2058,78 @@ def start_playback(url, title, announce=True, playing_url_hint=None, playlist_fi
 
 def start_resolved_playlist_playback(items, title, origin_url, announce=True):
     """Play a locally-saved playlist (or any other in-app multi-item list)
-    by resolving every item's URL through this add-on's own bundled
-    yt-dlp first, then handing mpv an m3u file made of already-direct
-    stream URLs with mpv's own ytdl_hook disabled for it.
+    by resolving only the first playable item's URL through this add-on's
+    own bundled yt-dlp, then handing mpv a single-entry m3u file made of
+    that already-direct stream URL with mpv's own ytdl_hook disabled for
+    it. Every later item in the list is resolved on demand, one at a
+    time, by the exact same track_next()/track_prev()/auto-continue
+    machinery already used for ordinary (non-playlist) multi-item lists -
+    see the round-50 note below for why this function no longer resolves
+    the whole list up front the way it originally did.
 
-    This exists because the previous approach - writing the raw YouTube
-    webpage URLs straight into the m3u file and leaving ytdl_hook enabled
-    so mpv would resolve each one itself - relies on mpv's own ancient
-    bundled youtube-dl.exe helper (2017) to do that resolution, and that
-    helper generally cannot extract current YouTube pages at all. In
-    practice this meant mpv exited almost immediately with nothing
-    playable, and the watchdog loop reported "Playback ended" moments
-    later. First reported from the Playlists tab specifically (Enter/F7
-    appearing to do nothing but actually failing near-instantly); a user
-    then confirmed the same failure in the two other places in this file
-    that used to build a playlist m3u the same way
-    (SearchAndDownloadTab._open_playlist_contents_in_list()'s auto_play
-    branch, and _play_playlist_from_selection()) - all three now go
-    through this function instead. This is exactly the same class of bug
-    _start_playback_now()'s needs_ytdl_hook parameter already fixed for
-    single-item playback back in round 35 - this function applies the
-    same fix to the multi-item case, instead of only single items.
+    Round 47/48 history (why ytdl_hook is disabled here at all): the
+    original approach - writing the raw YouTube webpage URLs straight
+    into the m3u file and leaving ytdl_hook enabled so mpv would resolve
+    each one itself - relies on mpv's own ancient bundled youtube-dl.exe
+    helper (2017) to do that resolution, and that helper generally cannot
+    extract current YouTube pages at all. In practice this meant mpv
+    exited almost immediately with nothing playable, and the watchdog
+    loop reported "Playback ended" moments later. First reported from the
+    Playlists tab specifically (Enter/F7 appearing to do nothing but
+    actually failing near-instantly); a user then confirmed the same
+    failure in the two other places in this file that used to build a
+    playlist m3u the same way (SearchAndDownloadTab.
+    _open_playlist_contents_in_list()'s auto_play branch, and
+    _play_playlist_from_selection()) - all three go through this function.
+    This is exactly the same class of bug _start_playback_now()'s
+    needs_ytdl_hook parameter already fixed for single-item playback back
+    in round 35 - this function applies the same fix to the multi-item
+    case, instead of only single items.
 
-    Runs entirely on a background thread so the UI is never blocked by
-    resolving several items in a row. Items that cannot be resolved, or
-    that turn out to be a currently-live broadcast (a multi-item mpv
-    playlist has no way to hand just one entry off to the browser
-    mid-playback the way single-item playback does), are skipped rather
-    than aborting the whole playlist over one bad item.
+    Round 50 fix (this version): the round 47/48 fix above initially
+    resolved every item in the list, in order, before starting playback
+    at all - reliable, but a user reported that pressing Enter/F7 on a
+    playlist with many items (and opening a playlist from search results,
+    which goes through this same function) now took a very long time to
+    actually start playing, unlike earlier versions - each item is a
+    separate yt-dlp network round trip, so a 100+ item playlist could mean
+    dozens of seconds to minutes of silence before the first item ever
+    played. The fix: resolve only the first playable item (skipping a
+    currently-live or otherwise unresolvable leading item exactly as
+    before) and start playback immediately once that one item is ready -
+    exactly as fast as an ordinary single-video play, since it is the
+    same single-item resolve. track_next()/track_prev() (F9/F10) already
+    resolve one item at a time on demand from the original, unresolved
+    item list and were never part of the slow up-front loop, so no
+    reliability is lost by leaning on them for every item after the
+    first - they have used this add-on's own resolver (never mpv's
+    ytdl_hook) since round 35. What changes alongside this fix:
+    track_next()/track_prev() now carry the current playlist_origin_url
+    forward into the track they switch to, so that "still in a playlist"
+    status (used for toggle play/stop detection and Shift+F7's "replay
+    the last item") survives every track change, not just the first one.
+    (Round 50 originally also made _player_watchdog_loop()'s _on_end()
+    treat any playlist session as always continuing automatically to the
+    next item regardless of the "Automatically play the next item"
+    setting - round 52 removed that override at the user's explicit
+    request, so that single setting now governs every kind of session,
+    playlist or not, with no exceptions; see _on_end()'s own comment.)
 
-    Also records state.last_play_request (normally only set by
+    Runs entirely on a background thread (skipping ahead through the list
+    to find the first resolvable item) so the UI is never blocked. Also
+    records state.last_play_request (normally only set by
     start_playback(), which this function deliberately bypasses) so that
     play_last_request() - the global "replay last item" F7/Shift+F7
     hotkey - can still resume a playlist played this way, by re-resolving
     the original (unresolved) item list fresh rather than replaying a
-    resolved m3u whose direct stream URLs may since have expired.
+    resolved m3u whose direct stream URL may since have expired.
     """
     gen = _next_play_generation()
 
     def _worker():
-        resolved_items = []
-        for it in items:
+        first_resolved = None
+        first_index = -1
+        for idx, it in enumerate(items):
             if gen != state._play_generation:
                 return
             u = (it.get('url') or '').strip() if it else ''
@@ -2103,23 +2138,25 @@ def start_resolved_playlist_playback(items, title, origin_url, announce=True):
             stream_url, is_live = _resolve_playable_stream(u)
             if is_live or not stream_url:
                 continue
-            resolved_items.append({
+            first_resolved = {
                 'url': stream_url,
                 'title': it.get('title') or '',
                 'duration': it.get('duration') or '',
-            })
+            }
+            first_index = idx
+            break
 
         def _apply():
             if gen != state._play_generation:
                 return
-            if not resolved_items:
+            if not first_resolved:
                 _ui_message(_('No playable items in this playlist'))
                 return
-            pl_file = _create_temp_m3u(resolved_items, title=title)
+            pl_file = _create_temp_m3u([first_resolved], title=title)
             if not pl_file:
                 _ui_message(_('Cannot create playlist file'))
                 return
-            first_url = resolved_items[0].get('url') or ''
+            first_url = first_resolved.get('url') or ''
             state.last_play_request = {
                 'url': pl_file,
                 'title': title,
@@ -2128,6 +2165,12 @@ def start_resolved_playlist_playback(items, title, origin_url, announce=True):
                 'playlist_origin_url': origin_url,
                 'resolved_playlist_source_items': items,
             }
+            # Point track_next()/track_prev()/auto-continue at the item
+            # that is actually about to start playing, not necessarily
+            # items[0] - a leading live/unresolvable item that got
+            # skipped above must not leave navigation one position behind
+            # what is really on screen and playing.
+            _set_track_context(items, first_index)
             _start_playback_now(
                 pl_file, title, announce=announce,
                 playing_url_hint=first_url,
@@ -2396,6 +2439,25 @@ def _player_watchdog_loop():
             last_seen_pid = None
 
         def _on_end():
+            # Round 52: the "Automatically play the next item when the
+            # current one ends" setting is now the single, unconditional
+            # switch for every part of the add-on, per the user's explicit
+            # request - checked, EVERYTHING continues on its own (search
+            # results, a followed channel's lists, and every kind of
+            # playlist alike); unchecked, NOTHING does, including a real
+            # playlist - only the item that was actually focused/selected
+            # plays, exactly like a single video, and reaching its end
+            # always announces plain "Playback ended". Manually moving
+            # with F9/F10 (track_next()/track_prev()) is unaffected either
+            # way - this only governs what happens automatically once an
+            # item finishes on its own. Earlier (round 50), a session
+            # recognized as a real playlist (state.current_playlist_origin_url
+            # set - see start_resolved_playlist_playback()'s docstring)
+            # always continued regardless of this setting, matching how
+            # mpv's own native playlist engine used to behave automatically
+            # back when this add-on handed it every item pre-resolved in
+            # one big m3u file; that override is removed here so the
+            # setting alone decides for every case, with no exceptions.
             _cleanup_player(silent=True, preserve_volume=True)
 
             if (_get_runtime_auto_continue()
@@ -2754,8 +2816,14 @@ def track_next(announce=True, require_running=True):
             _ui_message(_('No link'))
         return False
     state.current_track_index = next_idx
+    # Captured before stop_playback() clears it (see _cleanup_player), and
+    # carried forward into the next track's own start_playback() call, so
+    # a playlist session is still recognized as one after every track
+    # change - not only the first - by _on_end()'s always-continue check
+    # above. See round 50 in start_resolved_playlist_playback()'s docstring.
+    origin = state.current_playlist_origin_url
     stop_playback(announce=False, preserve_volume=True)
-    start_playback(url, title, announce=False, playing_url_hint=url)
+    start_playback(url, title, announce=False, playing_url_hint=url, playlist_origin_url=origin)
     if announce:
         _ui_message(_tr('Next  {}', title))
     return True
@@ -2782,8 +2850,10 @@ def track_prev(announce=True, require_running=True):
             _ui_message(_('No link'))
         return False
     state.current_track_index = prev_idx
+    # See track_next()'s matching comment above.
+    origin = state.current_playlist_origin_url
     stop_playback(announce=False, preserve_volume=True)
-    start_playback(url, title, announce=False, playing_url_hint=url)
+    start_playback(url, title, announce=False, playing_url_hint=url, playlist_origin_url=origin)
     if announce:
         _ui_message(_tr('Previous  {}', title))
     return True
@@ -6290,6 +6360,21 @@ class PlaylistTab(wx.Panel):
         self.lb_left.Bind(wx.EVT_KEY_DOWN, self.key_left)
         left.Add(self.lb_left, 1, wx.EXPAND | wx.ALL, 5)
 
+        # New in round 51: a direct button on this tab for backing up or
+        # restoring every saved playlist at once, moved here (well, added
+        # here for the first time - no bulk playlists backup existed
+        # before) to match Subscriptions' own Export/Import buttons, so
+        # both live on the tab whose list they act on instead of a
+        # separate trip to Settings.
+        pl_btn_row = wx.BoxSizer(wx.HORIZONTAL)
+        self.btn_export_playlists = wx.Button(self, label=_('Export playlists'))
+        self.btn_export_playlists.Bind(wx.EVT_BUTTON, self.on_export_playlists)
+        pl_btn_row.Add(self.btn_export_playlists, 0, wx.ALL, 5)
+        self.btn_import_playlists = wx.Button(self, label=_('Import playlists'))
+        self.btn_import_playlists.Bind(wx.EVT_BUTTON, self.on_import_playlists)
+        pl_btn_row.Add(self.btn_import_playlists, 0, wx.ALL, 5)
+        left.Add(pl_btn_row, 0, wx.ALL, 0)
+
         right = wx.BoxSizer(wx.VERTICAL)
         self.lbl_right = wx.StaticText(self, label=_('Contents'))
         right.Add(self.lbl_right, 0, wx.ALL, 5)
@@ -6317,6 +6402,8 @@ class PlaylistTab(wx.Panel):
     def refresh_language(self):
         try:
             self.lbl_playlists.SetLabel(_('Playlists'))
+            self.btn_export_playlists.SetLabel(_('Export playlists'))
+            self.btn_import_playlists.SetLabel(_('Import playlists'))
             self.btn_exit_right.SetLabel(_('Exit'))
             name = self.lb_left.GetStringSelection()
             if name:
@@ -6344,8 +6431,59 @@ class PlaylistTab(wx.Panel):
             'F4 announces how many downloads are running, F5 opens the download folder, '
             'Delete removes it from the playlist after asking you to confirm, Control+C copies its link. '
             'F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. '
+            'Press Tab from the playlist list to reach two buttons: Export playlists saves all of '
+            'your playlists to a file you choose, and Import playlists adds playlists from a '
+            'previously exported file into your current list without overwriting any playlist you '
+            'already have - useful when moving to a new computer or reinstalling NVDA. '
             'Press Control+F1 again on any tab to hear its own help.'
         ))
+
+    def on_export_playlists(self, event):
+        playlists = self.main_window.playlists
+        if not playlists:
+            _ui_message(_('No playlists to export'))
+            return
+        dlg = wx.FileDialog(
+            self, _('Export playlists'), wildcard='JSON (*.json)|*.json',
+            defaultFile='playlists.json', style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT,
+        )
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
+            ok = _safe_write_json(path, playlists, encoding='utf-8', indent=4, ensure_ascii=False)
+            if ok:
+                _ui_message(_tr('Exported {} playlists', len(playlists)))
+            else:
+                _ui_message(_('Export failed'))
+        dlg.Destroy()
+
+    def on_import_playlists(self, event):
+        dlg = wx.FileDialog(
+            self, _('Import playlists'), wildcard='JSON (*.json)|*.json',
+            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST,
+        )
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
+            imported = _safe_load_json_dict(path, encoding='utf-8')
+            if not imported:
+                _ui_message(_('Import failed'))
+                dlg.Destroy()
+                return
+            current = self.main_window.playlists
+            added = 0
+            for name, vids in imported.items():
+                # Merge rather than replace, matching the same policy
+                # already used for importing subscriptions: never silently
+                # overwrite or remove a playlist that already exists
+                # locally under the same name, only add playlists that are
+                # missing entirely.
+                if name not in current and isinstance(vids, list):
+                    current[name] = vids
+                    added += 1
+            if added:
+                save_playlists(current)
+                self.refresh(force_right=True)
+            _ui_message(_tr('Imported {} new playlists', added))
+        dlg.Destroy()
 
     def refresh(self, force_right=False):
         sel = self.lb_left.GetStringSelection()
@@ -6940,6 +7078,19 @@ class SubscriptionsTab(wx.Panel):
         self.lb_channels.Bind(wx.EVT_CONTEXT_MENU, self.menu_channels)
         left.Add(self.lb_channels, 1, wx.EXPAND | wx.ALL, 5)
 
+        # Moved here from the Settings tab (round 51) so backing up or
+        # restoring subscriptions is a direct button on this tab itself,
+        # right where the list they act on lives, instead of a separate
+        # trip to Settings.
+        subs_btn_row = wx.BoxSizer(wx.HORIZONTAL)
+        self.btn_export_subs = wx.Button(self, label=_('Export subscriptions'))
+        self.btn_export_subs.Bind(wx.EVT_BUTTON, self.on_export_subscriptions)
+        subs_btn_row.Add(self.btn_export_subs, 0, wx.ALL, 5)
+        self.btn_import_subs = wx.Button(self, label=_('Import subscriptions'))
+        self.btn_import_subs.Bind(wx.EVT_BUTTON, self.on_import_subscriptions)
+        subs_btn_row.Add(self.btn_import_subs, 0, wx.ALL, 5)
+        left.Add(subs_btn_row, 0, wx.ALL, 0)
+
         right = wx.BoxSizer(wx.VERTICAL)
         self.lbl_videos = wx.StaticText(self, label=_('Channel content'))
         right.Add(self.lbl_videos, 0, wx.ALL, 5)
@@ -6989,6 +7140,8 @@ class SubscriptionsTab(wx.Panel):
         try:
             self.lbl_channels.SetLabel(_('Subscribed channels'))
             self.lbl_videos.SetLabel(_('Channel content'))
+            self.btn_export_subs.SetLabel(_('Export subscriptions'))
+            self.btn_import_subs.SetLabel(_('Import subscriptions'))
             self.btn_exit.SetLabel(_('Exit'))
             self.refresh()
             self.Layout()
@@ -7014,6 +7167,10 @@ class SubscriptionsTab(wx.Panel):
             'many downloads are running, F5 opens the download folder, Control+C copies its link. '
             'To subscribe to a channel in the first place, find one of its videos on the Search and '
             'Download tab and press Control+S there. '
+            'Press Tab from the channel list to reach two buttons: Export subscriptions saves your '
+            'followed channels to a file you choose, and Import subscriptions adds channels from a '
+            'previously exported file into your current list without removing any you already '
+            'follow - useful when moving to a new computer or reinstalling NVDA. '
             'Press Control+F1 again on any tab to hear its own help.'
         ))
 
@@ -7029,6 +7186,51 @@ class SubscriptionsTab(wx.Panel):
         self.lb_channels.Set(items)
         if sel != wx.NOT_FOUND and 0 <= sel < len(items):
             self.lb_channels.SetSelection(sel)
+
+    def on_export_subscriptions(self, event):
+        subs = load_subscriptions()
+        if not subs:
+            _ui_message(_('No subscribed channels'))
+            return
+        dlg = wx.FileDialog(
+            self, _('Export subscriptions'), wildcard='JSON (*.json)|*.json',
+            defaultFile='subscriptions.json', style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT,
+        )
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
+            ok = _safe_write_json(path, subs, encoding='utf-8', indent=4, ensure_ascii=False)
+            if ok:
+                _ui_message(_tr('Exported {} channels', len(subs)))
+            else:
+                _ui_message(_('Export failed'))
+        dlg.Destroy()
+
+    def on_import_subscriptions(self, event):
+        dlg = wx.FileDialog(
+            self, _('Import subscriptions'), wildcard='JSON (*.json)|*.json',
+            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST,
+        )
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
+            imported = _safe_load_json_dict(path, encoding='utf-8')
+            if not imported:
+                _ui_message(_('Import failed'))
+                dlg.Destroy()
+                return
+            current = load_subscriptions()
+            added = 0
+            for key, rec in imported.items():
+                # Merge rather than replace: importing a backup should
+                # never silently remove channels the user already follows,
+                # only add ones that were missing.
+                if key not in current and isinstance(rec, dict):
+                    current[key] = rec
+                    added += 1
+            if added:
+                save_subscriptions(current)
+                self.refresh()
+            _ui_message(_tr('Imported {} new channels', added))
+        dlg.Destroy()
 
     def _selected_channel_key(self):
         idx = self.lb_channels.GetSelection()
@@ -7180,12 +7382,30 @@ class SubscriptionsTab(wx.Panel):
 
             self._list_kind = 'items'
             self.video_data = [dict(it) for it in items]
+            pl_title = entry.get('title') or _('Playlist')
             # Same tagging convention as _open_section() above - grouped
             # under the channel, not the individual playlist, so F3 on the
             # channel row still reflects everything downloaded from it.
+            # playlist_origin_url/playlist_title are new (round 51): they
+            # mark these videos as belonging to one of the channel's own
+            # named playlists, the same way SearchAndDownloadTab tags
+            # videos opened from a playlist search result - see
+            # play_selected() below, which reads playlist_origin_url off
+            # the entry to decide whether to play this the same way as
+            # every other playlist in this add-on (Playlists tab, and a
+            # playlist opened from Search and Download): resolved through
+            # start_resolved_playlist_playback() instead of a plain single
+            # video, so toggle play/stop detection, Shift+F7's "replay the
+            # last item", and F9/F10 all recognize this as a real playlist
+            # too. (Auto-continuing to the next item on its own is governed
+            # the same way for every kind of session by the single
+            # "Automatically play the next item" setting - see _on_end()'s
+            # own comment.)
             for v in self.video_data:
                 v['subfolder_title'] = name
                 v['source_playlist'] = key
+                v['playlist_origin_url'] = pl_url
+                v['playlist_title'] = pl_title
             labels = self._build_video_labels(self.video_data)
 
             self.lb_videos.Set(labels)
@@ -7370,11 +7590,68 @@ class SubscriptionsTab(wx.Panel):
         if not url:
             _ui_message(_('No valid url to play'))
             return
+        announce_player = self.main_window.current_settings.get('announce_player_keys', True)
+
+        origin = entry.get('playlist_origin_url')
+        if origin:
+            # This video came from browsing one of the channel's own named
+            # playlists (_open_playlist() above tags every item with
+            # playlist_origin_url) - round 51 fix: play it the same way as
+            # every other playlist in this add-on (the Playlists tab, and
+            # a playlist opened from Search and Download's own playlist
+            # view) instead of the plain single video path below, so
+            # toggle play/stop detection and Shift+F7's "replay the last
+            # item" recognize this as a real playlist too. Without this,
+            # the exact same action - playing a video that is part of a
+            # playlist - behaved inconsistently depending on which tab it
+            # was opened from. (Auto-continuing to the next item on its
+            # own is governed the same way for every kind of session by
+            # the single "Automatically play the next item" setting - see
+            # _on_end()'s own comment - so this branch no longer affects
+            # that part specifically, only the playlist-recognition parts
+            # above.)
+            sel_idx = self.lb_videos.GetSelection()
+            if sel_idx == wx.NOT_FOUND or sel_idx < 0 or sel_idx >= len(self.video_data):
+                sel_idx = 0
+
+            if is_player_running() and state.current_playlist_origin_url == origin and state.current_playlist_file is not None:
+                if state.current_playlist_start_url and url == state.current_playlist_start_url:
+                    stop_playback(announce=False, preserve_volume=True, preserve_playlist_file=True)
+                    if announce_player:
+                        _ui_message(_('Stop'))
+                    return
+                stop_playback(announce=False, preserve_volume=True)
+
+            items_to_play = []
+            for v in self.video_data[sel_idx:]:
+                if not v:
+                    continue
+                u = (v.get('url') or '').strip()
+                if not u:
+                    continue
+                items_to_play.append({
+                    'url': u,
+                    'title': v.get('title') or '',
+                    'duration': v.get('duration') or '',
+                })
+
+            if not items_to_play:
+                _ui_message(_('No valid url to play'))
+                return
+
+            _set_track_context(items_to_play, 0)
+
+            if is_player_running():
+                stop_playback(announce=False, preserve_volume=True)
+
+            pl_title = entry.get('playlist_title') or title
+            start_resolved_playlist_playback(items_to_play, pl_title, origin, announce=announce_player)
+            return
+
         try:
             _set_track_context(self.video_data, self.lb_videos.GetSelection())
         except Exception:
             pass
-        announce_player = self.main_window.current_settings.get('announce_player_keys', True)
         if is_player_running():
             if state.current_playing_url and state.current_playing_url == url and state.current_playlist_file is None:
                 stop_playback(announce=False, preserve_volume=True)
@@ -7603,15 +7880,6 @@ class SettingsTab(wx.Panel):
         self.chk_sleep_beep.SetValue(bool(self.main_window.current_settings.get('sleep_timer_beep_warning', True)))
         sizer.Add(self.chk_sleep_beep, 0, wx.ALL, 10)
 
-        self.box_subs = wx.StaticBoxSizer(wx.HORIZONTAL, self, _('Subscriptions backup'))
-        self.btn_export_subs = wx.Button(self, label=_('Export subscriptions'))
-        self.btn_export_subs.Bind(wx.EVT_BUTTON, self.on_export_subscriptions)
-        self.box_subs.Add(self.btn_export_subs, 0, wx.ALL, 5)
-        self.btn_import_subs = wx.Button(self, label=_('Import subscriptions'))
-        self.btn_import_subs.Bind(wx.EVT_BUTTON, self.on_import_subscriptions)
-        self.box_subs.Add(self.btn_import_subs, 0, wx.ALL, 5)
-        sizer.Add(self.box_subs, 0, wx.EXPAND | wx.ALL, 10)
-
         self.box_update = wx.StaticBoxSizer(wx.VERTICAL, self, _('yt-dlp library'))
 
         bundled_version = _get_bundled_ytdlp_version() or _('unknown')
@@ -7668,12 +7936,6 @@ class SettingsTab(wx.Panel):
             self.chk_auto_continue.SetLabel(_('Automatically play the next item when the current one ends'))
             self.chk_sleep_beep.SetLabel(_('Play advance warnings before the sleep timer stops playback'))
             try:
-                self.box_subs.GetStaticBox().SetLabel(_('Subscriptions backup'))
-            except Exception:
-                pass
-            self.btn_export_subs.SetLabel(_('Export subscriptions'))
-            self.btn_import_subs.SetLabel(_('Import subscriptions'))
-            try:
                 self.box_update.GetStaticBox().SetLabel(_('yt-dlp library'))
             except Exception:
                 pass
@@ -7702,64 +7964,18 @@ class SettingsTab(wx.Panel):
             'advance warnings before the sleep timer stops playback  a spoken notice at 1 minute left and a short '
             'beep once per second for the last 10 seconds; turning this off leaves only the '
             'announcement and one longer confirmation beep the moment playback actually stops, '
-            'which always happen. '
-            'Export subscriptions saves your followed channels to a file you choose, and Import '
-            'subscriptions adds channels from a previously exported file into your current list '
-            'without removing any you already follow - useful when moving to a new computer or '
-            'reinstalling NVDA. '
+            'which always happen. This one setting now governs every part of the add-on the same '
+            'way: turned on, everything continues on its own to the next item when the current one '
+            'ends - search results, a followed channel\'s lists, and every kind of playlist alike. '
+            'Turned off, nothing continues automatically, including a real playlist - only the item '
+            'you actually selected plays, and reaching its end always announces plain "Playback '
+            'ended". Manually moving with F9 and F10 always works either way. '
+            'Export and Import subscriptions have moved to their own buttons on the Subscriptions '
+            'tab, and Export and Import playlists to their own buttons on the Playlists tab. '
             'The yt-dlp library section shows the version in use, lets you turn automatic update checks '
             'on or off, and has a button to check for an update right now. '
             'Remember to press Save settings after making changes for them to take effect.'
         ))
-
-    def on_export_subscriptions(self, event):
-        subs = load_subscriptions()
-        if not subs:
-            _ui_message(_('No subscribed channels'))
-            return
-        dlg = wx.FileDialog(
-            self, _('Export subscriptions'), wildcard='JSON (*.json)|*.json',
-            defaultFile='subscriptions.json', style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT,
-        )
-        if dlg.ShowModal() == wx.ID_OK:
-            path = dlg.GetPath()
-            ok = _safe_write_json(path, subs, encoding='utf-8', indent=4, ensure_ascii=False)
-            if ok:
-                _ui_message(_tr('Exported {} channels', len(subs)))
-            else:
-                _ui_message(_('Export failed'))
-        dlg.Destroy()
-
-    def on_import_subscriptions(self, event):
-        dlg = wx.FileDialog(
-            self, _('Import subscriptions'), wildcard='JSON (*.json)|*.json',
-            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST,
-        )
-        if dlg.ShowModal() == wx.ID_OK:
-            path = dlg.GetPath()
-            imported = _safe_load_json_dict(path, encoding='utf-8')
-            if not imported:
-                _ui_message(_('Import failed'))
-                dlg.Destroy()
-                return
-            current = load_subscriptions()
-            added = 0
-            for key, rec in imported.items():
-                # Merge rather than replace: importing a backup should
-                # never silently remove channels the user already follows,
-                # only add ones that were missing.
-                if key not in current and isinstance(rec, dict):
-                    current[key] = rec
-                    added += 1
-            if added:
-                save_subscriptions(current)
-                try:
-                    if self.main_window.tab_subscriptions:
-                        self.main_window.tab_subscriptions.refresh()
-                except Exception:
-                    pass
-            _ui_message(_tr('Imported {} new channels', added))
-        dlg.Destroy()
 
     def on_check_update(self, event):
         self.btn_check_update.Disable()

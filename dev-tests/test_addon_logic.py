@@ -708,27 +708,37 @@ def test_start_resolved_playlist_playback_pre_resolves_urls_and_skips_unresolvab
     why F9/F10 "worked" and Enter/F7 did not.
 
     start_resolved_playlist_playback() (now used by PlaylistTab.play()
-    instead of the raw m3u approach) fixes this by resolving every item
-    through _resolve_playable_stream() up front, building the m3u from the
-    resolved direct-stream URLs, and calling _start_playback_now() with
-    needs_ytdl_hook=False so mpv's own ytdl_hook/youtube-dl.exe never
-    touches it. A currently-live item or one that fails to resolve is
-    skipped rather than aborting the whole playlist."""
+    instead of the raw m3u approach) fixes this by resolving items through
+    _resolve_playable_stream(), skipping ahead past a leading live/
+    unresolvable item exactly like this, and calling _start_playback_now()
+    with needs_ytdl_hook=False so mpv's own ytdl_hook/youtube-dl.exe never
+    touches it.
+
+    As of round 50, only the FIRST playable item is resolved and started
+    here - see that function's own docstring for why (resolving every item
+    in a long playlist up front, one network round trip each, made
+    Enter/F7 take a very long time to actually start playing on a large
+    playlist - a separate regression reported after round 47/48 shipped).
+    This test therefore puts the live and unresolvable items FIRST, so it
+    still exercises "skip ahead past items that cannot play" - it is the
+    later, third item that actually ends up resolved and started, and
+    navigation (state.current_track_index) must correctly point at that
+    third item, not item 0, once playback begins."""
     addon = _load_addon()
     addon.yt_dlp.reset()
 
-    url_ok = 'https://www.youtube.com/watch?v=ok1'
     url_live = 'https://www.youtube.com/watch?v=live1'
     url_bad = 'https://www.youtube.com/watch?v=bad1'
-    addon.yt_dlp.set_fake_video_info(url_ok, {
-        'is_live': False,
-        'url': 'https://rr-vod.googlevideo.com/videoplayback?id=ok1',
-    })
+    url_ok = 'https://www.youtube.com/watch?v=ok1'
     addon.yt_dlp.set_fake_video_info(url_live, {'is_live': True})
     # url_bad is deliberately left unregistered - the fake yt_dlp's
     # extract_info() then returns an empty-entries dict with no 'url',
     # simulating an item _resolve_playable_stream() could not extract
     # anything playable for.
+    addon.yt_dlp.set_fake_video_info(url_ok, {
+        'is_live': False,
+        'url': 'https://rr-vod.googlevideo.com/videoplayback?id=ok1',
+    })
 
     captured = {}
     done = threading.Event()
@@ -742,9 +752,9 @@ def test_start_resolved_playlist_playback_pre_resolves_urls_and_skips_unresolvab
     addon._start_playback_now = _fake_start_playback_now
 
     items = [
-        {'url': url_ok, 'title': 'Good item', 'duration': 100},
         {'url': url_live, 'title': 'Live item', 'duration': ''},
         {'url': url_bad, 'title': 'Bad item', 'duration': ''},
+        {'url': url_ok, 'title': 'Good item', 'duration': 100},
     ]
     addon.start_resolved_playlist_playback(
         items, 'My Playlist', 'userplaylist::My Playlist', announce=True,
@@ -753,7 +763,7 @@ def test_start_resolved_playlist_playback_pre_resolves_urls_and_skips_unresolvab
     finished = done.wait(timeout=5)
     check('start_resolved_playlist_playback finishes and calls _start_playback_now', finished)
     check(
-        'ytdl_hook is disabled since this add-on already resolved every url itself',
+        'ytdl_hook is disabled since this add-on already resolved the url itself',
         captured.get('kwargs', {}).get('needs_ytdl_hook') is False,
     )
     check(
@@ -766,7 +776,7 @@ def test_start_resolved_playlist_playback_pre_resolves_urls_and_skips_unresolvab
     with open(pl_file, encoding='utf-8') as f:
         content = f.read()
     check(
-        "the m3u contains the item's resolved direct-stream url",
+        "the m3u contains the resolvable item's resolved direct-stream url",
         'rr-vod.googlevideo.com/videoplayback?id=ok1' in content,
     )
     check(
@@ -774,12 +784,155 @@ def test_start_resolved_playlist_playback_pre_resolves_urls_and_skips_unresolvab
         'and the ancient bundled youtube-dl.exe fail on it before)',
         url_ok not in content,
     )
-    check('the currently-live item was skipped rather than aborting the whole playlist', 'live1' not in content)
-    check('the unresolvable item was skipped too', 'bad1' not in content)
+    check('the leading live item was skipped rather than aborting the whole playlist', 'live1' not in content)
+    check('the leading unresolvable item was skipped too', 'bad1' not in content)
+    check(
+        'only the one item that actually starts playing is written to the m3u, not the whole list '
+        '(this is the round-50 fast-start fix - see the function docstring)',
+        content.count('#EXTINF') == 1,
+    )
+    check(
+        'navigation is pointed at the third item (index 2), the one actually playing - '
+        'not item 0, which was skipped as live',
+        addon.state.current_track_index == 2 and addon.state.current_track_items == items,
+    )
     try:
         os.remove(pl_file)
     except Exception:
         pass
+
+
+def test_start_resolved_playlist_playback_only_resolves_first_item_for_fast_start():
+    """Round 50 regression coverage for the "playlist takes forever to
+    start playing" bug report (a user with many items in a playlist, or
+    opening a large playlist from search results, found Enter/F7 took a
+    long time to actually start audio - unlike earlier versions, and
+    unlike the Search and Download tab's own single-video play, which is
+    fast).
+
+    Root cause: start_resolved_playlist_playback() resolved every single
+    item in the list, one at a time, each a real yt-dlp network round
+    trip, before starting playback at all - for a large playlist this
+    could take a very long time before any audio played, even though
+    nothing after the first item actually needed to be ready yet.
+
+    This test builds a 20-item list and counts exactly how many times
+    _resolve_playable_stream() is actually called: it must be called
+    exactly once (for the first item only), never once-per-item, proving
+    playback starts as soon as the first item resolves instead of waiting
+    for the other 19 - this is what makes it as fast as an ordinary single
+    video play."""
+    addon = _load_addon()
+    addon.yt_dlp.reset()
+
+    urls = [f'https://www.youtube.com/watch?v=item{i}' for i in range(20)]
+    for i, u in enumerate(urls):
+        addon.yt_dlp.set_fake_video_info(u, {
+            'is_live': False,
+            'url': f'https://rr-vod.googlevideo.com/videoplayback?id=item{i}',
+        })
+
+    resolve_calls = []
+    real_resolve = addon._resolve_playable_stream
+
+    def _counting_resolve(url):
+        resolve_calls.append(url)
+        return real_resolve(url)
+
+    addon._resolve_playable_stream = _counting_resolve
+
+    captured = {}
+    done = threading.Event()
+
+    def _fake_start_playback_now(url, title, **kwargs):
+        captured['url'] = url
+        captured['kwargs'] = kwargs
+        done.set()
+
+    addon._start_playback_now = _fake_start_playback_now
+
+    items = [{'url': u, 'title': f'Item {i}', 'duration': 60} for i, u in enumerate(urls)]
+    addon.start_resolved_playlist_playback(
+        items, 'Big Playlist', 'userplaylist::Big Playlist', announce=True,
+    )
+    finished = done.wait(timeout=5)
+    check('playback starts even with a 20-item playlist', finished)
+    check(
+        'only the first item is ever resolved before playback starts - not all 20 '
+        '(this is the actual fast-start fix)',
+        resolve_calls == [urls[0]],
+    )
+    pl_file = captured.get('url')
+    try:
+        if pl_file and os.path.isfile(pl_file):
+            os.remove(pl_file)
+    except Exception:
+        pass
+
+
+def test_track_next_and_prev_preserve_playlist_origin_across_tracks():
+    """Round 50 regression coverage: with start_resolved_playlist_playback()
+    now only starting the first item and leaning on track_next()/
+    track_prev() (F9/F10) to reach every later item, a playlist session
+    must still be recognized as one after moving to track 2, 3, and so on,
+    not just on the very first item. state.current_playlist_origin_url is
+    what that recognition is based on - the toggle play/stop check in
+    _play_impl()/_play_playlist_from_selection()/play_selected() (pressing
+    Enter/F7 again on the item a playlist started from should stop it
+    instead of restarting it) and Shift+F7's "replay the last item" both
+    read it - but stop_playback()/_cleanup_player() always clears it, so
+    track_next() and track_prev() must capture it before stopping and
+    carry it forward into the track they switch to, or a playlist would
+    silently stop being recognized as one after just one manual skip.
+    (Round 52 note: _player_watchdog_loop()'s _on_end() no longer reads
+    this value at all - auto-continuing to the next item on its own is now
+    governed solely by the "Automatically play the next item" setting for
+    every kind of session, playlist or not - but the toggle-stop and
+    replay-last-item behavior above still depends on it, so this test
+    still matters.)"""
+    addon = _load_addon()
+
+    captured = {}
+
+    def _fake_start_playback(url, title, announce=True, playing_url_hint=None,
+                              playlist_file=None, playlist_origin_url=None):
+        captured['url'] = url
+        captured['playlist_origin_url'] = playlist_origin_url
+
+    addon.start_playback = _fake_start_playback
+    addon.state.current_playlist_origin_url = 'userplaylist::Carry Through'
+    addon._set_track_context(
+        [
+            {'url': 'https://example.invalid/a', 'title': 'A'},
+            {'url': 'https://example.invalid/b', 'title': 'B'},
+            {'url': 'https://example.invalid/c', 'title': 'C'},
+        ],
+        0,
+    )
+
+    ok_next = addon.track_next(announce=False, require_running=False)
+    check('track_next reports success', ok_next is True)
+    check(
+        'track_next carries the playlist origin url forward into the next track, '
+        'so the playlist is still recognized as one after moving off item 0',
+        captured.get('playlist_origin_url') == 'userplaylist::Carry Through',
+    )
+    check('track_next actually moved to item 1 (b)', captured.get('url') == 'https://example.invalid/b')
+
+    captured.clear()
+    # The fake start_playback() above stands in for _start_playback_now()
+    # actually running, which in production is what writes
+    # state.current_playlist_origin_url back from the value track_next()
+    # just passed it - restore it here to simulate that, then confirm
+    # track_prev() carries it forward too, not only track_next().
+    addon.state.current_playlist_origin_url = 'userplaylist::Carry Through'
+    ok_prev = addon.track_prev(announce=False, require_running=False)
+    check('track_prev reports success', ok_prev is True)
+    check(
+        'track_prev also carries the playlist origin url forward',
+        captured.get('playlist_origin_url') == 'userplaylist::Carry Through',
+    )
+    check('track_prev actually moved back to item 0 (a)', captured.get('url') == 'https://example.invalid/a')
 
 
 def test_start_resolved_playlist_playback_announces_when_nothing_resolves():
@@ -1254,6 +1407,8 @@ def run_all():
         test_mp4_format_selector_uses_bestvideo_plus_bestaudio_merge,
         test_search_type_keys_include_shorts,
         test_start_resolved_playlist_playback_pre_resolves_urls_and_skips_unresolvable,
+        test_start_resolved_playlist_playback_only_resolves_first_item_for_fast_start,
+        test_track_next_and_prev_preserve_playlist_origin_across_tracks,
         test_start_resolved_playlist_playback_announces_when_nothing_resolves,
         test_is_short_entry_prefers_shorts_url_over_duration,
         test_play_last_request_replays_resolved_playlist_by_re_resolving,

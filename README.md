@@ -39,7 +39,7 @@ The packaged `.nvda-addon` file NVDA actually loads also needs the third-party b
 `scripts/build_addon.py` builds a new `.nvda-addon` by taking those binaries from an existing, already-verified-working `.nvda-addon` build (the "vendor source") and overlaying this repository's source files (`globalPlugins/init.py`, `manifest.ini`, `doc/en/readme.html`, `COPYING.txt`, `THIRD_PARTY_NOTICES.txt`, and the `globalPlugins/lib/yt_dlp` / `fileinput.py` / `optparse.py` tree) on top. See the comments at the top of that script for why it works this way instead of re-downloading the binaries from the internet on every build.
 
 ```
-python3 scripts/build_addon.py --vendor path/to/YoutubeAccessPro-2026.07.19.nvda-addon --out YoutubeAccessPro-2026.07.19.nvda-addon
+python3 scripts/build_addon.py --vendor path/to/YoutubeAccessPro-2026.09.11.nvda-addon --out YoutubeAccessPro-2026.09.11.nvda-addon
 ```
 
 Run the automated test suite first (no NVDA/Windows required):

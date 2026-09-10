@@ -67,7 +67,7 @@
 <!-- ======================== ภาษาไทย ======================== -->
 
 <h1 id="th-top">คู่มือการใช้งาน YouTube Access Pro สำหรับ NVDA</h1>
-<p class="meta">เวอร์ชัน 2026.09.10 &nbsp;·&nbsp; ผู้พัฒนา: Peem Narkkhwan</p>
+<p class="meta">เวอร์ชัน 2026.09.11 &nbsp;·&nbsp; ผู้พัฒนา: Peem Narkkhwan</p>
 
 <p class="intro">YouTube Access Pro เป็นโปรแกรมเสริมสำหรับ NVDA ที่ให้ผู้ใช้สามารถค้นหา เล่น และดาวน์โหลดเนื้อหาจาก YouTube ได้อย่างเต็มรูปแบบ ควบคุมการทำงานทั้งหมดด้วยแป้นพิมพ์โดยไม่ต้องพึ่งเมาส์ พร้อมรองรับการอ่านสถานะโดย NVDA ตลอดการใช้งาน</p>
 
@@ -179,6 +179,7 @@
   <tr><td><kbd>Delete</kbd></td><td>ลบเพลย์ลิสต์ (ระบบจะถามยืนยันก่อนทุกครั้ง)</td></tr>
   <tr><td><kbd>R</kbd> (ไม่สนตัวพิมพ์เล็ก/ใหญ่)</td><td>เปลี่ยนชื่อเพลย์ลิสต์</td></tr>
 </table>
+<div class="note">กด <kbd>Tab</kbd> จากรายชื่อเพลย์ลิสต์เพื่อไปที่ปุ่ม <strong>Export playlists</strong> และ <strong>Import playlists</strong>: ปุ่มแรกบันทึกเพลย์ลิสต์ทั้งหมดของคุณเป็นไฟล์ .json ตามตำแหน่งที่เลือก สำหรับสำรองข้อมูลหรือย้ายไปใช้งานบนเครื่องอื่น ส่วนปุ่มหลังเพิ่มเพลย์ลิสต์จากไฟล์ .json ที่เคยส่งออกไว้เข้าสู่รายการปัจจุบัน โดยจะไม่เขียนทับเพลย์ลิสต์ที่มีชื่อเดียวกันอยู่แล้ว</div>
 
 <h3>5.2 แผงขวา — วิดีโอในเพลย์ลิสต์</h3>
 <table>
@@ -220,6 +221,7 @@
   <tr><td><kbd>Home</kbd></td><td>เพิ่มระดับเสียง (ขณะกำลังเล่น)</td></tr>
   <tr><td><kbd>End</kbd></td><td>ลดระดับเสียง (ขณะกำลังเล่น)</td></tr>
 </table>
+<div class="note">กด <kbd>Tab</kbd> จากรายการช่องที่ติดตามเพื่อไปที่ปุ่ม <strong>Export subscriptions</strong> และ <strong>Import subscriptions</strong>: ปุ่มแรกบันทึกรายชื่อช่องที่ติดตามทั้งหมดเป็นไฟล์ .json ตามตำแหน่งที่เลือก สำหรับสำรองข้อมูลหรือย้ายไปใช้งานบนเครื่องอื่น ส่วนปุ่มหลังเพิ่มรายชื่อช่องจากไฟล์ .json ที่เคยส่งออกไว้เข้าสู่รายการติดตามปัจจุบัน โดยไม่ลบช่องที่ติดตามอยู่แล้ว</div>
 
 <h3>6.2 การไล่ดูหมวดหมู่ของช่อง</h3>
 <p>เมื่อกด <kbd>Enter</kbd> บนช่องในรายการหัวข้อ 6.1 รายการทางขวาจะแสดงหมวดของช่องนั้นก่อน ได้แก่ Videos, Shorts, Live และ Playlists กด <kbd>Enter</kbd> บนหมวดใดเพื่อเปิดดู</p>
@@ -285,15 +287,14 @@
   <tr><td>Search result limit</td><td>จำนวนผลการค้นหาสูงสุดที่แสดง</td></tr>
   <tr><td>Announce player hotkeys</td><td>กำหนดให้ NVDA อ่านสถานะเมื่อกดคีย์ลัดควบคุมการเล่น รวมถึงการกรอเดินหน้า/ถอยหลัง (ลูกศรซ้าย/ขวา, <kbd>Shift+F9</kbd>/<kbd>F10</kbd>) และการปรับเสียง (<kbd>Home</kbd>/<kbd>End</kbd>, <kbd>F11</kbd>/<kbd>F12</kbd>) ปิดตัวเลือกนี้เพื่อให้คีย์เหล่านี้ทำงานแบบเงียบ ส่วนคีย์ตัวจับเวลาปิด (<kbd>F6</kbd>/<kbd>Shift+F6</kbd>/<kbd>Ctrl+F6</kbd>) จะอ่านผลลัพธ์เสมอไม่ว่าจะตั้งค่านี้ไว้อย่างไร เนื่องจากเป็นวิธีเดียวที่จะทราบเวลาที่ตั้งไว้</td></tr>
   <tr><td>Enable global player hotkeys outside this window</td><td>เปิดใช้คีย์ลัดกลุ่ม <kbd>F6</kbd>–<kbd>F12</kbd> ทั่วทั้งระบบ โดย <kbd>F7</kbd>–<kbd>F12</kbd> ต้องมีเสียงกำลังเล่นอยู่ ส่วนกลุ่มตัวจับเวลาปิด (<kbd>F6</kbd>/<kbd>Shift+F6</kbd>/<kbd>Ctrl+F6</kbd>) ใช้ได้ไม่ว่าจะกำลังเล่นอยู่หรือไม่</td></tr>
-  <tr><td>Automatically play the next item when the current one ends</td><td>เล่นรายการถัดไปโดยอัตโนมัติเมื่อรายการปัจจุบันจบ (ปิดไว้เป็นค่าเริ่มต้น)</td></tr>
+  <tr><td>Automatically play the next item when the current one ends</td><td>ตัวเลือกเดียวนี้ควบคุมทุกส่วนของโปรแกรมแบบเดียวกันหมด (ปิดไว้เป็นค่าเริ่มต้น) — <strong>เปิดไว้</strong>: ทุกอย่างเล่นต่อเนื่องไปยังรายการถัดไปเองเมื่อรายการปัจจุบันจบ ไม่ว่าจะเป็นผลการค้นหา รายการของช่องที่ติดตาม หรือเพลย์ลิสต์ทุกประเภท <strong>ปิดไว้</strong>: จะไม่มีการเล่นต่อเนื่องอัตโนมัติเลย แม้แต่เพลย์ลิสต์จริง จะเล่นเฉพาะรายการที่เลือกไว้เท่านั้นแล้วหยุด การเลื่อนไปเองด้วย <kbd>F9</kbd>/<kbd>F10</kbd> ยังใช้งานได้ตามปกติไม่ว่าจะตั้งค่านี้ไว้อย่างไร</td></tr>
   <tr><td>Play advance warnings before the sleep timer stops playback</td><td>แจ้งเตือนล่วงหน้าก่อนตัวจับเวลาปิดจะหยุดเล่นเพลง ด้วยเสียงพูดเมื่อเหลือ 1 นาที และเสียงบี๊บสั้นนับถอยหลังทีละวินาทีในช่วง 10 วินาทีสุดท้าย การปิดตัวเลือกนี้จะข้ามเฉพาะสองส่วนดังกล่าว ส่วนเสียงพูดแจ้งพร้อมเสียงบี๊บยาวหนึ่งครั้งเมื่อถึงเวลาปิดจริงจะยังคงทำงานเสมอ (เปิดไว้เป็นค่าเริ่มต้น)</td></tr>
-  <tr><td>Export subscriptions</td><td>บันทึกรายชื่อช่องที่ติดตามทั้งหมดเป็นไฟล์ .json ตามตำแหน่งที่เลือก สำหรับสำรองข้อมูลหรือย้ายไปใช้งานบนเครื่องอื่น</td></tr>
-  <tr><td>Import subscriptions</td><td>เพิ่มรายชื่อช่องจากไฟล์ .json ที่เคยส่งออกไว้เข้าสู่รายการติดตามปัจจุบัน โดยไม่ลบช่องที่ติดตามอยู่แล้ว</td></tr>
   <tr><td>yt-dlp library</td><td>แสดงเวอร์ชันของไลบรารี yt-dlp ที่ใช้งานอยู่ในปัจจุบัน</td></tr>
   <tr><td>Automatically check for yt-dlp updates</td><td>ตรวจสอบอัปเดตของ yt-dlp โดยอัตโนมัติหลังเปิดหน้าต่างไม่นาน หากพบเวอร์ชันใหม่จะตรวจสอบค่า sha256 ก่อนติดตั้งเสมอ (เปิดไว้เป็นค่าเริ่มต้น)</td></tr>
   <tr><td>Check for update now</td><td>ตรวจสอบอัปเดตของ yt-dlp ทันที โดยไม่ต้องรอการตรวจสอบอัตโนมัติ</td></tr>
 </table>
 <p>กดปุ่ม <strong>Save settings</strong> เพื่อบันทึกการตั้งค่า</p>
+<div class="note">ปุ่ม Export/Import subscriptions ได้ย้ายไปอยู่ในแท็บ Subscriptions โดยตรงแล้ว (ดูหัวข้อ 6.1) และปุ่ม Export/Import playlists ก็ย้ายไปอยู่ในแท็บ Playlists โดยตรงเช่นกัน (ดูหัวข้อ 5.1) ไม่ต้องเข้ามาที่แท็บ Settings อีกต่อไป</div>
 
 <h2 id="th-9">9. การแก้ปัญหาเบื้องต้น</h2>
 <table>
@@ -312,7 +313,7 @@
 <!-- ======================== ENGLISH ======================== -->
 
 <h1 id="en-top">User Guide — YouTube Access Pro Add-on for NVDA</h1>
-<p class="meta">Version 2026.09.10 &nbsp;·&nbsp; Author: Peem Narkkhwan</p>
+<p class="meta">Version 2026.09.11 &nbsp;·&nbsp; Author: Peem Narkkhwan</p>
 
 <p class="intro">YouTube Access Pro is an NVDA add-on that gives users full access to YouTube: searching, playing, and downloading content entirely from the keyboard, with complete NVDA speech feedback throughout.</p>
 
@@ -424,6 +425,7 @@
   <tr><td><kbd>Delete</kbd></td><td>Delete the selected playlist (always asks for confirmation)</td></tr>
   <tr><td><kbd>R</kbd> (not case-sensitive)</td><td>Rename the selected playlist</td></tr>
 </table>
+<div class="note">Press <kbd>Tab</kbd> from the playlist list to reach the <strong>Export playlists</strong> and <strong>Import playlists</strong> buttons: the first saves all of your playlists to a .json file of your choosing, for backup or moving to another computer; the second adds playlists from a previously exported .json file into your current list, without overwriting any playlist that already has the same name.</div>
 
 <h3>5.2 Right Pane — Videos in Playlist</h3>
 <table>
@@ -465,6 +467,7 @@
   <tr><td><kbd>Home</kbd></td><td>Volume up (while something is playing)</td></tr>
   <tr><td><kbd>End</kbd></td><td>Volume down (while something is playing)</td></tr>
 </table>
+<div class="note">Press <kbd>Tab</kbd> from the subscribed channels list to reach the <strong>Export subscriptions</strong> and <strong>Import subscriptions</strong> buttons: the first saves the full list of followed channels to a .json file of your choosing, for backup or moving to another computer; the second adds channels from a previously exported .json file into your current subscriptions list, without removing any already followed.</div>
 
 <h3>6.2 Browsing a Channel's Sections</h3>
 <p>Pressing <kbd>Enter</kbd> on a channel in section 6.1 shows that channel's sections first: Videos, Shorts, Live, and Playlists. Press <kbd>Enter</kbd> on a section to open it.</p>
@@ -530,15 +533,14 @@
   <tr><td>Search result limit</td><td>Maximum number of search results shown</td></tr>
   <tr><td>Announce player hotkeys</td><td>Makes NVDA speak feedback for player keys, including seek (Left/Right, <kbd>Shift+F9</kbd>/<kbd>F10</kbd>) and volume (<kbd>Home</kbd>/<kbd>End</kbd>, <kbd>F11</kbd>/<kbd>F12</kbd>). Turn this off for silent operation of those keys. The sleep timer keys (<kbd>F6</kbd>/<kbd>Shift+F6</kbd>/<kbd>Ctrl+F6</kbd>) always announce their result regardless of this setting, since that is the only way to know what value was just set.</td></tr>
   <tr><td>Enable global player hotkeys outside this window</td><td>Enables the <kbd>F6</kbd>–<kbd>F12</kbd> shortcuts system-wide. <kbd>F7</kbd>–<kbd>F12</kbd> require audio to be actively playing; the sleep timer group (<kbd>F6</kbd>/<kbd>Shift+F6</kbd>/<kbd>Ctrl+F6</kbd>) works either way.</td></tr>
-  <tr><td>Automatically play the next item when the current one ends</td><td>Automatically continues to the next item when playback ends (off by default)</td></tr>
+  <tr><td>Automatically play the next item when the current one ends</td><td>This one setting governs every part of the add-on the same way (off by default). <strong>Turned on</strong>: everything continues on its own to the next item when the current one ends - search results, a followed channel's lists, and every kind of playlist alike. <strong>Turned off</strong>: nothing continues automatically, including a real playlist - only the item you selected plays, then stops. Manually moving with <kbd>F9</kbd>/<kbd>F10</kbd> always works either way.</td></tr>
   <tr><td>Play advance warnings before the sleep timer stops playback</td><td>Plays a spoken notice at 1 minute remaining, plus a short beep once per second for the final 10 seconds. Turning this off skips only those two warnings — the spoken announcement and confirmation beep when playback actually stops still always play (on by default).</td></tr>
-  <tr><td>Export subscriptions</td><td>Saves the full list of followed channels to a .json file of your choosing, for backup or moving to another computer</td></tr>
-  <tr><td>Import subscriptions</td><td>Adds channels from a previously exported .json file into the current subscriptions list, without removing any already followed</td></tr>
   <tr><td>yt-dlp library</td><td>Shows the version of the bundled yt-dlp library currently in use</td></tr>
   <tr><td>Automatically check for yt-dlp updates</td><td>Checks for a newer yt-dlp release shortly after the window opens; any update found is verified against its published sha256 checksum before installing (on by default)</td></tr>
   <tr><td>Check for update now</td><td>Runs the same update check immediately instead of waiting for the automatic check</td></tr>
 </table>
 <p>Press <strong>Save settings</strong> to apply changes.</p>
+<div class="note">The Export/Import subscriptions buttons have moved directly onto the Subscriptions tab (see section 6.1), and Export/Import playlists directly onto the Playlists tab (see section 5.1) — there is no longer a need to come to Settings for either.</div>
 
 <h2 id="en-9">9. Troubleshooting</h2>
 <table>
@@ -552,7 +554,7 @@
   <tr><td>Worried that playlists, subscriptions, or settings will be lost when updating the add-on</td><td>No need to worry — as of this version, this data is stored outside the add-on's own folder (inside NVDA's own configuration folder), so updating or reinstalling no longer erases it</td></tr>
 </table>
 
-<p class="footer-note">YouTube Access Pro v2026.09.10</p>
+<p class="footer-note">YouTube Access Pro v2026.09.11</p>
 
 </body>
 </html>
