@@ -71,9 +71,14 @@ REPO_MANAGED_FILES = {
     "THIRD_PARTY_NOTICES.txt",
     "globalPlugins/lib/fileinput.py",
     "globalPlugins/lib/optparse.py",
+    "globalPlugins/lib/ai_karaoke.py",
 }
 REPO_MANAGED_PREFIXES = (
     "globalPlugins/lib/yt_dlp/",
+    "globalPlugins/lib/uvr/",
+)
+EXCLUDED_VENDOR_PREFIXES = (
+    "globalPlugins/lib/sherpa/",
 )
 
 
@@ -93,15 +98,16 @@ def repo_source_files(repo_root: str):
             continue
         yield rel, abs_path
 
-    ytdlp_dir = os.path.join(repo_root, "globalPlugins", "lib", "yt_dlp")
-    if not os.path.isdir(ytdlp_dir):
-        print("WARNING: globalPlugins/lib/yt_dlp not found in repo", file=sys.stderr)
-        return
-    for dirpath, _dirnames, filenames in os.walk(ytdlp_dir):
-        for fn in filenames:
-            abs_path = os.path.join(dirpath, fn)
-            rel = os.path.relpath(abs_path, repo_root).replace(os.sep, "/")
-            yield rel, abs_path
+    for prefix in REPO_MANAGED_PREFIXES:
+        p_dir = os.path.join(repo_root, prefix.replace("/", os.sep))
+        if not os.path.isdir(p_dir):
+            print(f"WARNING: {prefix} not found in repo", file=sys.stderr)
+            continue
+        for dirpath, _dirnames, filenames in os.walk(p_dir):
+            for fn in filenames:
+                abs_path = os.path.join(dirpath, fn)
+                rel = os.path.relpath(abs_path, repo_root).replace(os.sep, "/")
+                yield rel, abs_path
 
 
 def build(vendor_path: str, repo_root: str, out_path: str, overrides: dict = None) -> None:
@@ -124,6 +130,8 @@ def build(vendor_path: str, repo_root: str, out_path: str, overrides: dict = Non
                     continue
                 if info.filename in overrides:
                     continue  # will be added fresh from --override below
+                if any(info.filename.startswith(p) for p in EXCLUDED_VENDOR_PREFIXES):
+                    continue  # legacy/replaced binaries not needed
                 if is_repo_managed(info.filename):
                     continue  # will be added fresh from the repo below
                 data = vendor_zip.read(info.filename)

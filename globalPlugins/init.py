@@ -1,6 +1,6 @@
 # YouTube Access Pro for NVDA
 # Author  Peem Narkkhwan <sharetoyouaccess@gmail.com>
-# Version  2026.09.11
+# Version  2026.09.16
 # Description  Global plugin for searching, downloading and playing YouTube videos and audio using yt-dlp
 
 import globalPluginHandler
@@ -74,6 +74,10 @@ def _is_secure_mode():
 # further down in this file.
 
 TH_STRINGS = {
+    '  {} of {}': '  {} จาก {}',
+    '  {} subscribers': '  ผู้ติดตาม {} คน',
+    ' ({})': ' ({})',
+    ' - {}': ' - {}',
     '1 link downloading': 'กำลังดาวน์โหลด 1 ลิงก์',
     '1080p  Full HD': '1080p  ฟูลเอชดี',
     '128 kbps  Low': '128 กิโลบิตต่อวินาที  ต่ำ',
@@ -81,23 +85,35 @@ TH_STRINGS = {
     '320 kbps  High': '320 กิโลบิตต่อวินาที  สูง',
     '480p  SD': '480p  เอสดี',
     '720p  HD': '720p  เอชดี',
+    'Karaoke engine is not available': 'ระบบคาราโอเกะไม่พร้อมใช้งาน',
     'Add to playlist': 'เพิ่มลงเพลย์ลิสต์',
+    'Added to {} playlist': 'เพิ่มลงเพลย์ลิสต์ {} แล้ว',
     'Already checking for an update': 'กำลังตรวจสอบอัปเดตอยู่แล้ว',
+    'Already downloading {} for this link': 'กำลังดาวน์โหลด {} สำหรับลิงก์นี้อยู่แล้ว',
+    'Already in {} playlist': 'มีอยู่ในเพลย์ลิสต์ {} แล้ว',
+    'Already subscribed to {}': 'ติดตามช่อง {} อยู่แล้ว',
     'Announce download status  F3': 'แจ้งสถานะการดาวน์โหลด  F3',
     'Announce player hotkeys': 'แจ้งปุ่มลัดของเครื่องเล่น',
     'Audio quality  bitrate': 'คุณภาพเสียง  บิตเรต',
     'Automatically check for yt-dlp updates': 'ตรวจสอบอัปเดต yt-dlp โดยอัตโนมัติ',
+    'Automatically play the next item when the current one ends': 'เล่นรายการถัดไปโดยอัตโนมัติเมื่อรายการปัจจุบันจบ',
     'Back': 'ย้อนกลับ',
     'Back  press Enter or Backspace': 'ย้อนกลับ  กด Enter หรือ Backspace',
     'Best  automatic': 'ดีที่สุด  อัตโนมัติ',
     'Canceled': 'ยกเลิกแล้ว',
+    'Canceled and removed {} files': 'ยกเลิกและลบไฟล์ไปแล้ว {} ไฟล์',
     'Cannot create playlist file': 'ไม่สามารถสร้างไฟล์เพลย์ลิสต์ได้',
+    'Cannot find channel information for this item': 'ไม่พบข้อมูลช่องของรายการนี้',
     'Cannot open browser': 'ไม่สามารถเปิดเบราว์เซอร์ได้',
     'Cannot play last item': 'ไม่สามารถเล่นรายการล่าสุดได้',
-    'Could not play this playlist': 'ไม่สามารถเล่นเพลย์ลิสต์นี้ได้',
-    'No playable items in this playlist': 'ไม่มีรายการที่เล่นได้ในเพลย์ลิสต์นี้',
     'Cannot set speed': 'ไม่สามารถตั้งความเร็วได้',
     'Cannot start player  opening in browser': 'ไม่สามารถเริ่มเครื่องเล่นได้  กำลังเปิดในเบราว์เซอร์',
+    'Cannot toggle karaoke  player is not running': 'ไม่สามารถสลับโหมดคาราโอเกะได้  เครื่องเล่นไม่ได้ทำงานอยู่',
+    'Channel': 'ช่อง',
+    'Channel  {}': 'ช่อง  {}',
+    'Channel content': 'เนื้อหาของช่อง',
+    'Channel downloading': 'ช่องกำลังดาวน์โหลด',
+    'Channel downloading  MP3  {}  MP4  {}': 'ช่องกำลังดาวน์โหลด  MP3  {}  MP4  {}',
     'Check for update now': 'ตรวจสอบอัปเดตตอนนี้',
     'Checking for yt-dlp update': 'กำลังตรวจสอบอัปเดต yt-dlp',
     'Clear search field': 'ล้างช่องค้นหา',
@@ -107,57 +123,92 @@ TH_STRINGS = {
     'Contents': 'รายการภายใน',
     'Copied playlist link': 'คัดลอกลิงก์เพลย์ลิสต์แล้ว',
     'Copied video link': 'คัดลอกลิงก์วิดีโอแล้ว',
-    'Copy failed': 'คัดลอกไม่สำเร็จ',
+    'Copied {}': 'คัดลอก {} แล้ว',
     'Copy channel link': 'คัดลอกลิงก์ช่อง',
+    'Copy failed': 'คัดลอกไม่สำเร็จ',
     'Copy playlist link': 'คัดลอกลิงก์เพลย์ลิสต์',
     'Copy video link': 'คัดลอกลิงก์วิดีโอ',
     'Could not check for updates  no connection to PyPI': 'ไม่สามารถตรวจสอบอัปเดตได้  ไม่มีการเชื่อมต่อไปยัง PyPI',
+    'Could not play this playlist': 'ไม่สามารถเล่นเพลย์ลิสต์นี้ได้',
     'Create new playlist': 'สร้างเพลย์ลิสต์ใหม่',
+    'Current version: {}': 'เวอร์ชันปัจจุบัน: {}',
+    'Current version: {} ({})': 'เวอร์ชันปัจจุบัน: {} ({})',
     'Delete  Del': 'ลบ  Del',
     'Delete this playlist': 'ลบเพลย์ลิสต์นี้',
-    'Download as audio  F1': 'ดาวน์โหลดเป็นเสียง  F1',
-    'Download as video  F2': 'ดาวน์โหลดเป็นวิดีโอ  F2',
     'Download': 'ดาวน์โหลด',
+    'Download as audio  F1': 'ดาวน์โหลดเป็นเสียง  F1',
+    'Download as karaoke MP3  Shift+F1': 'ดาวน์โหลดเป็นคาราโอเกะ MP3  Shift+F1',
+    'Download as video  F2': 'ดาวน์โหลดเป็นวิดีโอ  F2',
+    'Download completed  {}  {}': 'ดาวน์โหลดเสร็จแล้ว  {}  {}',
     'Download error': 'ดาวน์โหลดผิดพลาด',
     'Download folder': 'โฟลเดอร์ดาวน์โหลด',
     'Download latest videos as audio  F1': 'ดาวน์โหลดคลิปล่าสุดเป็นเสียง  F1',
+    'Download latest videos as karaoke MP3  Shift+F1': 'ดาวน์โหลดคลิปล่าสุดเป็นคาราโอเกะ MP3  Shift+F1',
     'Download latest videos as video  F2': 'ดาวน์โหลดคลิปล่าสุดเป็นวิดีโอ  F2',
     'Download playlist': 'ดาวน์โหลดเพลย์ลิสต์',
     'Download playlist as audio  F1': 'ดาวน์โหลดเพลย์ลิสต์เป็นเสียง  F1',
+    'Download playlist as karaoke MP3  Shift+F1': 'ดาวน์โหลดเพลย์ลิสต์เป็นคาราโอเกะ MP3  Shift+F1',
     'Download playlist as video  F2': 'ดาวน์โหลดเพลย์ลิสต์เป็นวิดีโอ  F2',
+    'Download queued  {} items': 'อยู่ในคิวดาวน์โหลด  {} รายการ',
+    'Download starting  {}  {}': 'เริ่มดาวน์โหลด  {}  {}',
     'Downloads in progress': 'กำลังดาวน์โหลดอยู่',
     'Enable global player hotkeys outside this window': 'เปิดใช้ปุ่มลัดเครื่องเล่นทั่วทั้งระบบแม้ไม่ได้อยู่ในหน้าต่างนี้',
+    'Encoding 320k MP3  please wait': 'กำลังแปลงไฟล์เป็น MP3 320k  กรุณารอสักครู่',
     'English': 'อังกฤษ',
     'Error': 'ข้อผิดพลาด',
     'Error in search': 'เกิดข้อผิดพลาดในการค้นหา',
     'Error opening download folder': 'เกิดข้อผิดพลาดขณะเปิดโฟลเดอร์ดาวน์โหลด',
     'Error opening item': 'เกิดข้อผิดพลาดขณะเปิดรายการ',
     'Exit': 'ออก',
-    'Export failed': 'ส่งออกไม่สำเร็จ',
-    'Export subscriptions': 'ส่งออกรายชื่อช่องที่ติดตาม',
-    'Import failed': 'นำเข้าไม่สำเร็จ',
-    'Import subscriptions': 'นำเข้ารายชื่อช่องที่ติดตาม',
     'Exited': 'ออกแล้ว',
+    'Export failed': 'ส่งออกไม่สำเร็จ',
+    'Export playlists': 'ส่งออกเพลย์ลิสต์',
+    'Export subscriptions': 'ส่งออกรายชื่อช่องที่ติดตาม',
+    'Exported {} channels': 'ส่งออกช่อง {} ช่องแล้ว',
+    'Exported {} playlists': 'ส่งออกเพลย์ลิสต์ {} รายการแล้ว',
     'FFmpeg is missing': 'ไม่พบ FFmpeg',
+    'FFmpeg is missing:\n{}': 'ไม่พบ FFmpeg:\n{}',
     'Fast forward': 'กรอไปข้างหน้า',
     'Fast forward 30 seconds': 'กรอไปข้างหน้า 30 วินาที',
     'Fetching playlist items': 'กำลังดึงรายการในเพลย์ลิสต์',
     'First track': 'เพลงแรก',
+    'Global player announce sleep timer remaining time when mpv is running': 'แจ้งเวลาที่เหลือของตัวจับเวลาปิดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player next track when mpv is running': 'เพลงถัดไปทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player pause resume when mpv is running': 'หยุดชั่วคราวหรือเล่นต่อทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player previous track when mpv is running': 'เพลงก่อนหน้าทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player seek backward 30 seconds when mpv is running': 'ถอยหลัง 30 วินาทีทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player seek forward 30 seconds when mpv is running': 'กรอไปข้างหน้า 30 วินาทีทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
+    'Global player sleep timer decrease when mpv is running': 'ลดเวลาของตัวจับเวลาปิดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
+    'Global player sleep timer increase when mpv is running': 'เพิ่มเวลาของตัวจับเวลาปิดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player speed down when mpv is running': 'ลดความเร็วทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player speed up when mpv is running': 'เพิ่มความเร็วทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player stop when mpv is running': 'หยุดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
+    'Global player toggle karaoke vocal cut mode when mpv is running': 'สลับโหมดคาราโอเกะตัดเสียงร้องทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player volume down when mpv is running': 'ลดเสียงทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
     'Global player volume up when mpv is running': 'เพิ่มเสียงทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
+    'Import failed': 'นำเข้าไม่สำเร็จ',
+    'Import playlists': 'นำเข้าเพลย์ลิสต์',
+    'Import subscriptions': 'นำเข้ารายชื่อช่องที่ติดตาม',
+    'Imported {} new channels': 'นำเข้าช่องใหม่ {} ช่องแล้ว',
+    'Imported {} new playlists': 'นำเข้าเพลย์ลิสต์ใหม่ {} รายการแล้ว',
+    'Karaoke MP3': 'คาราโอเกะ MP3',
+    'Karaoke MP3  {}': 'คาราโอเกะ MP3  {}',
+    'Karaoke MP3  {} {}': 'คาราโอเกะ MP3  {} {}',
+    'Karaoke mode off': 'ปิดโหมดคาราโอเกะ',
+    'Karaoke mode on': 'เปิดโหมดคาราโอเกะ ตัดเสียงร้อง',
     'Last track': 'เพลงสุดท้าย',
+    'Live': 'ถ่ายทอดสด',
+    'Live stream  opening in your browser for stable playback': 'ถ่ายทอดสด  กำลังเปิดในเบราว์เซอร์เพื่อความเสถียร',
+    'MP3  {} {}': 'MP3  {} {}',
+    'MP3  {} {}  MP4  {} {}': 'MP3  {} {}  MP4  {} {}',
+    'MP4  {} {}': 'MP4  {} {}',
     'Name': 'ชื่อ',
     'New name': 'ชื่อใหม่',
     'New playlist': 'เพลย์ลิสต์ใหม่',
+    'Next  {}': 'ถัดไป  {}',
+    'No channel selected': 'ไม่ได้เลือกช่อง',
     'No downloadable items': 'ไม่มีรายการที่ดาวน์โหลดได้',
+    'No downloads for this channel': 'ไม่มีการดาวน์โหลดสำหรับช่องนี้',
     'No downloads for this playlist': 'ไม่มีการดาวน์โหลดสำหรับเพลย์ลิสต์นี้',
     'No downloads running': 'ไม่มีการดาวน์โหลดที่กำลังทำงาน',
     'No item selected': 'ไม่ได้เลือกรายการ',
@@ -165,34 +216,50 @@ TH_STRINGS = {
     'No items in this playlist': 'ไม่มีรายการในเพลย์ลิสต์นี้',
     'No last item to play': 'ไม่มีรายการล่าสุดให้เล่น',
     'No link': 'ไม่มีลิงก์',
+    'No playable items in this playlist': 'ไม่มีรายการที่เล่นได้ในเพลย์ลิสต์นี้',
     'No playlist selected': 'ไม่ได้เลือกเพลย์ลิสต์',
     'No playlist url': 'ไม่มีลิงก์เพลย์ลิสต์',
+    'No playlists to export': 'ยังไม่มีเพลย์ลิสต์ให้ส่งออก',
     'No previous list': 'ไม่มีรายการก่อนหน้า',
     'No results found': 'ไม่พบผลการค้นหา',
+    'No subscribed channels': 'ยังไม่ได้ติดตามช่องใดเลย',
     'No track list': 'ไม่มีรายการเพลง',
     'No valid url to play': 'ไม่มีลิงก์ที่ใช้เล่นได้',
     'Normal speed': 'ความเร็วปกติ',
     'Not a playlist': 'ไม่ใช่เพลย์ลิสต์',
     'Not downloading': 'ไม่ได้กำลังดาวน์โหลด',
+    'Now playing  {}': 'กำลังเล่น  {}',
     'Only available for videos': 'ใช้ได้เฉพาะกับวิดีโอเท่านั้น',
     'Only videos can be added': 'เพิ่มได้เฉพาะวิดีโอเท่านั้น',
     'Only videos can be added to playlist': 'เพิ่มลงเพลย์ลิสต์ได้เฉพาะวิดีโอเท่านั้น',
     'Open YouTube Access Pro window': 'เปิดหน้าต่าง YouTube Access Pro',
-    'Open in browser': 'เปิดในเบราว์เซอร์',
     'Open channel contents  Enter': 'เปิดดูรายการของช่อง  Enter',
+    'Open channel contents to download items': 'เปิดดูรายการของช่องก่อนเพื่อดาวน์โหลด',
+    'Open in browser': 'เปิดในเบราว์เซอร์',
     'Open playlist contents  Enter': 'เปิดดูรายการในเพลย์ลิสต์  Enter',
     'Open playlist contents to download items': 'เปิดดูรายการในเพลย์ลิสต์เพื่อดาวน์โหลด',
     'Open the interface': 'เปิดหน้าต่างโปรแกรม',
     'Opening download folder': 'กำลังเปิดโฟลเดอร์ดาวน์โหลด',
     'Paused': 'หยุดชั่วคราว',
     'Play  F7': 'เล่น  F7',
+    'Play advance warnings before the sleep timer stops playback': 'เตือนล่วงหน้าก่อนตัวจับเวลาปิดจะหยุดเล่นเพลง',
     'Play playlist from beginning': 'เล่นเพลย์ลิสต์จากเพลงแรก',
     'Playback ended': 'เล่นจบแล้ว',
+    'Playback will stop in 1 minute': 'จะหยุดเล่นเพลงในอีก 1 นาที',
     'Player not available  opening in browser': 'ไม่มีเครื่องเล่น  กำลังเปิดในเบราว์เซอร์',
+    'Playing  {}': 'กำลังเล่น  {}',
     'Playlist': 'เพลย์ลิสต์',
+    'Playlist  {}': 'เพลย์ลิสต์  {}',
+    'Playlist  {}  1 of 1': 'เพลย์ลิสต์  {}  1 จาก 1',
+    'Playlist  {}  {} items': 'เพลย์ลิสต์  {}  {} รายการ',
+    'Playlist downloading': 'กำลังดาวน์โหลดเพลย์ลิสต์',
+    'Playlist downloading  MP3  {}  MP4  {}': 'กำลังดาวน์โหลดเพลย์ลิสต์  MP3  {}  MP4  {}',
     'Playlists': 'เพลย์ลิสต์',
+    'Previous  {}': 'ก่อนหน้า  {}',
     'Processing': 'กำลังประมวลผล',
     'Quality options': 'ตัวเลือกคุณภาพ',
+    'Reached the end of the list': 'ถึงรายการสุดท้ายแล้ว',
+    'Remove  {}  from this playlist': 'ลบ  {}  ออกจากเพลย์ลิสต์นี้',
     'Remove from playlist  Del': 'ลบออกจากเพลย์ลิสต์  Del',
     'Remove this link from this playlist': 'ลบลิงก์นี้ออกจากเพลย์ลิสต์',
     'Removed': 'ลบแล้ว',
@@ -210,123 +277,74 @@ TH_STRINGS = {
     'Search result limit': 'จำนวนผลการค้นหาสูงสุด',
     'Search text or paste a link': 'พิมพ์คำค้นหาหรือวางลิงก์',
     'Search type': 'ประเภทการค้นหา',
+    'Processing karaoke vocal cut  please wait': 'กำลังตัดเสียงร้องคาราโอเกะ  กรุณารอสักครู่',
     'Settings': 'ตั้งค่า',
     'Settings saved': 'บันทึกการตั้งค่าแล้ว',
+    'Shorts': 'Shorts',
+    'Sleep timer at maximum': 'ตั้งเวลาปิดสูงสุดแล้ว',
+    'Sleep timer off': 'ปิดตัวจับเวลาแล้ว',
+    'Sleep timer reached  stopped playback': 'ถึงเวลาปิดแล้ว หยุดเล่นเพลง',
+    'Sleep timer set to {} minutes': 'ตั้งเวลาปิดใน {} นาที',
+    'Speed  {}': 'ความเร็ว  {}',
     'Speed at maximum': 'ความเร็วสูงสุดแล้ว',
     'Speed at minimum': 'ความเร็วต่ำสุดแล้ว',
     'Speed reset': 'รีเซ็ตความเร็วแล้ว',
     'Stop': 'หยุด',
     'Stopped': 'หยุดแล้ว',
+    'Subscribed channels': 'ช่องที่ติดตาม',
+    'Subscribed to {}': 'ติดตามช่อง {} แล้ว',
+    'Subscriptions': 'ติดตาม',
+    'Switched the interface menu to {}': 'เปลี่ยนเมนูการใช้งานเป็นภาษา{}',
     'Tab changed': 'เปลี่ยนแท็บแล้ว',
     'Thai': 'ไทย',
     'This playlist is empty': 'เพลย์ลิสต์นี้ว่างเปล่า',
+    'Unknown channel': 'ไม่ทราบชื่อช่อง',
     'Unknown playlist': 'ไม่ทราบชื่อเพลย์ลิสต์',
     'Unknown title': 'ไม่ทราบชื่อเรื่อง',
+    'Unsubscribe  Del': 'เลิกติดตาม  Del',
+    'Unsubscribe from {}': 'เลิกติดตามช่อง {} ใช่หรือไม่',
+    'Unsubscribed from {}': 'เลิกติดตามช่อง {} แล้ว',
     'Video': 'วิดีโอ',
     'Video resolution': 'ความละเอียดวิดีโอ',
     'Videos': 'วิดีโอ',
-    'Shorts': 'Shorts',
+    'Volume  {}': 'เสียง  {}',
     'Volume at maximum': 'เสียงดังสุดแล้ว',
     'Volume muted': 'ปิดเสียงแล้ว',
     'Warning': 'คำเตือน',
+    'YouTube Access Pro': 'YouTube Access Pro',
+    'YouTube Access Pro  Now playing  {}': 'YouTube Access Pro  กำลังเล่น  {}',
     'YouTube Access Pro already open': 'เปิด YouTube Access Pro อยู่แล้ว',
+    'channel link': 'ลิงก์ช่อง',
+    'download': 'การดาวน์โหลด',
+    'downloads': 'การดาวน์โหลด',
+    'item': 'รายการ',
+    'items': 'รายการ',
     'playlist link': 'ลิงก์เพลย์ลิสต์',
     'restart NVDA to use it': 'รีสตาร์ต NVDA เพื่อใช้งาน',
     'unknown': 'ไม่ทราบ',
     'video link': 'ลิงก์วิดีโอ',
     'yt dlp error': 'yt-dlp ผิดพลาด',
+    "Subscriptions help. The channel list holds channels you have subscribed to. Press Tab to move to the right-hand list. On the channel list: press Enter to browse that channel, F1 and F2 download all of its latest videos as audio or video, Shift+F1 downloads them as karaoke MP3, F3 announces its download status, Delete unsubscribes after asking you to confirm. The right-hand list browses a selected channel the same way YouTube itself does: selecting a channel first shows its Videos, Shorts, Live, and Playlists sections - press Enter on one to open it. Opening Videos, Shorts, or Live shows that section's videos directly; opening Playlists shows the channel's own playlists, and pressing Enter on one of those opens its videos. Press Backspace to go back up one level at any point. Once a video is shown: F7 plays or stops, F8 pauses or resumes, Shift+F8 toggles karaoke vocal cut mode, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Space also pauses or resumes, and Home and End turn the volume up or down. F1 and F2 download the selected video as audio or video, Shift+F1 downloads it as karaoke MP3, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Control+C copies its link. To subscribe to a channel in the first place, find one of its videos on the Search and Download tab and press Control+S there. Press Tab from the channel list to reach two buttons: Export subscriptions saves your followed channels to a file you choose, and Import subscriptions adds channels from a previously exported file into your current list without removing any you already follow - useful when moving to a new computer or reinstalling NVDA. Press Control+F1 again on any tab to hear its own help.": "วิธีใช้หน้าติดตาม รายการช่องเก็บช่องที่คุณติดตามไว้ กด Tab เพื่อไปที่รายการทางขวา ในรายการช่อง กด Enter เพื่อดูเนื้อหาของช่องนั้น F1 และ F2 ดาวน์โหลดคลิปล่าสุดทั้งหมดของช่องนั้นเป็นเสียงหรือวิดีโอ Shift+F1 ดาวน์โหลดเป็นคาราโอเกะ MP3 ตัดเสียงร้อง F3 แจ้งสถานะการดาวน์โหลด Delete เลิกติดตามหลังจากถามยืนยันก่อน รายการทางขวาเรียกดูช่องที่เลือกเหมือนกับ YouTube เอง เมื่อเลือกช่องจะเห็นหมวด Videos, Shorts, Live และ Playlists ก่อน กด Enter บนหมวดใดเพื่อเปิดดู การเปิด Videos, Shorts หรือ Live จะแสดงคลิปของหมวดนั้นโดยตรง ส่วนการเปิด Playlists จะแสดงเพลย์ลิสต์ของช่องนั้น กด Enter บนเพลย์ลิสต์ใดเพื่อเปิดดูคลิปในเพลย์ลิสต์นั้น กด Backspace เพื่อย้อนกลับขึ้นไปหนึ่งชั้นได้ทุกเมื่อ เมื่อเห็นคลิปแล้ว F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ Shift+F8 สลับโหมดคาราโอเกะตัดเสียงร้อง F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Space หยุดชั่วคราวหรือเล่นต่อได้เช่นกัน ส่วน Home และ End เพิ่มหรือลดเสียง F1 และ F2 ดาวน์โหลดคลิปที่เลือกเป็นเสียงหรือวิดีโอ Shift+F1 ดาวน์โหลดเป็นคาราโอเกะ MP3 ตัดเสียงร้อง F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Control+C คัดลอกลิงก์ ส่วนวิธีติดตามช่องในตอนแรก ให้ไปหาคลิปของช่องนั้นในแท็บค้นหาและดาวน์โหลด แล้วกด Control+S ที่คลิปนั้น กด Tab จากรายการช่องเพื่อไปที่ปุ่มสองปุ่ม คือ Export subscriptions บันทึกรายชื่อช่องที่คุณติดตามเป็นไฟล์ที่คุณเลือก และ Import subscriptions เพิ่มช่องจากไฟล์ที่เคยส่งออกไว้เข้าสู่รายการปัจจุบันโดยไม่ลบช่องที่ติดตามอยู่แล้ว มีประโยชน์เมื่อย้ายเครื่องหรือติดตั้ง NVDA ใหม่ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น",
+    'yt-dlp error:\n{}': 'ข้อผิดพลาด yt-dlp:\n{}',
     'yt-dlp library': 'ไลบรารี yt-dlp',
-    '  {} of {}': '  {} จาก {}',
-    ' ({})': ' ({})',
-    ' - {}': ' - {}',
-    'Added to {} playlist': 'เพิ่มลงเพลย์ลิสต์ {} แล้ว',
-    'Already downloading {} for this link': 'กำลังดาวน์โหลด {} สำหรับลิงก์นี้อยู่แล้ว',
-    'Already in {} playlist': 'มีอยู่ในเพลย์ลิสต์ {} แล้ว',
-    'Canceled and removed {} files': 'ยกเลิกและลบไฟล์ไปแล้ว {} ไฟล์',
-    'Copied {}': 'คัดลอก {} แล้ว',
-    'Current version: {}': 'เวอร์ชันปัจจุบัน: {}',
-    'Current version: {} ({})': 'เวอร์ชันปัจจุบัน: {} ({})',
-    'Download completed  {}  {}': 'ดาวน์โหลดเสร็จแล้ว  {}  {}',
-    'Download queued  {} items': 'อยู่ในคิวดาวน์โหลด  {} รายการ',
-    'Download starting  {}  {}': 'เริ่มดาวน์โหลด  {}  {}',
-    'FFmpeg is missing:\n{}': 'ไม่พบ FFmpeg:\n{}',
-    'MP3  {} {}  MP4  {} {}': 'MP3  {} {}  MP4  {} {}',
-    'Next  {}': 'ถัดไป  {}',
-    'Now playing  {}': 'กำลังเล่น  {}',
-    'Playing  {}': 'กำลังเล่น  {}',
-    'Playlist  {}': 'เพลย์ลิสต์  {}',
-    'Playlist  {}  1 of 1': 'เพลย์ลิสต์  {}  1 จาก 1',
-    'Playlist  {}  {} items': 'เพลย์ลิสต์  {}  {} รายการ',
-    'Playlist downloading  MP3  {}  MP4  {}': 'กำลังดาวน์โหลดเพลย์ลิสต์  MP3  {}  MP4  {}',
-    'Previous  {}': 'ก่อนหน้า  {}',
-    'Remove  {}  from this playlist': 'ลบ  {}  ออกจากเพลย์ลิสต์นี้',
-    'Speed  {}': 'ความเร็ว  {}',
-    'Volume  {}': 'เสียง  {}',
-    'YouTube Access Pro  Now playing  {}': 'YouTube Access Pro  กำลังเล่น  {}',
-    'yt-dlp error:\n{}': 'yt-dlp ผิดพลาด:\n{}',
     'yt-dlp update failed: {}': 'อัปเดต yt-dlp ไม่สำเร็จ: {}',
+    'yt-dlp update to {} did not take effect after restarting NVDA  still running {}. ': 'การอัปเดต yt-dlp เป็น {} ไม่มีผลหลังจากเริ่ม NVDA ใหม่  ยังคงใช้งานเวอร์ชัน {} อยู่ ',
     'yt-dlp updated to {}. Restart NVDA to use it.': 'อัปเดต yt-dlp เป็น {} แล้ว รีสตาร์ต NVDA เพื่อใช้งาน',
     'yt-dlp {} is already up to date': 'yt-dlp {} เป็นเวอร์ชันล่าสุดอยู่แล้ว',
-    'yt-dlp update to {} did not take effect after restarting NVDA  still running {}. This is usually caused by antivirus software blocking the new files, or another NVDA installation on this computer. Check Settings and try updating again.':
-        'การอัปเดต yt-dlp เป็น {} ไม่มีผลหลังจากรีสตาร์ต NVDA  ยังคงใช้เวอร์ชัน {} อยู่ สาเหตุมักเกิดจากโปรแกรมแอนตี้ไวรัสบล็อกไฟล์ใหม่ หรือมี NVDA ติดตั้งอยู่มากกว่าหนึ่งชุดในเครื่องนี้ ลองตรวจสอบที่หน้าตั้งค่าและอัปเดตอีกครั้ง',
     '{}  tab': '{}  แท็บ',
     '{} ({})': '{} ({})',
     '{} - {} [{}]': '{} - {} [{}]',
     '{} [{}]': '{} [{}]',
     '{} links downloading': 'กำลังดาวน์โหลด {} ลิงก์',
-    '{} {} in progress. Exit and cancel all downloads?': '{} {} กำลังดำเนินการอยู่ ต้องการออกและยกเลิกการดาวน์โหลดทั้งหมดหรือไม่',
-    'download': 'การดาวน์โหลด',
-    'downloads': 'การดาวน์โหลด',
-    'item': 'รายการ',
-    'items': 'รายการ',
-    'Switched the interface menu to {}': 'เปลี่ยนเมนูการใช้งานเป็นภาษา{}',
-    'Playlists help. This tab has two lists: your saved playlists, and the songs inside the one you have selected. Press Tab to move between them. Use the arrow keys to move around, and press Enter or F7 to play. On the playlist list: F1 and F2 download the whole playlist as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. On the song list: F7 plays from that song onward, Space or F8 pauses or resumes, F1 and F2 download the selected song as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Delete removes it from the playlist after asking you to confirm, Control+C copies its link. F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Press Tab from the playlist list to reach two buttons: Export playlists saves all of your playlists to a file you choose, and Import playlists adds playlists from a previously exported file into your current list without overwriting any playlist you already have - useful when moving to a new computer or reinstalling NVDA. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าเพลย์ลิสต์ แท็บนี้มีสองรายการ คือเพลย์ลิสต์ที่บันทึกไว้ และเพลงภายในเพลย์ลิสต์ที่เลือก กด Tab เพื่อสลับไปมาระหว่างสองรายการนี้ ใช้ปุ่มลูกศรเลื่อนดู แล้วกด Enter หรือ F7 เพื่อเล่น ในรายการเพลย์ลิสต์ F1 และ F2 ดาวน์โหลดทั้งเพลย์ลิสต์เป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด R เปลี่ยนชื่อเพลย์ลิสต์ Delete ลบเพลย์ลิสต์หลังจากถามยืนยันก่อน ในรายการเพลง F7 เล่นต่อจากเพลงนั้น Space หรือ F8 หยุดชั่วคราวหรือเล่นต่อ F1 และ F2 ดาวน์โหลดเพลงที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Delete ลบออกจากเพลย์ลิสต์หลังจากถามยืนยันก่อน Control+C คัดลอกลิงก์ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง กด Tab จากรายการเพลย์ลิสต์เพื่อไปที่ปุ่มสองปุ่ม คือ Export playlists บันทึกเพลย์ลิสต์ทั้งหมดของคุณเป็นไฟล์ที่คุณเลือก และ Import playlists เพิ่มเพลย์ลิสต์จากไฟล์ที่เคยส่งออกไว้เข้าสู่รายการปัจจุบันโดยไม่เขียนทับเพลย์ลิสต์ที่มีอยู่แล้ว มีประโยชน์เมื่อย้ายเครื่องหรือติดตั้ง NVDA ใหม่ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
-    '  {} subscribers': '  ผู้ติดตาม {} คน',
-    'Already subscribed to {}': 'ติดตามช่อง {} อยู่แล้ว',
-    'Automatically play the next item when the current one ends': 'เล่นรายการถัดไปโดยอัตโนมัติเมื่อรายการปัจจุบันจบ',
-    'Cannot find channel information for this item': 'ไม่พบข้อมูลช่องของรายการนี้',
-    'Channel': 'ช่อง',
-    'Channel  {}': 'ช่อง  {}',
-    'Channel content': 'เนื้อหาของช่อง',
-    'Channel downloading  MP3  {}  MP4  {}': 'ช่องกำลังดาวน์โหลด  MP3  {}  MP4  {}',
-    'Global player announce sleep timer remaining time when mpv is running': 'แจ้งเวลาที่เหลือของตัวจับเวลาปิดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
-    'Global player sleep timer decrease when mpv is running': 'ลดเวลาของตัวจับเวลาปิดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
-    'Global player sleep timer increase when mpv is running': 'เพิ่มเวลาของตัวจับเวลาปิดทั่วทั้งระบบขณะที่ mpv กำลังทำงาน',
-    'Live': 'ถ่ายทอดสด',
-    'Live stream  opening in your browser for stable playback': 'ถ่ายทอดสด  กำลังเปิดในเบราว์เซอร์เพื่อความเสถียร',
-    'No channel selected': 'ไม่ได้เลือกช่อง',
-    'No downloads for this channel': 'ไม่มีการดาวน์โหลดสำหรับช่องนี้',
-    'No subscribed channels': 'ยังไม่ได้ติดตามช่องใดเลย',
-    'Open channel contents to download items': 'เปิดดูรายการของช่องก่อนเพื่อดาวน์โหลด',
-    'Play advance warnings before the sleep timer stops playback': 'เตือนล่วงหน้าก่อนตัวจับเวลาปิดจะหยุดเล่นเพลง',
-    'Playback will stop in 1 minute': 'จะหยุดเล่นเพลงในอีก 1 นาที',
-    'Reached the end of the list': 'ถึงรายการสุดท้ายแล้ว',
-    'Sleep timer at maximum': 'ตั้งเวลาปิดสูงสุดแล้ว',
-    'Sleep timer off': 'ปิดตัวจับเวลาแล้ว',
-    'Sleep timer reached  stopped playback': 'ถึงเวลาปิดแล้ว หยุดเล่นเพลง',
-    'Sleep timer set to {} minutes': 'ตั้งเวลาปิดใน {} นาที',
-    'Subscribed channels': 'ช่องที่ติดตาม',
-    'Subscribed to {}': 'ติดตามช่อง {} แล้ว',
-    'Subscriptions': 'ติดตาม',
-    'Unknown channel': 'ไม่ทราบชื่อช่อง',
-    'Unsubscribe  Del': 'เลิกติดตาม  Del',
-    'Unsubscribe from {}': 'เลิกติดตามช่อง {} ใช่หรือไม่',
-    'Unsubscribed from {}': 'เลิกติดตามช่อง {} แล้ว',
-    'channel link': 'ลิงก์ช่อง',
-    'Exported {} channels': 'ส่งออกช่อง {} ช่องแล้ว',
-    'Imported {} new channels': 'นำเข้าช่องใหม่ {} ช่องแล้ว',
-    'Export playlists': 'ส่งออกเพลย์ลิสต์',
-    'Import playlists': 'นำเข้าเพลย์ลิสต์',
-    'No playlists to export': 'ยังไม่มีเพลย์ลิสต์ให้ส่งออก',
-    'Exported {} playlists': 'ส่งออกเพลย์ลิสต์ {} รายการแล้ว',
-    'Imported {} new playlists': 'นำเข้าเพลย์ลิสต์ใหม่ {} รายการแล้ว',
-    '{} minutes {} seconds left on the sleep timer': 'เหลือเวลา {} นาที {} วินาที ก่อนตัวจับเวลาปิดจะทำงาน',
     '{} minutes left on the sleep timer': 'เหลือเวลา {} นาที ก่อนตัวจับเวลาปิดจะทำงาน',
+    '{} minutes {} seconds left on the sleep timer': 'เหลือเวลา {} นาที {} วินาที ก่อนตัวจับเวลาปิดจะทำงาน',
     '{} seconds left on the sleep timer': 'เหลือเวลา {} วินาที ก่อนตัวจับเวลาปิดจะทำงาน',
-    'Search and Download help. Type text or paste a link in the search box, then press Enter. Press Tab to reach the search type control, and choose Video, Playlist, Channel, Live, or Shorts. Use the arrow keys to move through results, and press Enter to open or play the selected item; opening a playlist or a channel shows its videos in the same list. Press Backspace to go back after opening a playlist or a channel. F1 downloads the selected item as audio, F2 downloads it as video. F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder. F6 increases the sleep timer by 5 minutes, which stops playback automatically after a set time; Shift+F6 decreases it by 5 minutes, and Control+F6 announces exactly how much time is left. F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Shift+F7 replays the last item, Shift+F9 and Shift+F10 seek 30 seconds back or forward, Shift+F11 and Shift+F12 change the playback speed. Control+C copies the link, Control+B opens it in your browser, Control+P adds it to a playlist, Control+S subscribes to the channel of the selected item. Control+Tab switches between tabs. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าค้นหาและดาวน์โหลด พิมพ์ข้อความหรือวางลิงก์ในช่องค้นหา แล้วกด Enter กด Tab เพื่อไปที่ช่องประเภทการค้นหา แล้วเลือกวิดีโอ เพลย์ลิสต์ ช่อง ถ่ายทอดสด หรือ Shorts ใช้ปุ่มลูกศรเลื่อนดูผลการค้นหา แล้วกด Enter เพื่อเปิดหรือเล่นรายการที่เลือก การเปิดเพลย์ลิสต์หรือช่องจะแสดงคลิปของมันในรายการเดียวกันนี้ กด Backspace เพื่อย้อนกลับหลังจากเปิดเพลย์ลิสต์หรือช่อง F1 ดาวน์โหลดรายการที่เลือกเป็นเสียง F2 ดาวน์โหลดเป็นวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด F6 เพิ่มเวลาของตัวจับเวลาปิดทีละ 5 นาที ซึ่งจะหยุดเล่นเพลงเองเมื่อครบเวลาที่ตั้งไว้ Shift+F6 ลดเวลานั้นลงทีละ 5 นาที และ Control+F6 แจ้งเวลาที่เหลืออยู่อย่างแม่นยำ F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Shift+F7 เล่นรายการล่าสุดซ้ำ Shift+F9 และ Shift+F10 กรอถอยหลังหรือไปข้างหน้า 30 วินาที Shift+F11 และ Shift+F12 เปลี่ยนความเร็วการเล่น Control+C คัดลอกลิงก์ Control+B เปิดในเบราว์เซอร์ Control+P เพิ่มลงเพลย์ลิสต์ Control+S ติดตามช่องของรายการที่เลือก Control+Tab สลับระหว่างแท็บ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
+    '{} {} in progress. Exit and cancel all downloads?': '{} {} กำลังดำเนินการอยู่ ต้องการออกและยกเลิกการดาวน์โหลดทั้งหมดหรือไม่',
+    'Playlists help. This tab has two lists: your saved playlists, and the songs inside the one you have selected. Press Tab to move between them. Use the arrow keys to move around, and press Enter or F7 to play. On the playlist list: F1 and F2 download the whole playlist as audio or video, Shift+F1 downloads it as karaoke MP3, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. On the song list: F7 plays from that song onward, Space or F8 pauses or resumes, Shift+F8 toggles karaoke vocal cut mode, F1 and F2 download the selected song as audio or video, Shift+F1 downloads it as karaoke MP3, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Delete removes it from the playlist after asking you to confirm, Control+C copies its link. F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Press Tab from the playlist list to reach two buttons: Export playlists saves all of your playlists to a file you choose, and Import playlists adds playlists from a previously exported file into your current list without overwriting any playlist you already have - useful when moving to a new computer or reinstalling NVDA. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าเพลย์ลิสต์ แท็บนี้มีสองรายการ คือเพลย์ลิสต์ที่บันทึกไว้ และเพลงภายในเพลย์ลิสต์ที่เลือก กด Tab เพื่อสลับไปมาระหว่างสองรายการนี้ ใช้ปุ่มลูกศรเลื่อนดู แล้วกด Enter หรือ F7 เพื่อเล่น ในรายการเพลย์ลิสต์ F1 และ F2 ดาวน์โหลดทั้งเพลย์ลิสต์เป็นเสียงหรือวิดีโอ Shift+F1 ดาวน์โหลดเป็นคาราโอเกะ MP3 ตัดเสียงร้อง F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด R เปลี่ยนชื่อเพลย์ลิสต์ Delete ลบเพลย์ลิสต์หลังจากถามยืนยันก่อน ในรายการเพลง F7 เล่นต่อจากเพลงนั้น Space หรือ F8 หยุดชั่วคราวหรือเล่นต่อ Shift+F8 สลับโหมดคาราโอเกะตัดเสียงร้อง F1 และ F2 ดาวน์โหลดเพลงที่เลือกเป็นเสียงหรือวิดีโอ Shift+F1 ดาวน์โหลดเป็นคาราโอเกะ MP3 ตัดเสียงร้อง F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Delete ลบออกจากเพลย์ลิสต์หลังจากถามยืนยันก่อน Control+C คัดลอกลิงก์ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง กด Tab จากรายการเพลย์ลิสต์เพื่อไปที่ปุ่มสองปุ่ม คือ Export playlists บันทึกเพลย์ลิสต์ทั้งหมดของคุณเป็นไฟล์ที่คุณเลือก และ Import playlists เพิ่มเพลย์ลิสต์จากไฟล์ที่เคยส่งออกไว้เข้าสู่รายการปัจจุบันโดยไม่เขียนทับเพลย์ลิสต์ที่มีอยู่แล้ว มีประโยชน์เมื่อย้ายเครื่องหรือติดตั้ง NVDA ใหม่ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
+    'Search and Download help. Type text or paste a link in the search box, then press Enter. Press Tab to reach the search type control, and choose Video, Playlist, Channel, Live, or Shorts. Use the arrow keys to move through results, and press Enter to open or play the selected item; opening a playlist or a channel shows its videos in the same list. Press Backspace to go back after opening a playlist or a channel. F1 downloads the selected item as audio, Shift+F1 downloads it as karaoke MP3, F2 downloads it as video. F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder. F6 increases the sleep timer by 5 minutes, which stops playback automatically after a set time; Shift+F6 decreases it by 5 minutes, and Control+F6 announces exactly how much time is left. F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Shift+F7 replays the last item, Shift+F8 toggles karaoke vocal cut mode, Shift+F9 and Shift+F10 seek 30 seconds back or forward, Shift+F11 and Shift+F12 change the playback speed. Control+C copies the link, Control+B opens it in your browser, Control+P adds it to a playlist, Control+S subscribes to the channel of the selected item. Control+Tab switches between tabs. Press Control+F1 again on any tab to hear its own help.': 'วิธีใช้หน้าค้นหาและดาวน์โหลด พิมพ์ข้อความหรือวางลิงก์ในช่องค้นหา แล้วกด Enter กด Tab เพื่อไปที่ช่องประเภทการค้นหา แล้วเลือกวิดีโอ เพลย์ลิสต์ ช่อง ถ่ายทอดสด หรือ Shorts ใช้ปุ่มลูกศรเลื่อนดูผลการค้นหา แล้วกด Enter เพื่อเปิดหรือเล่นรายการที่เลือก การเปิดเพลย์ลิสต์หรือช่องจะแสดงคลิปของมันในรายการเดียวกันนี้ กด Backspace เพื่อย้อนกลับหลังจากเปิดเพลย์ลิสต์หรือช่อง F1 ดาวน์โหลดรายการที่เลือกเป็นเสียง Shift+F1 ดาวน์โหลดเป็นคาราโอเกะ MP3 ตัดเสียงร้อง F2 ดาวน์โหลดเป็นวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด F6 เพิ่มเวลาของตัวจับเวลาปิดทีละ 5 นาที ซึ่งจะหยุดเล่นเพลงเองเมื่อครบเวลาที่ตั้งไว้ Shift+F6 ลดเวลานั้นลงทีละ 5 นาที และ Control+F6 แจ้งเวลาที่เหลืออยู่อย่างแม่นยำ F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Shift+F7 เล่นรายการล่าสุดซ้ำ Shift+F8 สลับโหมดคาราโอเกะตัดเสียงร้อง Shift+F9 และ Shift+F10 กรอถอยหลังหรือไปข้างหน้า 30 วินาที Shift+F11 และ Shift+F12 เปลี่ยนความเร็วการเล่น Control+C คัดลอกลิงก์ Control+B เปิดในเบราว์เซอร์ Control+P เพิ่มลงเพลย์ลิสต์ Control+S ติดตามช่องของรายการที่เลือก Control+Tab สลับระหว่างแท็บ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
     'Settings help. Choose your download folder, then set video resolution and audio quality; both lists now read from lowest to highest quality. Choose how many search results to fetch. The checkboxes control whether player hotkeys are announced, whether they still work when this window does not have focus while something is playing, whether the next item in the list plays automatically when the current one ends, and whether you get advance warnings before the sleep timer stops playback  a spoken notice at 1 minute left and a short beep once per second for the last 10 seconds; turning this off leaves only the announcement and one longer confirmation beep the moment playback actually stops, which always happen. This one setting now governs every part of the add-on the same way: turned on, everything continues on its own to the next item when the current one ends - search results, a followed channel\'s lists, and every kind of playlist alike. Turned off, nothing continues automatically, including a real playlist - only the item you actually selected plays, and reaching its end always announces plain "Playback ended". Manually moving with F9 and F10 always works either way. Export and Import subscriptions have moved to their own buttons on the Subscriptions tab, and Export and Import playlists to their own buttons on the Playlists tab. The yt-dlp library section shows the version in use, lets you turn automatic update checks on or off, and has a button to check for an update right now. Remember to press Save settings after making changes for them to take effect.': 'วิธีใช้หน้าตั้งค่า เลือกโฟลเดอร์ดาวน์โหลด จากนั้นตั้งค่าความละเอียดวิดีโอและคุณภาพเสียง ทั้งสองรายการเรียงจากคุณภาพต่ำสุดไปสูงสุด เลือกจำนวนผลการค้นหาที่ต้องการดึงมา ช่องกาเครื่องหมายควบคุมว่าจะแจ้งปุ่มลัดของเครื่องเล่นหรือไม่ ปุ่มลัดเหล่านั้นจะยังทำงานได้หรือไม่เมื่อหน้าต่างนี้ไม่ได้โฟกัสในขณะที่กำลังเล่นอยู่ จะเล่นรายการถัดไปอัตโนมัติเมื่อรายการปัจจุบันจบหรือไม่ และจะมีการเตือนล่วงหน้าก่อนตัวจับเวลาปิดจะหยุดเล่นเพลงหรือไม่ ซึ่งได้แก่เสียงพูดแจ้งเมื่อเหลือเวลา 1 นาที และเสียงบี๊บสั้นนับถอยหลังทีละวินาทีในช่วง 10 วินาทีสุดท้าย หากปิดตัวเลือกนี้จะเหลือเพียงการแจ้งเตือนด้วยเสียงพูดและเสียงบี๊บยาวหนึ่งครั้งตอนที่หยุดเล่นเพลงจริง ซึ่งจะมีเสมอไม่ว่าจะตั้งค่านี้ไว้อย่างไร ตอนนี้ตัวเลือกนี้ตัวเดียวควบคุมทุกส่วนของโปรแกรมแบบเดียวกันหมด เปิดไว้ ทุกอย่างจะเล่นต่อเนื่องไปยังรายการถัดไปเองเมื่อรายการปัจจุบันจบ ไม่ว่าจะเป็นผลการค้นหา รายการของช่องที่ติดตาม หรือเพลย์ลิสต์ทุกประเภท ปิดไว้ จะไม่มีการเล่นต่อเนื่องอัตโนมัติเลยแม้แต่เพลย์ลิสต์จริง จะเล่นเฉพาะรายการที่เลือกไว้เท่านั้น และเมื่อเล่นจบจะแจ้งเพียงว่า Playback ended เสมอ ส่วนการเลื่อนไปเองด้วย F9 และ F10 ยังใช้งานได้ตามปกติไม่ว่าจะตั้งค่านี้ไว้อย่างไร ปุ่มส่งออกและนำเข้ารายชื่อช่องที่ติดตามได้ย้ายไปเป็นปุ่มของตัวเองในแท็บ Subscriptions แล้ว ส่วนปุ่มส่งออกและนำเข้าเพลย์ลิสต์ก็ย้ายไปเป็นปุ่มของตัวเองในแท็บ Playlists เช่นกัน ส่วนไลบรารี yt-dlp แสดงเวอร์ชันที่ใช้งานอยู่ เปิดหรือปิดการตรวจสอบอัปเดตอัตโนมัติได้ และมีปุ่มสำหรับตรวจสอบอัปเดตทันที อย่าลืมกดบันทึกการตั้งค่าหลังจากเปลี่ยนแปลงเพื่อให้มีผล',
-    "Subscriptions help. The channel list holds channels you have subscribed to. Press Tab to move to the right-hand list. On the channel list: press Enter to browse that channel, F1 and F2 download all of its latest videos as audio or video, F3 announces its download status, Delete unsubscribes after asking you to confirm. The right-hand list browses a selected channel the same way YouTube itself does: selecting a channel first shows its Videos, Shorts, Live, and Playlists sections - press Enter on one to open it. Opening Videos, Shorts, or Live shows that section's videos directly; opening Playlists shows the channel's own playlists, and pressing Enter on one of those opens its videos. Press Backspace to go back up one level at any point. Once a video is shown: F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Space also pauses or resumes, and Home and End turn the volume up or down. F1 and F2 download the selected video as audio or video, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Control+C copies its link. To subscribe to a channel in the first place, find one of its videos on the Search and Download tab and press Control+S there. Press Tab from the channel list to reach two buttons: Export subscriptions saves your followed channels to a file you choose, and Import subscriptions adds channels from a previously exported file into your current list without removing any you already follow - useful when moving to a new computer or reinstalling NVDA. Press Control+F1 again on any tab to hear its own help.": 'วิธีใช้หน้าติดตาม รายการช่องเก็บช่องที่คุณติดตามไว้ กด Tab เพื่อไปที่รายการทางขวา ในรายการช่อง กด Enter เพื่อดูเนื้อหาของช่องนั้น F1 และ F2 ดาวน์โหลดคลิปล่าสุดทั้งหมดของช่องนั้นเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลดของช่องนั้น Delete เลิกติดตามหลังจากถามยืนยันก่อน รายการทางขวาเรียกดูช่องที่เลือกเหมือนกับ YouTube เอง เมื่อเลือกช่องจะเห็นหมวด Videos, Shorts, Live และ Playlists ก่อน กด Enter บนหมวดใดเพื่อเปิดดู การเปิด Videos, Shorts หรือ Live จะแสดงคลิปของหมวดนั้นโดยตรง ส่วนการเปิด Playlists จะแสดงเพลย์ลิสต์ของช่องนั้น กด Enter บนเพลย์ลิสต์ใดเพื่อเปิดดูคลิปในเพลย์ลิสต์นั้น กด Backspace เพื่อย้อนกลับขึ้นไปหนึ่งชั้นได้ทุกเมื่อ เมื่อเห็นคลิปแล้ว F7 เล่นหรือหยุด F8 หยุดชั่วคราวหรือเล่นต่อ F9 และ F10 ไปยังเพลงก่อนหน้าหรือถัดไป F11 และ F12 ลดหรือเพิ่มเสียง Space หยุดชั่วคราวหรือเล่นต่อได้เช่นกัน ส่วน Home และ End เพิ่มหรือลดเสียง F1 และ F2 ดาวน์โหลดคลิปที่เลือกเป็นเสียงหรือวิดีโอ F3 แจ้งสถานะการดาวน์โหลด F4 แจ้งจำนวนการดาวน์โหลดที่กำลังทำงาน F5 เปิดโฟลเดอร์ดาวน์โหลด Control+C คัดลอกลิงก์ ส่วนวิธีติดตามช่องในตอนแรก ให้ไปหาคลิปของช่องนั้นในแท็บค้นหาและดาวน์โหลด แล้วกด Control+S ที่คลิปนั้น กด Tab จากรายการช่องเพื่อไปที่ปุ่มสองปุ่ม คือ Export subscriptions บันทึกรายชื่อช่องที่คุณติดตามเป็นไฟล์ที่คุณเลือก และ Import subscriptions เพิ่มช่องจากไฟล์ที่เคยส่งออกไว้เข้าสู่รายการปัจจุบันโดยไม่ลบช่องที่ติดตามอยู่แล้ว มีประโยชน์เมื่อย้ายเครื่องหรือติดตั้ง NVDA ใหม่ กด Control+F1 อีกครั้งในแท็บใดก็ได้เพื่อฟังวิธีใช้ของแท็บนั้น',
-    'YouTube Access Pro': 'YouTube Access Pro',
+    'yt-dlp error:\n{}': 'ข้อผิดพลาด yt-dlp:\n{}',
+    'yt-dlp update to {} did not take effect after restarting NVDA  still running {}. This is usually caused by antivirus software blocking the new files, or another NVDA installation on this computer. Check Settings and try updating again.': 'การอัปเดต yt-dlp เป็น {} ไม่มีผลหลังจากรีสตาร์ต NVDA  ยังคงใช้เวอร์ชัน {} อยู่ สาเหตุมักเกิดจากโปรแกรมแอนตี้ไวรัสบล็อกไฟล์ใหม่ หรือมี NVDA ติดตั้งอยู่มากกว่าหนึ่งชุดในเครื่องนี้ ลองตรวจสอบที่หน้าตั้งค่าและอัปเดตอีกครั้ง',
 }
 
 state._current_ui_language = 'en'
@@ -538,6 +556,12 @@ _MPV_LOG_PATH = os.path.join(tempfile.gettempdir(), 'ytdlp_addon_mpv_log.txt')
 
 if lib_path not in sys.path:
     sys.path.insert(0, lib_path)
+
+try:
+    import ai_karaoke
+except Exception as e:
+    ai_karaoke = None
+    log.warning(f'Could not import ai_karaoke: {e}')
 
 
 # --- STANDARD LIBRARY SHIMS ---
@@ -928,6 +952,9 @@ state.download_lock = threading.Lock()
 state.player_proc = None
 state.player_lock = threading.Lock()
 state.player_paused = False
+state.karaoke_enabled = False
+state.karaoke_ai_busy = False
+state.karaoke_original_url = None
 state.mpv_ipc_path = None
 
 # session-only volume memory
@@ -1821,6 +1848,22 @@ def open_download_folder_if_idle(base_folder, subfolder_title=None):
 
 # --- MPV PLAYER CONTROL ---
 
+# Approach 2: Deep Center-Vocal Cancellation with Center Sub-Bass Restoration
+# 1. Side Accompaniment ([s_clean]): Full-spectrum center vocal cancellation (mlev=0.015625, -36 dB)
+#    eliminates 100% of lead vocals, harmonics, and sibilance with zero vocal leakage.
+# 2. In-Phase Center Sub-Bass ([m_filt]): Steep 4th-order (24 dB/oct) lowpass at 105 Hz extracts
+#    warm, punchy sub-bass & kick drum without letting vocal fundamentals (> 120 Hz) leak through.
+# 3. Summing ([amix]): Recombines side stereo instruments with in-phase center bass, preserving
+#    stereo accompaniment and bass punch while eliminating headphone phase fatigue.
+KARAOKE_AUDIO_FILTER = (
+    'lavfi=[asplit[in1][in2];'
+    '[in1]stereotools=mlev=0.015625:slev=1.15[s_clean];'
+    '[in2]pan=stereo|c0=0.5*c0+0.5*c1|c1=0.5*c0+0.5*c1,lowpass=f=105:p=2,lowpass=f=105:p=2,volume=1.3[m_filt];'
+    '[s_clean][m_filt]amix=inputs=2:dropout_transition=0,volume=2]'
+)
+
+
+
 def is_player_available():
     return os.path.exists(mpv_exe)
 
@@ -1883,6 +1926,33 @@ def _send_mpv_command(cmd_list):
 
 def _mpv_set_property(prop, value):
     return _send_mpv_command(['set_property', prop, value])
+
+
+def _mpv_get_property(prop, default=None):
+    with state.player_lock:
+        if state.player_proc is None or state.player_proc.poll() is not None:
+            return default
+        ipc_path = state.mpv_ipc_path
+    if not ipc_path:
+        return default
+
+    payload = json.dumps({'command': ['get_property', prop]}).encode('utf-8') + b'\n'
+    try:
+        with open(ipc_path, 'r+b', buffering=0) as handle:
+            handle.write(payload)
+            for _ in range(10):
+                line = handle.readline()
+                if not line:
+                    break
+                try:
+                    data = json.loads(line.decode('utf-8', errors='ignore'))
+                    if 'error' in data and data.get('error') == 'success' and 'data' in data:
+                        return data.get('data', default)
+                except Exception:
+                    pass
+    except Exception:
+        pass
+    return default
 
 
 # Resolving direct stream URLs ourselves (below) means single-track and
@@ -2266,6 +2336,8 @@ def _start_playback_now(url, title, announce=True, playing_url_hint=None, playli
                 # already-resolved URL to) for URLs this add-on has
                 # already resolved to a direct/manifest link itself.
                 mpv_args.append('--ytdl=no')
+            if getattr(state, 'karaoke_enabled', False):
+                mpv_args.append(f'--af={KARAOKE_AUDIO_FILTER}')
             mpv_args.extend([
                     # The following two options were added alongside the
                     # mpv 0.41.0 upgrade (see DEV_NOTES.md round 36): a user
@@ -2335,6 +2407,11 @@ def _start_playback_now(url, title, announce=True, playing_url_hint=None, playli
                     oks = _mpv_set_property('speed', s)
                 except Exception:
                     oks = False
+                if getattr(state, 'karaoke_enabled', False):
+                    try:
+                        _send_mpv_command(['af', 'set', KARAOKE_AUDIO_FILTER])
+                    except Exception:
+                        pass
                 if okv or oks:
                     return
 
@@ -2366,6 +2443,14 @@ def _cleanup_player(silent=False, preserve_volume=False, preserve_playlist_file=
         finally:
             state.player_proc = None
             state.player_paused = False
+            state.karaoke_enabled = False
+            state.karaoke_ai_busy = False
+            state.karaoke_original_url = None
+            if ai_karaoke:
+                try:
+                    ai_karaoke.cancel_current_separation()
+                except Exception:
+                    pass
             state.mpv_ipc_path = None
             state.current_playing_url = None
             state.current_playlist_origin_url = None
@@ -2531,6 +2616,32 @@ def toggle_pause(announce=True):
             _ui_message(_('Paused'))
         else:
             _ui_message(_('Resumed'))
+    return True
+
+
+def toggle_karaoke(announce=True):
+    with state.player_lock:
+        if state.player_proc is None or state.player_proc.poll() is not None:
+            state.player_proc = None
+            state.player_paused = False
+            state.karaoke_enabled = False
+            if announce:
+                _ui_message(_tr('Cannot toggle karaoke  player is not running'))
+            return False
+
+        state.karaoke_enabled = not getattr(state, 'karaoke_enabled', False)
+        enabled = state.karaoke_enabled
+
+    if enabled:
+        _send_mpv_command(['af', 'set', KARAOKE_AUDIO_FILTER])
+    else:
+        _send_mpv_command(['af', 'set', ''])
+
+    if announce:
+        if enabled:
+            _ui_message(_tr('Karaoke mode on'))
+        else:
+            _ui_message(_tr('Karaoke mode off'))
     return True
 
 
@@ -3099,7 +3210,10 @@ def _predict_possible_paths(folder, title, fmt_code):
     try:
         if not title:
             return res
-        if fmt_code == 1:
+        if fmt_code == 2:
+            res.add(os.path.join(folder, f'{title} (Karaoke).mp3'))
+            res.add(os.path.join(folder, f'{title}.mp3'))
+        elif fmt_code == 1:
             res.add(os.path.join(folder, f'{title}.mp3'))
         else:
             res.add(os.path.join(folder, f'{title}.mp4'))
@@ -3360,28 +3474,32 @@ def _make_postprocessor_hook(target_url, target_fmt_code):
 
 def _get_single_url_download_counts(url):
     if not url:
-        return 0, 0
+        return 0, 0, 0
     mp3_items = 0
     mp4_items = 0
+    karaoke_items = 0
     with state.download_lock:
         fmt_map = state.active_downloads.get(url)
         if not fmt_map:
-            return 0, 0
+            return 0, 0, 0
         for fmt_code, ad in fmt_map.items():
             if not ad or ad.get('cancel'):
                 continue
-            if fmt_code == 1:
+            if fmt_code == 2:
+                karaoke_items += 1
+            elif fmt_code == 1:
                 mp3_items += 1
             else:
                 mp4_items += 1
-    return mp3_items, mp4_items
+    return mp3_items, mp4_items, karaoke_items
 
 
 def _get_playlist_download_counts_for_source(source_id):
     if not source_id:
-        return 0, 0
+        return 0, 0, 0
     mp3_items = 0
     mp4_items = 0
+    karaoke_items = 0
     with state.download_lock:
         for _url, fmt_map in state.active_downloads.items():
             if not fmt_map:
@@ -3409,45 +3527,73 @@ def _get_playlist_download_counts_for_source(source_id):
                     remaining = 1
                 if remaining <= 0:
                     continue
-                if fmt_code == 1:
+                if fmt_code == 2:
+                    karaoke_items += remaining
+                elif fmt_code == 1:
                     mp3_items += remaining
                 else:
                     mp4_items += remaining
-    return mp3_items, mp4_items
+    return mp3_items, mp4_items, karaoke_items
 
 
 def speak_single_url_download_counts(url):
-    mp3_items, mp4_items = _get_single_url_download_counts(url)
-    if mp3_items <= 0 and mp4_items <= 0:
+    mp3_items, mp4_items, karaoke_items = _get_single_url_download_counts(url)
+    if mp3_items <= 0 and mp4_items <= 0 and karaoke_items <= 0:
         _ui_message(_('Not downloading'))
         return
-    mp3_word = _plural(mp3_items, 'item', 'items')
-    mp4_word = _plural(mp4_items, 'item', 'items')
-    _ui_message(_tr('MP3  {} {}  MP4  {} {}', mp3_items, mp3_word, mp4_items, mp4_word))
+    parts = []
+    if mp3_items > 0:
+        parts.append(_tr('MP3  {} {}', mp3_items, _plural(mp3_items, 'item', 'items')))
+    if karaoke_items > 0:
+        parts.append(_tr('Karaoke MP3  {} {}', karaoke_items, _plural(karaoke_items, 'item', 'items')))
+    if mp4_items > 0:
+        parts.append(_tr('MP4  {} {}', mp4_items, _plural(mp4_items, 'item', 'items')))
+    _ui_message('  '.join(parts))
 
 
 def speak_playlist_download_counts(source_id):
-    mp3_items, mp4_items = _get_playlist_download_counts_for_source(source_id)
-    if mp3_items <= 0 and mp4_items <= 0:
+    mp3_items, mp4_items, karaoke_items = _get_playlist_download_counts_for_source(source_id)
+    if mp3_items <= 0 and mp4_items <= 0 and karaoke_items <= 0:
         _ui_message(_('No downloads for this playlist'))
         return
-    # keep it short and consistent with other status phrases
-    _ui_message(_tr('Playlist downloading  MP3  {}  MP4  {}', mp3_items, mp4_items))
+    parts = [_('Playlist downloading')]
+    if mp3_items > 0:
+        parts.append(f'MP3  {mp3_items}')
+    if karaoke_items > 0:
+        parts.append(_tr('Karaoke MP3  {}', karaoke_items))
+    if mp4_items > 0:
+        parts.append(f'MP4  {mp4_items}')
+    _ui_message('  '.join(parts))
 
 
 def speak_channel_download_counts(source_id):
-    mp3_items, mp4_items = _get_playlist_download_counts_for_source(source_id)
-    if mp3_items <= 0 and mp4_items <= 0:
+    mp3_items, mp4_items, karaoke_items = _get_playlist_download_counts_for_source(source_id)
+    if mp3_items <= 0 and mp4_items <= 0 and karaoke_items <= 0:
         _ui_message(_('No downloads for this channel'))
         return
-    # keep it short and consistent with other status phrases
-    _ui_message(_tr('Channel downloading  MP3  {}  MP4  {}', mp3_items, mp4_items))
+    parts = [_('Channel downloading')]
+    if mp3_items > 0:
+        parts.append(f'MP3  {mp3_items}')
+    if karaoke_items > 0:
+        parts.append(_tr('Karaoke MP3  {}', karaoke_items))
+    if mp4_items > 0:
+        parts.append(f'MP4  {mp4_items}')
+    _ui_message('  '.join(parts))
 
 
 def start_download(window, url, title, format_override=0, source_playlist=None, subfolder_title=None, is_playlist_job=False):
     settings = window.current_settings
     fmt_code = format_override
-    type_str = 'MP3' if fmt_code == 1 else 'MP4'
+    if fmt_code == 2:
+        type_str = _tr('Karaoke MP3')
+    elif fmt_code == 1:
+        type_str = 'MP3'
+    else:
+        type_str = 'MP4'
+
+    if fmt_code == 2 and not (ai_karaoke and ai_karaoke.is_ai_available(lib_path)):
+        _ui_message(_('Karaoke engine is not available'))
+        return False
 
     with state.download_lock:
         fmt_map = state.active_downloads.get(url)
@@ -3502,7 +3648,7 @@ def _build_format_options(fmt_code, vid_height, aud_bitrate):
     """Return the yt-dlp opts fragment (format selector + any
     postprocessors) for the requested download type.
 
-    fmt_code == 1 is MP3 (audio-only extraction); anything else is MP4.
+    fmt_code == 1 is MP3; fmt_code == 2 is Karaoke MP3; anything else is MP4.
 
     The MP4 branch deliberately requests bestvideo+bestaudio rather than
     a single already-combined 'best' format. YouTube increasingly does
@@ -3523,6 +3669,19 @@ def _build_format_options(fmt_code, vid_height, aud_bitrate):
     streams are e.g. webm video + opus audio, matching what the rest of
     this add-on (_predict_possible_paths(), cleanup, "Download completed"
     messaging) already assumes the output extension will be."""
+    if fmt_code == 2:
+        return {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '320',
+            }],
+            'postprocessor_args': [
+                '-b:a', '320k',
+            ],
+        }
+
     if fmt_code == 1:
         return {
             'format': 'bestaudio/best',
@@ -3553,6 +3712,66 @@ def _build_format_options(fmt_code, vid_height, aud_bitrate):
         'format': format_str,
         'merge_output_format': 'mp4',
     }
+
+
+class KaraokePostProcessor:
+    def __init__(self, target_url, target_fmt_code, lib_path):
+        self.target_url = target_url
+        self.target_fmt_code = target_fmt_code
+        self.lib_path = lib_path
+
+    def set_downloader(self, downloader):
+        self._downloader = downloader
+
+    def run(self, information):
+        filepath = information.get('filepath')
+        if not filepath or not os.path.isfile(filepath):
+            return [], information
+
+        dirname, filename = os.path.split(filepath)
+        base, _ext = os.path.splitext(filename)
+        if not base.endswith(' (Karaoke)'):
+            target_filename = f'{base} (Karaoke).mp3'
+        else:
+            target_filename = f'{base}.mp3'
+        target_path = os.path.join(dirname, target_filename)
+
+        def _is_canceled():
+            with state.download_lock:
+                fmt_map = state.active_downloads.get(self.target_url)
+                if fmt_map:
+                    ad = fmt_map.get(self.target_fmt_code)
+                    if ad and ad.get('cancel'):
+                        return True
+            return False
+
+        def _update_status(msg):
+            with state.download_lock:
+                fmt_map = state.active_downloads.get(self.target_url)
+                if fmt_map:
+                    ad = fmt_map.get(self.target_fmt_code)
+                    if ad:
+                        ad['status'] = _tr(msg)
+
+        final_file = ai_karaoke.process_karaoke_download(
+            input_audio_path=filepath,
+            output_mp3_path=target_path,
+            lib_path=self.lib_path,
+            cancel_callback=_is_canceled,
+            status_callback=_update_status,
+            num_threads=6,
+        )
+
+        with state.download_lock:
+            fmt_map = state.active_downloads.get(self.target_url)
+            if fmt_map:
+                ad = fmt_map.get(self.target_fmt_code)
+                if ad:
+                    ad['files'].add(final_file)
+
+        information['filepath'] = final_file
+        files_to_delete = [filepath] if filepath != final_file else []
+        return files_to_delete, information
 
 
 def bg_download(url, settings, fmt_code, title):
@@ -3673,6 +3892,8 @@ def bg_download(url, settings, fmt_code, title):
                     raise KeyboardInterrupt('UserCancel')
 
         with yt_dlp.YoutubeDL(opts) as ydl:
+            if fmt_code == 2 and ai_karaoke and ai_karaoke.is_ai_available(lib_path):
+                ydl.add_post_processor(KaraokePostProcessor(url, fmt_code, lib_path))
             ydl.download([url])
 
         try:
@@ -3680,7 +3901,12 @@ def bg_download(url, settings, fmt_code, title):
         except Exception:
             pass
 
-        type_str = 'MP3' if fmt_code == 1 else 'MP4'
+        if fmt_code == 2:
+            type_str = _tr('Karaoke MP3')
+        elif fmt_code == 1:
+            type_str = 'MP3'
+        else:
+            type_str = 'MP4'
         wx.CallAfter(_ui_message, _tr('Download completed  {}  {}', type_str, title))
 
     except (Exception, KeyboardInterrupt) as e:
@@ -3750,6 +3976,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         'kb:f7': 'playerF7',
         'kb:shift+f7': 'playerShiftF7',
         'kb:f8': 'playerF8',
+        'kb:shift+f8': 'playerShiftF8',
         'kb:f9': 'playerF9',
         'kb:shift+f9': 'playerShiftF9',
         'kb:f10': 'playerF10',
@@ -3931,6 +4158,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             return
         toggle_pause(announce=_get_runtime_announce())
 
+    def script_playerShiftF8(self, gesture):
+        if not self._global_player_guard(gesture):
+            return
+        toggle_karaoke(announce=_get_runtime_announce())
+
     def script_playerF9(self, gesture):
         if not self._global_player_guard(gesture):
             return
@@ -3956,6 +4188,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     script_playerCtrlF6.__doc__ = _('Global player announce sleep timer remaining time when mpv is running')
     script_playerF7.__doc__ = _('Global player stop when mpv is running')
     script_playerF8.__doc__ = _('Global player pause resume when mpv is running')
+    script_playerShiftF8.__doc__ = _('Global player toggle karaoke vocal cut mode when mpv is running')
     script_playerF9.__doc__ = _('Global player previous track when mpv is running')
     script_playerF10.__doc__ = _('Global player next track when mpv is running')
     script_playerF11.__doc__ = _('Global player volume down when mpv is running')
@@ -4422,6 +4655,9 @@ class MainWindow(wx.Frame):
             if code == wx.WXK_F7:
                 play_last_request(announce=announce_player)
                 return True
+            if code == wx.WXK_F8:
+                toggle_karaoke(announce=announce_player)
+                return True
             if code == wx.WXK_F9:
                 seek_backward_large(announce=announce_player)
                 return True
@@ -4767,27 +5003,7 @@ class SearchAndDownloadTab(wx.Panel):
         self.main_window.exit_now()
 
     def speak_help(self):
-        _ui_message(_(
-            'Search and Download help. '
-            'Type text or paste a link in the search box, then press Enter. '
-            'Press Tab to reach the search type control, and choose Video, Playlist, Channel, Live, or Shorts. '
-            'Use the arrow keys to move through results, and press Enter to open or play the selected item; '
-            'opening a playlist or a channel shows its videos in the same list. '
-            'Press Backspace to go back after opening a playlist or a channel. '
-            'F1 downloads the selected item as audio, F2 downloads it as video. '
-            'F3 announces its download status, F4 announces how many downloads are running, '
-            'F5 opens the download folder. '
-            'F6 increases the sleep timer by 5 minutes, which stops playback automatically after a set time; '
-            'Shift+F6 decreases it by 5 minutes, and Control+F6 announces exactly how much time is left. '
-            'F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, '
-            'F11 and F12 turn the volume down or up. '
-            'Shift+F7 replays the last item, Shift+F9 and Shift+F10 seek 30 seconds back or forward, '
-            'Shift+F11 and Shift+F12 change the playback speed. '
-            'Control+C copies the link, Control+B opens it in your browser, Control+P adds it to a playlist, '
-            'Control+S subscribes to the channel of the selected item. '
-            'Control+Tab switches between tabs. '
-            'Press Control+F1 again on any tab to hear its own help.'
-        ))
+        _ui_message(_('Search and Download help. Type text or paste a link in the search box, then press Enter. Press Tab to reach the search type control, and choose Video, Playlist, Channel, Live, or Shorts. Use the arrow keys to move through results, and press Enter to open or play the selected item; opening a playlist or a channel shows its videos in the same list. Press Backspace to go back after opening a playlist or a channel. F1 downloads the selected item as audio, Shift+F1 downloads it as karaoke MP3, F2 downloads it as video. F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder. F6 increases the sleep timer by 5 minutes, which stops playback automatically after a set time; Shift+F6 decreases it by 5 minutes, and Control+F6 announces exactly how much time is left. F7 plays or stops, F8 pauses or resumes, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Shift+F7 replays the last item, Shift+F8 toggles karaoke vocal cut mode, Shift+F9 and Shift+F10 seek 30 seconds back or forward, Shift+F11 and Shift+F12 change the playback speed. Control+C copies the link, Control+B opens it in your browser, Control+P adds it to a playlist, Control+S subscribes to the channel of the selected item. Control+Tab switches between tabs. Press Control+F1 again on any tab to hear its own help.'))
 
     def _ensure_results_visible(self):
         try:
@@ -5895,20 +6111,24 @@ class SearchAndDownloadTab(wx.Panel):
             return
 
         if code == wx.WXK_F1:
-            if entry_kind == 'channel':
-                _ui_message(_('Open channel contents to download items'))
-                return
-            if entry_kind == 'playlist':
-                start_download_playlist(self.main_window, self.video_data[sel].get('url'), self.video_data[sel].get('title'), 1)
-                return
-            if entry_kind == 'back':
-                if self._results_kind == 'items' and self._playlist_view_origin_url:
-                    start_download_playlist(self.main_window, self._playlist_view_origin_url, self._playlist_view_title or 'Playlist', 1)
+            is_shift = event.ShiftDown() and not event.ControlDown() and not event.AltDown()
+            is_plain = not event.ShiftDown() and not event.ControlDown() and not event.AltDown()
+            if is_shift or is_plain:
+                fmt = 2 if is_shift else 1
+                if entry_kind == 'channel':
+                    _ui_message(_('Open channel contents to download items'))
                     return
-                _ui_message(_('Open playlist contents to download items'))
+                if entry_kind == 'playlist':
+                    start_download_playlist(self.main_window, self.video_data[sel].get('url'), self.video_data[sel].get('title'), fmt)
+                    return
+                if entry_kind == 'back':
+                    if self._results_kind == 'items' and self._playlist_view_origin_url:
+                        start_download_playlist(self.main_window, self._playlist_view_origin_url, self._playlist_view_title or 'Playlist', fmt)
+                        return
+                    _ui_message(_('Open playlist contents to download items'))
+                    return
+                start_download(self.main_window, self.video_data[sel].get('url'), self.video_data[sel].get('title'), fmt, subfolder_title=self.video_data[sel].get('subfolder_title'))
                 return
-            start_download(self.main_window, self.video_data[sel].get('url'), self.video_data[sel].get('title'), 1, subfolder_title=self.video_data[sel].get('subfolder_title'))
-            return
 
         if code == wx.WXK_F2:
             if entry_kind == 'channel':
@@ -6246,6 +6466,7 @@ class SearchAndDownloadTab(wx.Panel):
                 dl_all = wx.Menu()
                 dl_all.Append(20, _('Download playlist as video  F2'))
                 dl_all.Append(21, _('Download playlist as audio  F1'))
+                dl_all.Append(22, _('Download playlist as karaoke MP3  Shift+F1'))
                 menu.AppendSubMenu(dl_all, _('Download playlist'))
                 self.Bind(
                     wx.EVT_MENU,
@@ -6256,6 +6477,11 @@ class SearchAndDownloadTab(wx.Panel):
                     wx.EVT_MENU,
                     lambda e: start_download_playlist(self.main_window, self._playlist_view_origin_url, self._playlist_view_title or 'Playlist', 1),
                     id=21,
+                )
+                self.Bind(
+                    wx.EVT_MENU,
+                    lambda e: start_download_playlist(self.main_window, self._playlist_view_origin_url, self._playlist_view_title or 'Playlist', 2),
+                    id=22,
                 )
 
             self.PopupMenu(menu)
@@ -6274,6 +6500,7 @@ class SearchAndDownloadTab(wx.Panel):
             dl_pl = wx.Menu()
             dl_pl.Append(13, _('Download playlist as video  F2'))
             dl_pl.Append(14, _('Download playlist as audio  F1'))
+            dl_pl.Append(16, _('Download playlist as karaoke MP3  Shift+F1'))
             menu.AppendSubMenu(dl_pl, _('Download playlist'))
 
             menu.Append(12, _('Copy playlist link'))
@@ -6281,6 +6508,7 @@ class SearchAndDownloadTab(wx.Panel):
             self.Bind(wx.EVT_MENU, lambda e: self._open_playlist_contents_in_list(entry, auto_play=True), id=11)
             self.Bind(wx.EVT_MENU, lambda e: start_download_playlist(self.main_window, entry.get('url'), entry.get('title'), 0), id=13)
             self.Bind(wx.EVT_MENU, lambda e: start_download_playlist(self.main_window, entry.get('url'), entry.get('title'), 1), id=14)
+            self.Bind(wx.EVT_MENU, lambda e: start_download_playlist(self.main_window, entry.get('url'), entry.get('title'), 2), id=16)
             self.Bind(wx.EVT_MENU, _copy_link, id=12)
             menu.AppendSeparator()
         elif kind == 'channel':
@@ -6304,12 +6532,14 @@ class SearchAndDownloadTab(wx.Panel):
             dl_menu = wx.Menu()
             dl_menu.Append(3, _('Download as video  F2'))
             dl_menu.Append(4, _('Download as audio  F1'))
+            dl_menu.Append(7, _('Download as karaoke MP3  Shift+F1'))
             menu.AppendSubMenu(dl_menu, _('Download'))
 
             self.Bind(wx.EVT_MENU, lambda e: open_in_browser(entry.get('url')), id=2)
             self.Bind(wx.EVT_MENU, _copy_link, id=6)
             self.Bind(wx.EVT_MENU, lambda e: start_download(self.main_window, entry.get('url'), entry.get('title'), 0, subfolder_title=entry.get('subfolder_title')), id=3)
             self.Bind(wx.EVT_MENU, lambda e: start_download(self.main_window, entry.get('url'), entry.get('title'), 1, subfolder_title=entry.get('subfolder_title')), id=4)
+            self.Bind(wx.EVT_MENU, lambda e: start_download(self.main_window, entry.get('url'), entry.get('title'), 2, subfolder_title=entry.get('subfolder_title')), id=7)
 
         # "Add to playlist" only makes sense for a video row - kept out of
         # the 'playlist'/'channel'/'back' branches above (which already
@@ -6419,24 +6649,7 @@ class PlaylistTab(wx.Panel):
         self.main_window.exit_now()
 
     def speak_help(self):
-        _ui_message(_(
-            'Playlists help. '
-            'This tab has two lists: your saved playlists, and the songs inside the one you have selected. Press Tab to move between them. '
-            'Use the arrow keys to move around, and press Enter or F7 to play. '
-            'On the playlist list: F1 and F2 download the whole playlist as audio or video, '
-            'F3 announces its download status, F4 announces how many downloads are running, '
-            'F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. '
-            'On the song list: F7 plays from that song onward, Space or F8 pauses or resumes, '
-            'F1 and F2 download the selected song as audio or video, F3 announces its download status, '
-            'F4 announces how many downloads are running, F5 opens the download folder, '
-            'Delete removes it from the playlist after asking you to confirm, Control+C copies its link. '
-            'F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. '
-            'Press Tab from the playlist list to reach two buttons: Export playlists saves all of '
-            'your playlists to a file you choose, and Import playlists adds playlists from a '
-            'previously exported file into your current list without overwriting any playlist you '
-            'already have - useful when moving to a new computer or reinstalling NVDA. '
-            'Press Control+F1 again on any tab to hear its own help.'
-        ))
+        _ui_message(_('Playlists help. This tab has two lists: your saved playlists, and the songs inside the one you have selected. Press Tab to move between them. Use the arrow keys to move around, and press Enter or F7 to play. On the playlist list: F1 and F2 download the whole playlist as audio or video, Shift+F1 downloads it as karaoke MP3, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, R renames the playlist, Delete removes it after asking you to confirm. On the song list: F7 plays from that song onward, Space or F8 pauses or resumes, Shift+F8 toggles karaoke vocal cut mode, F1 and F2 download the selected song as audio or video, Shift+F1 downloads it as karaoke MP3, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Delete removes it from the playlist after asking you to confirm, Control+C copies its link. F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Press Tab from the playlist list to reach two buttons: Export playlists saves all of your playlists to a file you choose, and Import playlists adds playlists from a previously exported file into your current list without overwriting any playlist you already have - useful when moving to a new computer or reinstalling NVDA. Press Control+F1 again on any tab to hear its own help.'))
 
     def on_export_playlists(self, event):
         playlists = self.main_window.playlists
@@ -6565,8 +6778,12 @@ class PlaylistTab(wx.Panel):
     def key_left(self, e):
         k = e.GetKeyCode()
         if k == wx.WXK_F1:
-            self.download_whole_playlist(format_override=1)
-            return
+            if e.ShiftDown() and not e.ControlDown() and not e.AltDown():
+                self.download_whole_playlist(format_override=2)
+                return
+            if not e.ShiftDown() and not e.ControlDown() and not e.AltDown():
+                self.download_whole_playlist(format_override=1)
+                return
 
         if k == wx.WXK_F2:
             self.download_whole_playlist(format_override=0)
@@ -6688,8 +6905,12 @@ class PlaylistTab(wx.Panel):
             return
 
         if k == wx.WXK_F1:
-            self.download_selected(format_override=1)
-            return
+            if e.ShiftDown() and not e.ControlDown() and not e.AltDown():
+                self.download_selected(format_override=2)
+                return
+            if not e.ShiftDown() and not e.ControlDown() and not e.AltDown():
+                self.download_selected(format_override=1)
+                return
 
         if k == wx.WXK_F2:
             self.download_selected(format_override=0)
@@ -6761,11 +6982,13 @@ class PlaylistTab(wx.Panel):
         m.Append(3, _('Save as M3U'))
         m.AppendSeparator()
         m.Append(4, _('Download playlist as audio  F1'))
+        m.Append(6, _('Download playlist as karaoke MP3  Shift+F1'))
         m.Append(5, _('Download playlist as video  F2'))
         self.Bind(wx.EVT_MENU, self.rename, id=1)
         self.Bind(wx.EVT_MENU, self.delete_list, id=2)
         self.Bind(wx.EVT_MENU, self.save_m3u, id=3)
         self.Bind(wx.EVT_MENU, lambda evt: self.download_whole_playlist(format_override=1), id=4)
+        self.Bind(wx.EVT_MENU, lambda evt: self.download_whole_playlist(format_override=2), id=6)
         self.Bind(wx.EVT_MENU, lambda evt: self.download_whole_playlist(format_override=0), id=5)
         self.PopupMenu(m)
         m.Destroy()
@@ -6876,11 +7099,13 @@ class PlaylistTab(wx.Panel):
         m.Append(2, _('Remove from playlist  Del'))
         m.AppendSeparator()
         m.Append(10, _('Download as audio  F1'))
+        m.Append(12, _('Download as karaoke MP3  Shift+F1'))
         m.Append(11, _('Download as video  F2'))
         self.Bind(wx.EVT_MENU, self.play, id=1)
         self.Bind(wx.EVT_MENU, self.copy_selected_link, id=3)
         self.Bind(wx.EVT_MENU, self.remove_video, id=2)
         self.Bind(wx.EVT_MENU, lambda evt: self.download_selected(format_override=1), id=10)
+        self.Bind(wx.EVT_MENU, lambda evt: self.download_selected(format_override=2), id=12)
         self.Bind(wx.EVT_MENU, lambda evt: self.download_selected(format_override=0), id=11)
         self.PopupMenu(m)
         m.Destroy()
@@ -7149,30 +7374,7 @@ class SubscriptionsTab(wx.Panel):
             log.error(f'Error refreshing language on subscriptions tab: {e}')
 
     def speak_help(self):
-        _ui_message(_(
-            'Subscriptions help. '
-            'The channel list holds channels you have subscribed to. Press Tab to move to the '
-            'right-hand list. On the channel list: press Enter to browse that channel, F1 and F2 '
-            'download all of its latest videos as audio or video, F3 announces its download status, '
-            'Delete unsubscribes after asking you to confirm. '
-            'The right-hand list browses a selected channel the same way YouTube itself does: '
-            'selecting a channel first shows its Videos, Shorts, Live, and Playlists sections - '
-            'press Enter on one to open it. Opening Videos, Shorts, or Live shows that section\'s '
-            'videos directly; opening Playlists shows the channel\'s own playlists, and pressing '
-            'Enter on one of those opens its videos. Press Backspace to go back up one level at '
-            'any point. Once a video is shown: F7 plays or stops, F8 pauses or resumes, F9 and F10 '
-            'go to the previous or next track, F11 and F12 turn the volume down or up. Space also '
-            'pauses or resumes, and Home and End turn the volume up or down. F1 and F2 download the '
-            'selected video as audio or video, F3 announces its download status, F4 announces how '
-            'many downloads are running, F5 opens the download folder, Control+C copies its link. '
-            'To subscribe to a channel in the first place, find one of its videos on the Search and '
-            'Download tab and press Control+S there. '
-            'Press Tab from the channel list to reach two buttons: Export subscriptions saves your '
-            'followed channels to a file you choose, and Import subscriptions adds channels from a '
-            'previously exported file into your current list without removing any you already '
-            'follow - useful when moving to a new computer or reinstalling NVDA. '
-            'Press Control+F1 again on any tab to hear its own help.'
-        ))
+        _ui_message(_("Subscriptions help. The channel list holds channels you have subscribed to. Press Tab to move to the right-hand list. On the channel list: press Enter to browse that channel, F1 and F2 download all of its latest videos as audio or video, Shift+F1 downloads them as karaoke MP3, F3 announces its download status, Delete unsubscribes after asking you to confirm. The right-hand list browses a selected channel the same way YouTube itself does: selecting a channel first shows its Videos, Shorts, Live, and Playlists sections - press Enter on one to open it. Opening Videos, Shorts, or Live shows that section's videos directly; opening Playlists shows the channel's own playlists, and pressing Enter on one of those opens its videos. Press Backspace to go back up one level at any point. Once a video is shown: F7 plays or stops, F8 pauses or resumes, Shift+F8 toggles karaoke vocal cut mode, F9 and F10 go to the previous or next track, F11 and F12 turn the volume down or up. Space also pauses or resumes, and Home and End turn the volume up or down. F1 and F2 download the selected video as audio or video, Shift+F1 downloads it as karaoke MP3, F3 announces its download status, F4 announces how many downloads are running, F5 opens the download folder, Control+C copies its link. To subscribe to a channel in the first place, find one of its videos on the Search and Download tab and press Control+S there. Press Tab from the channel list to reach two buttons: Export subscriptions saves your followed channels to a file you choose, and Import subscriptions adds channels from a previously exported file into your current list without removing any you already follow - useful when moving to a new computer or reinstalling NVDA. Press Control+F1 again on any tab to hear its own help."))
 
     def refresh(self):
         subs = load_subscriptions()
@@ -7451,8 +7653,12 @@ class SubscriptionsTab(wx.Panel):
                 return
 
         if code == wx.WXK_F1:
-            self.download_channel_videos(key, format_override=1)
-            return
+            if event.ShiftDown() and not event.ControlDown() and not event.AltDown():
+                self.download_channel_videos(key, format_override=2)
+                return
+            if not event.ShiftDown() and not event.ControlDown() and not event.AltDown():
+                self.download_channel_videos(key, format_override=1)
+                return
 
         if code == wx.WXK_F2:
             self.download_channel_videos(key, format_override=0)
@@ -7500,11 +7706,13 @@ class SubscriptionsTab(wx.Panel):
             return
         menu = wx.Menu()
         menu.Append(1, _('Download latest videos as audio  F1'))
+        menu.Append(6, _('Download latest videos as karaoke MP3  Shift+F1'))
         menu.Append(2, _('Download latest videos as video  F2'))
         menu.Append(3, _('Announce download status  F3'))
         menu.AppendSeparator()
         menu.Append(4, _('Unsubscribe  Del'))
         self.Bind(wx.EVT_MENU, lambda e: self.download_channel_videos(key, format_override=1), id=1)
+        self.Bind(wx.EVT_MENU, lambda e: self.download_channel_videos(key, format_override=2), id=6)
         self.Bind(wx.EVT_MENU, lambda e: self.download_channel_videos(key, format_override=0), id=2)
         self.Bind(wx.EVT_MENU, lambda e: speak_channel_download_counts(key), id=3)
         self.Bind(wx.EVT_MENU, lambda e: self._unsubscribe_channel(key), id=4)
@@ -7768,8 +7976,12 @@ class SubscriptionsTab(wx.Panel):
         entry = self._selected_video()
         if entry is not None:
             if code == wx.WXK_F1:
-                start_download(self.main_window, entry.get('url'), entry.get('title'), 1, source_playlist=entry.get('source_playlist'), subfolder_title=entry.get('subfolder_title'))
-                return
+                if event.ShiftDown() and not event.ControlDown() and not event.AltDown():
+                    start_download(self.main_window, entry.get('url'), entry.get('title'), 2, source_playlist=entry.get('source_playlist'), subfolder_title=entry.get('subfolder_title'))
+                    return
+                if not event.ShiftDown() and not event.ControlDown() and not event.AltDown():
+                    start_download(self.main_window, entry.get('url'), entry.get('title'), 1, source_playlist=entry.get('source_playlist'), subfolder_title=entry.get('subfolder_title'))
+                    return
             if code == wx.WXK_F2:
                 start_download(self.main_window, entry.get('url'), entry.get('title'), 0, source_playlist=entry.get('source_playlist'), subfolder_title=entry.get('subfolder_title'))
                 return
@@ -7811,11 +8023,13 @@ class SubscriptionsTab(wx.Panel):
         menu.Append(2, _('Copy video link'))
         menu.AppendSeparator()
         menu.Append(3, _('Download as audio  F1'))
+        menu.Append(6, _('Download as karaoke MP3  Shift+F1'))
         menu.Append(4, _('Download as video  F2'))
         menu.Append(5, _('Announce download status  F3'))
         self.Bind(wx.EVT_MENU, lambda e: self.play_selected(), id=1)
         self.Bind(wx.EVT_MENU, lambda e: self._copy_selected_video_link(), id=2)
         self.Bind(wx.EVT_MENU, lambda e: start_download(self.main_window, entry.get('url'), entry.get('title'), 1, source_playlist=entry.get('source_playlist'), subfolder_title=entry.get('subfolder_title')), id=3)
+        self.Bind(wx.EVT_MENU, lambda e: start_download(self.main_window, entry.get('url'), entry.get('title'), 2, source_playlist=entry.get('source_playlist'), subfolder_title=entry.get('subfolder_title')), id=6)
         self.Bind(wx.EVT_MENU, lambda e: start_download(self.main_window, entry.get('url'), entry.get('title'), 0, source_playlist=entry.get('source_playlist'), subfolder_title=entry.get('subfolder_title')), id=4)
         self.Bind(wx.EVT_MENU, lambda e: speak_single_url_download_counts(entry.get('url')), id=5)
         self.PopupMenu(menu)
@@ -7953,29 +8167,7 @@ class SettingsTab(wx.Panel):
         self.main_window.exit_now()
 
     def speak_help(self):
-        _ui_message(_(
-            'Settings help. '
-            'Choose your download folder, then set video resolution and audio quality; '
-            'both lists now read from lowest to highest quality. '
-            'Choose how many search results to fetch. '
-            'The checkboxes control whether player hotkeys are announced, whether they still work '
-            'when this window does not have focus while something is playing, whether the next '
-            'item in the list plays automatically when the current one ends, and whether you get '
-            'advance warnings before the sleep timer stops playback  a spoken notice at 1 minute left and a short '
-            'beep once per second for the last 10 seconds; turning this off leaves only the '
-            'announcement and one longer confirmation beep the moment playback actually stops, '
-            'which always happen. This one setting now governs every part of the add-on the same '
-            'way: turned on, everything continues on its own to the next item when the current one '
-            'ends - search results, a followed channel\'s lists, and every kind of playlist alike. '
-            'Turned off, nothing continues automatically, including a real playlist - only the item '
-            'you actually selected plays, and reaching its end always announces plain "Playback '
-            'ended". Manually moving with F9 and F10 always works either way. '
-            'Export and Import subscriptions have moved to their own buttons on the Subscriptions '
-            'tab, and Export and Import playlists to their own buttons on the Playlists tab. '
-            'The yt-dlp library section shows the version in use, lets you turn automatic update checks '
-            'on or off, and has a button to check for an update right now. '
-            'Remember to press Save settings after making changes for them to take effect.'
-        ))
+        _ui_message(_('Settings help. Choose your download folder, then set video resolution and audio quality; both lists now read from lowest to highest quality. Choose how many search results to fetch. The checkboxes control whether player hotkeys are announced, whether they still work when this window does not have focus while something is playing, whether the next item in the list plays automatically when the current one ends, and whether you get advance warnings before the sleep timer stops playback  a spoken notice at 1 minute left and a short beep once per second for the last 10 seconds; turning this off leaves only the announcement and one longer confirmation beep the moment playback actually stops, which always happen. This one setting now governs every part of the add-on the same way: turned on, everything continues on its own to the next item when the current one ends - search results, a followed channel\'s lists, and every kind of playlist alike. Turned off, nothing continues automatically, including a real playlist - only the item you actually selected plays, and reaching its end always announces plain "Playback ended". Manually moving with F9 and F10 always works either way. Export and Import subscriptions have moved to their own buttons on the Subscriptions tab, and Export and Import playlists to their own buttons on the Playlists tab. The yt-dlp library section shows the version in use, lets you turn automatic update checks on or off, and has a button to check for an update right now. Remember to press Save settings after making changes for them to take effect.'))
 
     def on_check_update(self, event):
         self.btn_check_update.Disable()

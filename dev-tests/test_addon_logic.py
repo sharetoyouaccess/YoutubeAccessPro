@@ -1389,6 +1389,43 @@ def test_persistent_data_dir_survives_reinstall_and_migrates_legacy_files():
         )
 
 
+def test_karaoke_hybrid_logic():
+    m = _load_addon()
+    # 1. Format options for fmt_code == 2 (Karaoke MP3)
+    opts2 = m._build_format_options(2, None, '192')
+    check('karaoke format selector is bestaudio/best', opts2['format'] == 'bestaudio/best')
+    check('karaoke preferredcodec is mp3', opts2['postprocessors'][0]['preferredcodec'] == 'mp3')
+    check('karaoke preferredquality is 320', opts2['postprocessors'][0]['preferredquality'] == '320')
+    check('karaoke bitrate arg is 320k', opts2['postprocessor_args'] == ['-b:a', '320k'])
+
+    # 2. Predicted paths for fmt_code == 2
+    paths = m._predict_possible_paths(r'C:\dl', 'MySong', 2)
+    check('karaoke predicted path includes (Karaoke).mp3', os.path.join(r'C:\dl', 'MySong (Karaoke).mp3') in paths)
+    check('karaoke predicted path includes original .mp3', os.path.join(r'C:\dl', 'MySong.mp3') in paths)
+
+    # 3. Download counts for fmt_code == 2
+    with m.state.download_lock:
+        m.state.active_downloads['http://test_kar'] = {
+            2: {'cancel': False, 'fmt': 2}
+        }
+    mp3, mp4, kar = m._get_single_url_download_counts('http://test_kar')
+    check('single_url_download_counts returns kar=1, mp3=0, mp4=0', kar == 1 and mp3 == 0 and mp4 == 0)
+    with m.state.download_lock:
+        m.state.active_downloads.clear()
+
+    # 4. Real-time Approach 2 DSP filter
+    check('DSP karaoke filter has stereotools mlev', 'mlev=0.015625' in m.KARAOKE_AUDIO_FILTER)
+    check('DSP karaoke filter has 105Hz lowpass', 'lowpass=f=105' in m.KARAOKE_AUDIO_FILTER)
+
+    # 5. AI UVR engine availability
+    repo_lib = os.path.normpath(os.path.join(HERE, '..', 'globalPlugins', 'lib'))
+    if os.path.isdir(repo_lib):
+        if repo_lib not in sys.path:
+            sys.path.insert(0, repo_lib)
+        import ai_karaoke
+        check('is_ai_available returns True for UVR lib', ai_karaoke.is_ai_available(repo_lib))
+
+
 def run_all():
     tests = [
         test_normalize_playlist_url,
@@ -1413,6 +1450,7 @@ def run_all():
         test_is_short_entry_prefers_shorts_url_over_duration,
         test_play_last_request_replays_resolved_playlist_by_re_resolving,
         test_persistent_data_dir_survives_reinstall_and_migrates_legacy_files,
+        test_karaoke_hybrid_logic,
     ]
     for t in tests:
         print(f'--- {t.__name__} ---')

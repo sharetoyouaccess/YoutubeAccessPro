@@ -8,6 +8,11 @@ __pycache__/
 globalPlugins/lib/ffmpeg/
 globalPlugins/lib/mpv/
 
+# AI karaoke engine binary + model - also too large for git (100MB+ each).
+# Kept locally on the dev machine only; scripts/build_addon.py reads it
+# fresh from this path at build time, never committed.
+globalPlugins/lib/uvr/
+
 # Build output
 *.nvda-addon
 /build/

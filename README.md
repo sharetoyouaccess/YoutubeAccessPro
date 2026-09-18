@@ -7,7 +7,8 @@ An [NVDA](https://www.nvaccess.org/) add-on that provides full keyboard-only acc
 - Built-in sleep timer
 - Personal playlist management
 - Subscriptions tab that browses a followed channel's Videos, Shorts, Live, and Playlists the way YouTube itself organizes them
-- Download to MP3 or MP4 with selectable quality, auto-sorted into folders by playlist or channel
+- Download to MP3, MP4, or Karaoke MP3 with selectable quality, auto-sorted into folders by playlist or channel
+- Karaoke Mode: vocal-cut playback (Shift+F8) and karaoke MP3 download (Shift+F1)
 - Full Thai/English interface, switch instantly with `Ctrl+T`
 - Open the window from anywhere with `NVDA+Y`; hear a shortcut summary for the current tab with `Ctrl+F1`
 
